@@ -1,0 +1,312 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Hexo | Hexo</title><meta name="author" content="辣椒油"><meta name="copyright" content="辣椒油"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="我们回到第一章末尾的这幅图。  回顾可知，当时在讲解MOS管的优势时，我们指出MOS管与三极管在功能结构上基本一致，同样具备三个电极。二者的核心差异在于：MOS管的栅极仅需施加电压即可控制导通，无需像三极管的基极那样持续注入电流，因此其耗电量和发热量均显著低于三极管。在不涉及DRAM这类特殊场景时，MOS管完全可以作为三极管的替代元件。 举例而言，我们完全可以用三极管搭建出SR锁存器（这种结构是本">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="https://mitchell255ljy.github.io/hexo-blog/2026/09/07/3MOS%E7%AE%A1%E7%9A%84%E4%BC%98%E5%8A%BF%E4%B8%8ED%E3%80%81SRAM/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="我们回到第一章末尾的这幅图。  回顾可知，当时在讲解MOS管的优势时，我们指出MOS管与三极管在功能结构上基本一致，同样具备三个电极。二者的核心差异在于：MOS管的栅极仅需施加电压即可控制导通，无需像三极管的基极那样持续注入电流，因此其耗电量和发热量均显著低于三极管。在不涉及DRAM这类特殊场景时，MOS管完全可以作为三极管的替代元件。 举例而言，我们完全可以用三极管搭建出SR锁存器（这种结构是本">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://mitchell255ljy.github.io/hexo-blog/img/butterfly-icon.png">
+<meta property="article:published_time" content="2026-09-07T13:22:13.487Z">
+<meta property="article:modified_time" content="2026-09-07T13:17:31.978Z">
+<meta property="article:author" content="辣椒油">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://mitchell255ljy.github.io/hexo-blog/img/butterfly-icon.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "",
+  "url": "https://mitchell255ljy.github.io/hexo-blog/2026/09/07/3MOS%E7%AE%A1%E7%9A%84%E4%BC%98%E5%8A%BF%E4%B8%8ED%E3%80%81SRAM/",
+  "image": "https://mitchell255ljy.github.io/hexo-blog/img/butterfly-icon.png",
+  "datePublished": "2026-09-07T13:22:13.487Z",
+  "dateModified": "2026-09-07T13:17:31.978Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "辣椒油",
+      "url": "https://mitchell255ljy.github.io/hexo-blog"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/hexo-blog/img/favicon.png"><link rel="canonical" href="https://mitchell255ljy.github.io/hexo-blog/2026/09/07/3MOS%E7%AE%A1%E7%9A%84%E4%BC%98%E5%8A%BF%E4%B8%8ED%E3%80%81SRAM/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/hexo-blog/css/index.css?v=5.7.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.3.1/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        const data = { value }
+
+        if (ttl != null) {
+          data.expiry = Date.now() + ttl * 86400000
+        }
+
+        localStorage.setItem(key, JSON.stringify(data))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return
+
+        try {
+          const data = JSON.parse(itemStr)
+
+          if (data.expiry && Date.now() > data.expiry) {
+            localStorage.removeItem(key)
+            return
+          }
+
+          return data.value
+        } catch {
+          localStorage.removeItem(key)
+        }
+      }
+    }
+
+    const scriptCache = new Map()
+    const cssCache = new Map()
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => {
+        if (scriptCache.has(url)) {
+          return scriptCache.get(url)
+        }
+
+        const promise = new Promise((resolve, reject) => {
+          const script = document.createElement('script')
+
+          script.src = url
+          script.async = true
+
+          for (const key in attr) {
+            script.setAttribute(key, attr[key])
+          }
+
+          script.onload = resolve
+          script.onerror = reject
+
+          document.head.appendChild(script)
+        })
+
+        scriptCache.set(url, promise)
+
+        return promise
+      },
+      getCSS: (url, id) => {
+        if (cssCache.has(url)) {
+          return cssCache.get(url)
+        }
+
+        const promise = new Promise((resolve, reject) => {
+          const link = document.createElement('link')
+
+          link.rel = 'stylesheet'
+          link.href = url
+
+          if (id) {
+            link.id = id
+          }
+
+          link.onload = resolve
+          link.onerror = reject
+
+          document.head.appendChild(link)
+        })
+
+        cssCache.set(url, promise)
+
+        return promise
+      },
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const metaThemeColor = document.querySelector('meta[name="theme-color"]')
+      const activateDarkMode = () => {
+        document.documentElement.dataset.theme = 'dark'
+        if (metaThemeColor !== null) {
+          metaThemeColor.setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.dataset.theme = 'light'
+        if (metaThemeColor !== null) {
+          metaThemeColor.setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/hexo-blog/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Hexo',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 8.1.2"></head><body><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/hexo-blog/"><span class="site-name">Hexo</span></a><a class="nav-page-title" href="/hexo-blog/"><span class="site-name">Hexo</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"></div></nav><div id="post-info"><h1 class="post-title">无标题</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-09-07T13:22:13.487Z" title="发表于 2026-09-07 21:22:13">2026-09-07</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-09-07T13:17:31.978Z" title="更新于 2026-09-07 21:17:31">2026-09-07</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>我们回到第一章末尾的这幅图。</p>
+<p><img src="/hexo-blog/media/img-4a8369b15e63e72b.png"></p>
+<p>回顾可知，当时在讲解MOS管的优势时，我们指出MOS管与三极管在功能结构上基本一致，同样具备三个电极。二者的核心差异在于：MOS管的栅极仅需施加电压即可控制导通，无需像三极管的基极那样持续注入电流，因此其耗电量和发热量均显著低于三极管。在不涉及DRAM这类特殊场景时，MOS管完全可以作为三极管的替代元件。</p>
+<p>举例而言，我们完全可以用三极管搭建出SR锁存器（这种结构是本章新提到的），其特点在于两端均具有置位功能——上端输入1后即使回到0，内容仍保持为1；下端输入1后回到0，内容则被置为0。这类似于第一章所述的无门控与或结构锁存器（带Set端和Reset端），其中的两个或非门同样可以采用MOS管来替代三极管实现。</p>
+<p><img src="/hexo-blog/media/img-729cc014b68496ac.png"></p>
+<p><img src="/hexo-blog/media/img-cee182705305995a.png"></p>
+<p>尽管如此，在深入应用之前，我们仍需首先了解MOS管的基本结构及其工作原理。</p>
+<p><img src="/hexo-blog/media/img-106b31d5f5fb4ed0.png"></p>
+<p><strong>值得注意的是</strong>，三极管分为NPN型和PNP型两种类型，二者的本质区别在于电流流向和电压极性完全相反：NPN型电流从集电极（C）流向发射极（E），因此集电极（C）接高电压，发射极（E）接低电压；PNP型电流从发射极（E）流向集电极（C），因此发射极（E）接高电压，集电极（C）接低电压。<strong>也就是说，对于同一型号的三极管，集电极和发射极的电压高低关系是确定的。</strong></p>
+<p><strong>与三极管不同</strong>，MOS管的源极和漏极在结构上是对称的，电流既可以从漏极流向源极，也可以从源极流向漏极，具体方向取决于所加电压的极性。因此，MOS管无需像三极管那样区分NPN和PNP两种互补构型，只需通过改变栅极电压来控制导通与关断，电流方向由外部电压决定。<strong>这一特性使得MOS管在电路设计中更加灵活。</strong></p>
+<p><img src="/hexo-blog/media/img-15ffed02f687b7bb.png"></p>
+<p><img src="/hexo-blog/media/img-a11316e35e382b9a.png"></p>
+<p>说到这儿，想想看：我们可以用MOS管的栅极来控制是否让电流流动，从而给电容充电。</p>
+<p><img src="/hexo-blog/media/img-b981d0fc2fccf10c.png"></p>
+<p>充满后我们可以切断电流，让电容保持充电状态。但实际上此时即使栅极关断，电容中的电荷仍会通过MOS管缓慢泄漏，因此电容无法长久地保持电荷。至于电容电荷无法长久保持这一问题，我们后面会提到一个刷新机制，用来周期性地恢复电容中的电荷量，从而维持数据的有效性。</p>
+<p><img src="/hexo-blog/media/img-f2a971d2db9fdbbd.png"></p>
+<p>之后我们再通过栅极让电流反向流动来放电，使电容器里的电荷得以释放。</p>
+<p><img src="/hexo-blog/media/img-3ab4472013ce3298.png"></p>
+<p><strong>就这么简单的行为，构成了动态RAM的基本原理</strong>——当电容器放电时，代表存储了0；当电容器充满电时，代表存储了1。这种电路可以抽象成一个能够存储一比特信息的存储单元。</p>
+<p>静态存储单元又叫锁存器，一个就需要很多晶体管，动态存储单元，我们只需要一个晶体管和一个小电容。相比静态RAM我们可以再同样的面积里塞入更多的存储单元</p>
+<p><img src="/hexo-blog/media/img-1711810c1ab7b8eb.png"></p>
+<p>所以制造这种存储器非常省钱。</p>
+<p>但事情没有那么完美，动态RAM存在几个先天短板。</p>
+<p><strong>其一，读取操作具有自毁性。</strong> 设想一个动态存储单元正在存储1，即电容已充满电。要读取该单元所存储的值，我们只能打开栅极，通过检测是否有电流流过电容来判断其状态。这意味着读取操作本身就会释放电容中的电荷，使得数据在读取过程中被破坏。这一“读后即毁”的特性使得动态RAM的读出过程不再简单，必须配合专门的处理机制才能正确获取数据。</p>
+<p><strong>其二，读取速度天生较慢。</strong> 静态RAM读取的是现成的电压，通路一旦建立，电平高低几乎瞬间便可判定；但动态RAM读取的是从电容中释放出来的微小电荷，这些电荷需要先给长长的位线充电，将电压逐步抬升到灵敏放大器能够识别的阈值，这个过程必须等待电荷慢慢积累，因此无法像静态RAM那样快速响应。即便不考虑读后回写等补救操作，单就“读一次”这一动作而言，动态RAM的访问速度也远远落后于静态RAM。</p>
+<p><img src="/hexo-blog/media/img-806861408f108df8.png"></p>
+<p>回顾上一章，我们构建的模型中，CPU通过数据总线直接连接一块SRAM，所有的指令和数据都存放在这块SRAM里，CPU直接从中读取和写入。这个模型能够正常工作，但它的容量非常有限——只有16个字节，远远无法满足实际程序运行的需求。</p>
+<p>如果我们要让计算机处理更大规模的任务，就必须扩大存储容量。然而，SRAM的位成本很高，每扩大一点容量，成本都会显著上升。当容量需求达到GB级别时，全部使用SRAM的成本将变得完全不可接受。因此，实际制造中不得不换用另一种存储技术——DRAM。DRAM每个存储单元只需要一个晶体管和一个电容，结构比SRAM简单得多，在同样面积的芯片上可以集成更多存储单元，单位容量的成本远低于SRAM。所以我们用DRAM来制造大容量的内存。</p>
+<p>但是，DRAM有另一个问题：速度比SRAM慢得多。DRAM的读取过程需要从电容中释放微小电荷，给位线充电、抬升电压，这个过程比SRAM直接读取现成电压要慢得多。如果让CPU直接访问DRAM，CPU的执行速度就会被内存拖慢，整个系统的性能将大幅下降。</p>
+<p>为了解决这个矛盾，工程师们想出了一个折中方案：<strong>CPU仍然直接连接一块小容量的SRAM，而这块SRAM再与一块大容量的DRAM相连</strong>。这块SRAM的容量不需要很大，但速度必须足够快，能够跟上CPU的节奏。CPU优先从这块SRAM中读取数据；如果数据不在其中，再将数据从DRAM中调入这块SRAM，供CPU后续访问。</p>
+<p>这样一来，<strong>这块小容量的SRAM被称为“缓存”（Cache）</strong>，而缓存所连接的那块大容量DRAM被称为**“主存”（Main Memory）**。两者共同构成了现代计算机的存储层次结构。</p>
+<p>那么，这和上一章的模型有什么关系呢？上一章我们直连CPU的那块SRAM，本质上就相当于现代计算机中的缓存这一层——只是当时我们还没有引入“缓存”和“主存”的区分，用一块SRAM承担了全部存储功能。现在我们就能更清晰地理解：CPU真正高速访问的是SRAM缓存，而DRAM主存则作为大容量的后备存储存在。这就是CPU速度远高于内存条速度的根本原因，也是缓存存在的意义所在。</p>
+<p>下面我们将探讨如何如何解决动态RAM的可靠性问题。</p>
+<p>首先我们需要把储存单元排列成一个矩阵(线性排列需要大量的导线)</p>
+<p><img src="/hexo-blog/media/img-5da6a6584d47cdf2.png"></p>
+<p>在DRAM的矩阵结构中，<strong>每一列MOS管的源极由一根导线连接，称为位线（Bitline）</strong>；<strong>每一行MOS管的栅极由一根导线连接，称为字线（Wordline）</strong>。</p>
+<p><img src="/hexo-blog/media/img-230f067e31bfd868.png"></p>
+<p>将存储单元排列成矩阵，让我们可以通过两根导线的交叉点来定位任意一个存储单元——使用一个二进制译码器选择行，再用另一个选择列，即可精确定位我们想要访问的特定单元。</p>
+<p>然而，用二进制译码器直接选择位线并不是理想的方式，因为我们希望位线能够承担数据的输入与输出功能，而二进制译码器仅能实现单向选择，既无法在写入操作时向存储单元输入数据，也无法在读取操作时获取数据。因此，我们需要引入其他机制来完成位线的读写控制。</p>
+<p><img src="/hexo-blog/media/img-43617cbaaf7d3597.png"></p>
+<p>现在我们去掉了选择位线的二进制译码器，这会导致激活一条字线会导致该行所有单元输出其值，在这种情况下，任何带电的电容器都会被放电。</p>
+<p><strong>读取操作的基本流程：</strong></p>
+<p>为了简化说明，我们假设RAM中用<strong>1V表示二进制1</strong>，用<strong>0V表示二进制0</strong>。</p>
+<p>读取的第一步是<strong>预充电</strong>：将所有位线预先充电至<strong>0.5V</strong>（即工作电压的一半）。位线保持不接地的情况下，对其施加电压，它们会<strong>充当电容器</strong>在几纳秒内保持电压。</p>
+<p><img src="/hexo-blog/media/img-ee7e3c5af5841570.png"></p>
+<p>（注意图片中的位线变成了淡黄色表示0.5V）</p>
+<p>接下来，用译码器激活其中一条字线，打开该行所有存储单元的栅极。此时，该行的每一个存储单元都会将其电容器的电压与位线电压进行比较：</p>
+<p><img src="/hexo-blog/media/img-0f3495fd5f4edaf5.png"></p>
+<p><img src="/hexo-blog/media/img-32b7cafdbcec1bf6.png"></p>
+<p>对于存储<strong>二进制1</strong>的单元，其电容器电压为1V，高于位线的0.5V，因此电荷从电容器流向位线，位线电压<strong>略微上升</strong>。</p>
+<p>对于存储<strong>二进制0</strong>的单元，其电容器完全放电，电压为0V，低于位线的0.5V，因此电荷从位线流向电容器，位线电压<strong>略微下降</strong>。</p>
+<p>这样一来，该行的每一位线都会根据其所连接存储单元的内容发生微小的电压变化。</p>
+<p><img src="/hexo-blog/media/img-5a0ed7446b58b4bd.png"></p>
+<p>我们在位线的末端引入<strong>感应放大器（Sense Amplifier）</strong>，用以检测这些微小的电压变化。感应放大器的功能是：</p>
+<p>如果检测到位线电压<strong>高于0.5V</strong>，则输出<strong>1V</strong>（代表二进制1）；</p>
+<p>如果检测到位线电压<strong>低于0.5V</strong>，则输出<strong>0V</strong>（代表二进制0）。</p>
+<p>感应放大器的内部结构本质上通过<strong>比较两个电压源</strong>来工作，每个感应放大器内部还连接着一个<strong>锁存器</strong>，与SRAM中的锁存器类似。由于位线的寄生电容无法长时间保持电荷，感应放大器一旦检测到数值，就会<strong>立即存入锁存器</strong>，即使位线完全放电，感应放大器仍然可以持续输出该行所读取的数值。</p>
+<p><img src="/hexo-blog/media/img-7ff55c818cc9296b.png"></p>
+<p>由于激活一条字线会导致整行存储单元的数据同时被读取，而我们往往只需要其中<strong>某一个</strong>存储单元的值，因此我们需要一个能够从整行数据中筛选出特定单元的元件。</p>
+<p><img src="/hexo-blog/media/img-b30cd8c08f4e5875.png"></p>
+<p>这正是**多路复用器（Multiplexer）**的功能——它根据地址输入选择将该行数据中的哪一个值发送到输出线。</p>
+<p>在读取操作中，我们并不需要整行的所有数据，而只需要目标存储单元的值。因此，<strong>多路复用器位于感应放大器之后</strong>，根据地址选择，将其中的一个数据送往输出端。</p>
+<p><img src="/hexo-blog/media/img-c87fc682e732c9ac.png"></p>
+<p>但由于读取操作改变了存储这些位的电容器的状态，我们需要将它们恢复到原始状态。</p>
+<p><img src="/hexo-blog/media/img-f199159afa7be06c.png"></p>
+<p>为了恢复数据，感应放大器内部锁存器中的值会被<strong>反馈回位线</strong>，使电容器恢复到读取前的状态。这一步就是所谓的<strong>回写（Restore）</strong>，它确保了读取操作不会损坏数据。</p>
+<p>这样我们就能在不破坏数据的前提下从动态内存中读取信息了。</p>
+<p>写入操作的数据流向与读取完全相反：我们需要通过<strong>一条输入线</strong>将数据写入到<strong>四个位线中的某一个</strong>。但现有的读取电路（感应放大器 + 多路复用器）是单向的，无法直接支持写入。</p>
+<p><img src="/hexo-blog/media/img-3269f785d17688fe.png"></p>
+<p>解决方案是修改读取电路，引入一个<strong>既能充当多路复用器、又能充当解复用器</strong>的元件，称为<strong>复用-解复用器（MUX-DEMUX）</strong>。该元件根据当前操作类型切换角色：</p>
+<p><strong>读取时</strong>：充当多路复用器，将来自感应放大器的数据之一送往输出线；</p>
+<p><strong>写入时</strong>：充当解复用器，将来自输入线的数据导向对应的感应放大器锁存器。</p>
+<p><img src="/hexo-blog/media/img-2ee19999938479f9.png"></p>
+<p>写入操作与读取非常相似：</p>
+<p>首先将位线预充电至0.5V；</p>
+<p>激活目标存储单元的字线，打开该行所有存储单元的栅极；</p>
+<p><img src="/hexo-blog/media/img-76d49b7403c27d18.png"></p>
+<p>将待写入的数据通过<strong>复用-解复用器</strong>输入到对应的感应放大器锁存器中。后两位地址会告诉解复用器将输入值导向哪个锁存器，这里目标0被输入到第1个感应放大器中的锁存器；</p>
+<p><img src="/hexo-blog/media/img-150ccc86444777b8.png"></p>
+<p>感应放大器通过位线将该行所有存储单元的数据回传，以确保同一行的其他存储单元不受影响；</p>
+<p>目标存储单元的电容器根据输入值进行充电（写入1）或放电（写入0）。这一步确保每个单元的电容器根据收到的数值进行充电或放电，以防止该行电容器因读取操作（传信息给感应放大器）而导致数据丢失。</p>
+<p>这样，我们就能在不影响同一行其他数据的前提下，完成对任意一个存储单元的写入操作。</p>
+<p><img src="/hexo-blog/media/img-4d1a6ca4ed442788.png"></p>
+<p>现在还剩下一个终极问题：即使栅极关闭，仍会有少量电荷逃逸——从MOS管的漏极流向源极，导致电容器缓慢放电。我们的写入与读取操作都遵循“感应位线 → 输出&#x2F;修改锁存器信息 → 回写”的流程，也就是说，感应位线过程中造成的电荷消耗，都会在回传步骤中得到补偿。</p>
+<p>然而，如果DRAM长时间没有进行读写操作，或者读写操作长时间没有触及某条字线，该行存储单元的电荷就会因泄漏而逐渐丢失。解决这个问题的办法是：<strong>让DRAM自行刷新</strong>——即周期性地读取每一行的数据，并立即回写，以恢复电容器的电荷状态，从而防止数据丢失。</p>
+<p><img src="/hexo-blog/media/img-b68f92ff5d85ed0a.png"></p>
+<p>从现在开始，我们简化图示，避免复杂化。实际上，刷新操作非常容易实现。只要在一行电容器放电至数据无法读取之前，我们对该行所有存储单元进行读取，使位线电压对应于各单元存储的数值即可。</p>
+<p><img src="/hexo-blog/media/img-0aa870c94ab9fb62.png"></p>
+<p><img src="/hexo-blog/media/img-c19ab49d1941c7b4.png"></p>
+<p>通过感应放大器读取位线电压，可以确保单元根据最初的存储内容完全充电或放电。本质上我们做的和读写操作类似（感应位线 → 回写），只是没有任何数值输入或输出（没有输入&#x2F;修改寄存器信息），因此该过程中不需要用到复用器或解复用器。简言之，刷新就是读取一行的数值，然后将这些数值输入到原来的单元。</p>
+<p>由于每根位线只有一个锁存器，矩阵中无法同时刷新所有单元，因此<strong>每一行要逐个刷新</strong>，为此我们专门设计了特殊电路。</p>
+<p><img src="/hexo-blog/media/img-87e23afaaf711b3e.png"></p>
+<p><img src="/hexo-blog/media/img-8e65797db8f0d18f.png"></p>
+<p><img src="/hexo-blog/media/img-aad40e64ab044ee2.png"></p>
+<p><img src="/hexo-blog/media/img-6dbfb17673daf1c6.png"></p>
+<p><img src="/hexo-blog/media/img-0ee44c5359154c6b.png"></p>
+<p><img src="/hexo-blog/media/img-23162d700ab6539c.png"></p>
+<p>理想情况下，读写操作应在所有行都不进行刷新时执行。但这又带来动态内存中另一个缺点：每次刷新一行时都会暂时暂停内存访问，因为读写操作所需的电路同时也用于刷新操作。如果CPU在刷新期间尝试向内存读写，就必须等待该行刷新结束，这会造成延迟。</p>
+<p>好消息是，在行刷新之间的时间间隔通常足够长，能够在两次刷新操作之间容纳大量的读写操作。这是因为每一行存储的电荷只能维持几十毫秒，必须在此之前刷新，因此内存芯片需要在64毫秒内完成所有行的刷新。对于包含8192行的典型DDR4内存芯片，平均每次刷新命令的间隔约为7.8微秒（即64ms ÷ 8192 ≈ 7.8μs）。相比之下，一次读写操作仅需纳秒级的时间（例如DDR4-3200的读写操作约10-20ns）。因此，在一个刷新间隔内（约7.8微秒），CPU可以执行数百次正常的读写操作。刷新操作对整体性能的影响被大幅稀释，这也是现代内存系统能够高效运行的关键所在。</p>
+<p>前面我们一直按单个位来讨论存储结构，但计算机实际处理的是字节。那么，如何实现按字节寻址，而不是按位寻址呢？方法很简单：给存储矩阵增加更多的列，并将这些列按8位一组进行分组。</p>
+<p><img src="/hexo-blog/media/img-b6a2f4533b2bc783.png"></p>
+<p>以读取操作为例，通过后两位地址线进行选择，使得第四组（从右向左）8位线输出数据，例如读出结果为00000111。</p>
+<p><img src="/hexo-blog/media/img-e751b316254d97e6.png"></p>
+<p>不过，还有一点我希望大家思考一下：在读写操作中，存在一个之前可能被忽略的细节——当我们输入一个地址时，地址的不同部分并不是同时被使用的。</p>
+<p><img src="/hexo-blog/media/img-3bfc5b7a577d8ec0.png"></p>
+<p><img src="/hexo-blog/media/img-8c5f9287d2a3778c.png"></p>
+<p>以写操作为例，发往行译码器的地址显然会比发往多路复用器（用于列选择）的那部分地址更早被使用。这意味着CPU在发送地址去读写数据时，并不能直接将地址线连接到各个目标组件，而是需要经过另一个专门组件的截获和处理。这个组件负责处理所有这些时序问题，它清楚地知道每个信号应当在什么时刻到达其对应的目标组件。</p>
+<p>事实上，上述读写流程中涉及了许多时序方面的细节，远比我们此处展示的要复杂。由于篇幅所限，这些时序细节未能在此展开。</p>
+<p><img src="/hexo-blog/media/img-851d265bb6111dc2.png"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://mitchell255ljy.github.io/hexo-blog">辣椒油</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://mitchell255ljy.github.io/hexo-blog/2026/09/07/3MOS%E7%AE%A1%E7%9A%84%E4%BC%98%E5%8A%BF%E4%B8%8ED%E3%80%81SRAM/">https://mitchell255ljy.github.io/hexo-blog/2026/09/07/3MOS%E7%AE%A1%E7%9A%84%E4%BC%98%E5%8A%BF%E4%B8%8ED%E3%80%81SRAM/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://mitchell255ljy.github.io/hexo-blog" target="_blank">Hexo</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/hexo-blog/img/butterfly-icon.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/hexo-blog/2026/09/07/4if%E5%92%8Cwhile%E7%9A%84%E5%BA%95%E5%B1%82%E7%89%A9%E7%90%86%E5%AE%9E%E7%8E%B0/" title=""><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2"></div></div><div class="info-2"><div class="info-item-1">编译产物探秘：机器码文件里到底装着什么？在探讨C++与Java的工作流模型时，我们曾详细梳理过两者的编译执行过程。无论底层实现如何差异，其最终落点都是一致的：由运行时环境（Runtime）或操作系统加载器，将编译产物载入内存并驱动CPU执行。（例如，Java的运行时环境就是JVM + 核心类库，即运行器 + 运行时库）。 由此引出一个更本质的问题：这份编译后生成的二进制文件——即机器码文件——其内部究竟是什么？ 从宏观视角看，一个典型的机器码文件（如Linux下的ELF或Windows下的PE）可划分为三大类信息：机器指令、数据，以及元信息。 一、机器指令与数据：执行的物理基础真正在CPU上执行的是机器指令（Machine Code）——也就是二进制的CPU操作码，例如0xB8代表”将数据移入寄存器”。紧随其后的是数据，例如程序中的全局变量、静态常量、字符串字面量等。这两者——指令与数据——构成了程序功能实现的物理基础。在冯·诺依曼体系下，CPU正是通过不断地”取指令”和”读写数据”，驱动了整个程序的逻辑运转。 二、元信息：程序加载的执行蓝图除了指令与数据，文件中还包含了大量元信...</div></div></div></a><a class="pagination-related" href="/hexo-blog/2026/09/07/2%E6%9E%84%E5%BB%BA%E6%9C%80%E7%AE%80%E5%8D%95%E7%9A%84CPU/" title=""><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2"></div></div><div class="info-2"><div class="info-item-1">在上一章的内存部分中，我们为了减少导线的数量，将每个门控锁存器的输出线与输入线整合为同一条双向数据线，从而优化了矩阵阵列中多个锁存器之间的数据传递线路。   在这里，我们对应地将原来8位线性阵列中的每一个锁存器都改为这种结构，那么原有的8位线性阵列（即8位寄存器），也就随之升级为采用同一条8位数据线同时负责写入和读出操作的寄存器。   相应地，其抽象示意图也从原来的形式变为如下图所示的新形式。    现考察一种8位数据总线与4个8位寄存器相连接的排线结构。通过选取正确的读使能或写使能输入（例如，二进制译码器接入的是四个寄存器的RE，在这里我们选择激活了第0个寄存器的RE，于是数据便由数据总线流向0号寄存器），我们就可以使用同一条数据总线，读取或写入任意一个寄存器。 若将本条数据总线与上一章所述内存系统的数据总线视为同一套物理线路，则此处所提及的4个8位寄存器，其作用便是在程序对内存中的数据进行操作时，作为临时承载数据的场所。  现在，假设硬件接收到一条 LOAD R2, 1000 的指令，那么其硬件层面的动作就是：将1000作为地址输入到内存的地址总线，以选中对应的存储单元；同时...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/hexo-blog/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/hexo-blog/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">辣椒油</div><div class="author-info-description"></div><div class="site-data"><a href="/hexo-blog/archives/"><div class="headline">文章</div><div class="length-num">6</div></a><a href="/hexo-blog/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/hexo-blog/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/hexo-blog/2026/09/07/hello-world/" title="无标题">无标题</a><time datetime="2026-09-07T13:22:24.691Z" title="发表于 2026-09-07 21:22:24">2026-09-07</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/hexo-blog/2026/09/07/5%E6%8C%87%E4%BB%A4%E5%91%A8%E6%9C%9F%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%97%B6%E9%92%9F/" title="无标题">无标题</a><time datetime="2026-09-07T13:22:13.496Z" title="发表于 2026-09-07 21:22:13">2026-09-07</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/hexo-blog/2026/09/07/4if%E5%92%8Cwhile%E7%9A%84%E5%BA%95%E5%B1%82%E7%89%A9%E7%90%86%E5%AE%9E%E7%8E%B0/" title="无标题">无标题</a><time datetime="2026-09-07T13:22:13.492Z" title="发表于 2026-09-07 21:22:13">2026-09-07</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/hexo-blog/2026/09/07/3MOS%E7%AE%A1%E7%9A%84%E4%BC%98%E5%8A%BF%E4%B8%8ED%E3%80%81SRAM/" title="无标题">无标题</a><time datetime="2026-09-07T13:22:13.487Z" title="发表于 2026-09-07 21:22:13">2026-09-07</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/hexo-blog/2026/09/07/2%E6%9E%84%E5%BB%BA%E6%9C%80%E7%AE%80%E5%8D%95%E7%9A%84CPU/" title="无标题">无标题</a><time datetime="2026-09-07T13:22:13.481Z" title="发表于 2026-09-07 21:22:13">2026-09-07</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 辣椒油</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.2</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.7.0</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/hexo-blog/js/utils.js?v=5.7.0"></script><script src="/hexo-blog/js/main.js?v=5.7.0"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

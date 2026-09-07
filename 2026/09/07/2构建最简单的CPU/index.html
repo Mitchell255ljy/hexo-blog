@@ -1,0 +1,275 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Hexo | Hexo</title><meta name="author" content="辣椒油"><meta name="copyright" content="辣椒油"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="在上一章的内存部分中，我们为了减少导线的数量，将每个门控锁存器的输出线与输入线整合为同一条双向数据线，从而优化了矩阵阵列中多个锁存器之间的数据传递线路。   在这里，我们对应地将原来8位线性阵列中的每一个锁存器都改为这种结构，那么原有的8位线性阵列（即8位寄存器），也就随之升级为采用同一条8位数据线同时负责写入和读出操作的寄存器。   相应地，其抽象示意图也从原来的形式变为如下图所示的新形式。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="https://mitchell255ljy.github.io/hexo-blog/2026/09/07/2%E6%9E%84%E5%BB%BA%E6%9C%80%E7%AE%80%E5%8D%95%E7%9A%84CPU/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="在上一章的内存部分中，我们为了减少导线的数量，将每个门控锁存器的输出线与输入线整合为同一条双向数据线，从而优化了矩阵阵列中多个锁存器之间的数据传递线路。   在这里，我们对应地将原来8位线性阵列中的每一个锁存器都改为这种结构，那么原有的8位线性阵列（即8位寄存器），也就随之升级为采用同一条8位数据线同时负责写入和读出操作的寄存器。   相应地，其抽象示意图也从原来的形式变为如下图所示的新形式。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://mitchell255ljy.github.io/hexo-blog/img/butterfly-icon.png">
+<meta property="article:published_time" content="2026-09-07T13:22:13.481Z">
+<meta property="article:modified_time" content="2026-09-07T13:17:30.957Z">
+<meta property="article:author" content="辣椒油">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://mitchell255ljy.github.io/hexo-blog/img/butterfly-icon.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "",
+  "url": "https://mitchell255ljy.github.io/hexo-blog/2026/09/07/2%E6%9E%84%E5%BB%BA%E6%9C%80%E7%AE%80%E5%8D%95%E7%9A%84CPU/",
+  "image": "https://mitchell255ljy.github.io/hexo-blog/img/butterfly-icon.png",
+  "datePublished": "2026-09-07T13:22:13.481Z",
+  "dateModified": "2026-09-07T13:17:30.957Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "辣椒油",
+      "url": "https://mitchell255ljy.github.io/hexo-blog"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/hexo-blog/img/favicon.png"><link rel="canonical" href="https://mitchell255ljy.github.io/hexo-blog/2026/09/07/2%E6%9E%84%E5%BB%BA%E6%9C%80%E7%AE%80%E5%8D%95%E7%9A%84CPU/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/hexo-blog/css/index.css?v=5.7.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.3.1/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        const data = { value }
+
+        if (ttl != null) {
+          data.expiry = Date.now() + ttl * 86400000
+        }
+
+        localStorage.setItem(key, JSON.stringify(data))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return
+
+        try {
+          const data = JSON.parse(itemStr)
+
+          if (data.expiry && Date.now() > data.expiry) {
+            localStorage.removeItem(key)
+            return
+          }
+
+          return data.value
+        } catch {
+          localStorage.removeItem(key)
+        }
+      }
+    }
+
+    const scriptCache = new Map()
+    const cssCache = new Map()
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => {
+        if (scriptCache.has(url)) {
+          return scriptCache.get(url)
+        }
+
+        const promise = new Promise((resolve, reject) => {
+          const script = document.createElement('script')
+
+          script.src = url
+          script.async = true
+
+          for (const key in attr) {
+            script.setAttribute(key, attr[key])
+          }
+
+          script.onload = resolve
+          script.onerror = reject
+
+          document.head.appendChild(script)
+        })
+
+        scriptCache.set(url, promise)
+
+        return promise
+      },
+      getCSS: (url, id) => {
+        if (cssCache.has(url)) {
+          return cssCache.get(url)
+        }
+
+        const promise = new Promise((resolve, reject) => {
+          const link = document.createElement('link')
+
+          link.rel = 'stylesheet'
+          link.href = url
+
+          if (id) {
+            link.id = id
+          }
+
+          link.onload = resolve
+          link.onerror = reject
+
+          document.head.appendChild(link)
+        })
+
+        cssCache.set(url, promise)
+
+        return promise
+      },
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const metaThemeColor = document.querySelector('meta[name="theme-color"]')
+      const activateDarkMode = () => {
+        document.documentElement.dataset.theme = 'dark'
+        if (metaThemeColor !== null) {
+          metaThemeColor.setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.dataset.theme = 'light'
+        if (metaThemeColor !== null) {
+          metaThemeColor.setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/hexo-blog/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Hexo',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 8.1.2"></head><body><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/hexo-blog/"><span class="site-name">Hexo</span></a><a class="nav-page-title" href="/hexo-blog/"><span class="site-name">Hexo</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"></div></nav><div id="post-info"><h1 class="post-title">无标题</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-09-07T13:22:13.481Z" title="发表于 2026-09-07 21:22:13">2026-09-07</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-09-07T13:17:30.957Z" title="更新于 2026-09-07 21:17:30">2026-09-07</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>在上一章的内存部分中，我们为了减少导线的数量，<strong>将每个门控锁存器的输出线与输入线整合为同一条双向数据线</strong>，从而优化了矩阵阵列中多个锁存器之间的数据传递线路。</p>
+<p><img src="/hexo-blog/media/img-9b5edee5111c4948.png"></p>
+<p><img src="/hexo-blog/media/img-8327d507b6e9c62f.png"></p>
+<p>在这里，我们对应地将<strong>原来8位线性阵列中的每一个锁存器都改为这种结构</strong>，那么原有的<strong>8位线性阵列（即8位寄存器）</strong>，也就随之升级为<strong>采用同一条8位数据线同时负责写入和读出操作的寄存器</strong>。</p>
+<p><img src="/hexo-blog/media/img-0885f530cd102ea8.png"></p>
+<p><img src="/hexo-blog/media/img-35a7e7e7ce62b560.png"></p>
+<p>相应地，其抽象示意图也从原来的形式变为如下图所示的新形式。</p>
+<p><img src="/hexo-blog/media/img-1b132889e10cb8f0.png"></p>
+<p><img src="/hexo-blog/media/img-343a66df02bb68c1.png"></p>
+<p><img src="/hexo-blog/media/img-e170dc387b5e72f9.png"></p>
+<p>现考察一种<strong>8位数据总线与4个8位寄存器相连接</strong>的排线结构。<strong>通过选取正确的读使能或写使能输入</strong>（例如，二进制译码器接入的是四个寄存器的RE，在这里我们选择激活了第0个寄存器的RE，于是数据便由数据总线流向0号寄存器），我们就可以<strong>使用同一条数据总线，读取或写入任意一个寄存器</strong>。</p>
+<p>若将本条数据总线与上一章所述内存系统的数据总线视为同一套物理线路，则此处所提及的4个8位寄存器，其作用便是在程序对内存中的数据进行操作时，作为临时承载数据的场所。</p>
+<p><img src="/hexo-blog/media/img-2f7fe0b66a043c6d.png"></p>
+<p>现在，假设硬件接收到一条 LOAD R2, 1000 的指令，那么其硬件层面的动作就是：<strong>将1000作为地址输入到内存的地址总线</strong>，以选中对应的存储单元；同时，<strong>LOAD指令会开启内存的读使能信号以及寄存器的写使能信号</strong>。其中，<strong>R2这一信息被送入连接四个寄存器的写使能二进制译码器</strong>，该译码器将激活信号经过译码后，<strong>仅传递至R2的WE端</strong>。如此一来，数据便从内存的1000号地址读出，经由数据总线写入到R2寄存器中。</p>
+<p><img src="/hexo-blog/media/img-c0c71a11fa2791d2.png"></p>
+<p>类似的，STORE R1, 0110 这条指令在硬件层面的动作如上图所示。这样我们就能将一个值从寄存器中复制到内存中，从而完成数据的存储操作。</p>
+<p>接下来我们需要处理这个问题：像 LOAD R2, 1000 和 STORE R1, 0110 这样的汇编指令，是如何翻译成让控制组件能够理解的信号的？</p>
+<p><img src="/hexo-blog/media/img-19a821ac95e45e96.png"></p>
+<p>汇编指令是计算机可理解代码的人性化表示形式，也就是说，<strong>我们编写的汇编代码与二进制机器码之间具有一一对应的关系</strong>。因此，我们只需要利用<strong>汇编器（一种把汇编指令编译成机器码的专用编译器）</strong>，即可将汇编代码转换为二进制机器码，从而让硬件能够识别并执行相应的操作。</p>
+<p><img src="/hexo-blog/media/img-528e8e63fa6fa05e.png"></p>
+<p>这一串比特信息中包含了指导计算机操作所需的全部必要信息。下面以 01000110 和 10101111 为例，说明它们各自对应的硬件指导动作。</p>
+<p><img src="/hexo-blog/media/img-74b5b143bf29eeaa.png"></p>
+<p><img src="/hexo-blog/media/img-14d5bf02bfad236b.png"></p>
+<p>前两位数字代表<strong>指令类型</strong>，其余位在不同指令类型下具有不同的含义。例如，<strong>当前两位为00时</strong>，表示这是一条<strong>算术运算类型</strong>指令，<strong>第3至第4位</strong>将被传递给算术逻辑单元作为操作码使用。<strong>后四位（即第5至第8位）则分别代表两个寄存器</strong>，用于指示参与运算的两个数所存储的位置；而在 LOAD 或 STORE 这类指令下（即前两位为 <strong>10</strong> 或 <strong>01</strong> 时），<strong>第3至第4位</strong>用于指定待读取或写入的寄存器，<strong>后四位（第5至第8位）</strong> 则通常表示一个<strong>内存地址</strong>。</p>
+<p>所有组件的输入均来源于这些二进制指令本身，但具体是如何实现的呢？也就是说，汇编指令在被翻译成二进制机器码之后，是如何加载并存储到硬件层面的？事实上，<strong>在执行每条指令之前，该指令首先需要被加载到一个称为指令寄存器的特殊寄存器中</strong>。正是<strong>该寄存器的输出数据线被用作指令译码组件的输入</strong>，从而驱动后续相应操作的执行。换句话说，我们的二进制指令之所以能够被存储，是因为借助了寄存器这一存储结构，并沿用了前文所述的接线方式。</p>
+<p>至此，我们解决了指令的<strong>存储</strong>问题，至于<strong>加载</strong>问题，我们将在稍后讨论。接下来，</p>
+<p>来看看我们的架构是如何进行算数运算操作的。</p>
+<p><img src="/hexo-blog/media/img-68f5be276f131f83.png"></p>
+<p>接下来，我们对上图中<strong>指令寄存器前两位输出</strong>所连接的<strong>二进制译码器的第一条选择路径</strong>作出补充说明。为了简化起见，我们将省略内存方面的组件。</p>
+<p><img src="/hexo-blog/media/img-0870d402116622cf.png"></p>
+<p>如前所述，前两位为00表示这是一条算数运算指令，为了执行此操作我们将使用上一章开发的算数逻辑单元（ALU）</p>
+<p><img src="/hexo-blog/media/img-19166376951c21c3.png"></p>
+<p><strong>操作码传递</strong>：指令的第34位（即Bit 5）作为操作码输入给ALU，以告知ALU当前需要执行的是**减法（SUB）**操作。</p>
+<p><strong>源操作数选择</strong>：指令的后四位（即Bit 3-0）被拆分为两组（各2位），分别传递给两个<strong>多路复用器（MUX）</strong>。这里的多路复用器实际上充当<strong>二进制译码器</strong>的角色——它们同时接收来自不同数据总线（绿、紫、橙、蓝）的8位数据，并根据输入的2位选择信号，<strong>过滤并只放行其中一条</strong>8位数据总线上的值，将其送入ALU的A端和B端作为输入。</p>
+<p><img src="/hexo-blog/media/img-561e1a2e591af25f.png"></p>
+<p>在许多架构中，ALU的计算结果通常会被写回至<strong>参与运算的源寄存器之一</strong>。在我们这套自定义架构中，规定结果默认写回至<strong>第一个源寄存器（即Reg_1）</strong>。</p>
+<p><strong>冲突问题</strong>：然而，在硬件层面，无法在<strong>同一个时钟周期</strong>内同时对同一个寄存器进行“读取旧值”和“写入新值”的操作。</p>
+<p><strong>解决方案</strong>：为了解决这一冲突，设计采用**临时寄存器（Temp Register）**作为缓冲。ALU首先将计算结果输出至该临时寄存器中暂存；在下一时钟周期或特定阶段，再由该临时寄存器将数据写回至第一个源寄存器（Reg_1）。</p>
+<p>此处涉及“时钟周期”等时序概念，属于后续章节的内容。当前仅作机制性理解即可，届时再对时序控制部分作完整展开。</p>
+<p><img src="/hexo-blog/media/img-222c9f081b276e90.png"></p>
+<p><img src="/hexo-blog/media/img-99b930a953b937a4.png"></p>
+<p>关于如何确定“哪个是第一个源寄存器（Reg_1）”：没错，正是通过指令中的<strong>特定比特位段</strong>来指定的。</p>
+<p>在本例中，即指令的<strong>第5位和第6位（Bit 5-6）</strong>（注：根据你的描述，原文“56位”应理解为“第5、6位”或“5~6位”）。</p>
+<p>为了将数据写回正确的寄存器，我们需要一个<strong>反向的多路复用器</strong>，通常称为<strong>解复用器（<strong>其数据流向与多路复用器相反：<strong>输入端只有1个8位数据通道，输出端则有4个8位数据通道</strong>，并依据地址选择信号将输入数据仅送至其中一个指定的输出通道</strong>）</strong>。这个部件会根据Bit 5-6的数值进行译码，将临时寄存器中的数据导通至对应的寄存器写入端口（本例中为Reg_1的写入使能端）。</p>
+<p>此外，还需要补充说明一个可能引起困惑的问题：这四个寄存器原本是为内存组件服务的，且它们都属于<strong>采用单条双向数据线实现输入输出</strong>的升级版寄存器结构。那么，我们为何在此处又能从这些寄存器中<strong>拉出输出线</strong>，持续地向多路复用器提供数据呢？其实现方式其实并不复杂：<strong>我们只需在寄存器内部，于每个锁存器的Dout信号尚未经RE信号控制传递至三极管基极之前，额外引出一条旁路输出线即可</strong>。这样既不影响原有的读写逻辑，又能为ALU提供持续的源操作数输入。</p>
+<p><img src="/hexo-blog/media/img-0c454657933911d7.png"></p>
+<p>此时我们回到之前未解释的部分，即<strong>指令是如何加载到指令寄存器当中的</strong>。注意观察上图，我们对指令寄存器补充了一套线路——没错，<strong>指令寄存器的指令来源也是内存的8位数据总线</strong>。</p>
+<p>我们先<strong>忽略指令寄存器的所有输出</strong>，也就是控制单元所有组件的输入细节（即译码阶段），仅关注指令寄存器的输入过程，我们称之为<strong>取址阶段</strong>。当电路通电后，所有内容被初始化为0。控制单元不仅包含一个指令寄存器，还包含一个<strong>地址寄存器与三个单比特标志位寄存器（O&#x2F;Z&#x2F;N）,<strong>它们分别连接ALU的状态标识线。（这三个标志位寄存器将在第4章重点讨论，此处仅介绍地址寄存器）需要强调的是，这个地址寄存器</strong>并非是</strong>译码阶段时用于输入地址选择内存中对应字节数组的那种寄存器（那是译码阶段由指令本身来决定的），它的作用是指向<strong>下一条指令在内存中的位置</strong>，当前该位置为0。</p>
+<p><img src="/hexo-blog/media/img-9d695844261c3da6.png"></p>
+<p>在<strong>取址阶段</strong>，地址寄存器的RE端和内存的RE端被激活，同时指令寄存器的WE端也被激活。此时，<strong>数据只能从内存流向指令寄存器</strong>，而其余控件由于指令寄存器的RE端未被激活，无法发挥作用。</p>
+<p><img src="/hexo-blog/media/img-e218c9e347f73a13.png"></p>
+<p>进入<strong>译码阶段</strong>后，<strong>指令寄存器的读使能端被激活</strong>，使得指令寄存器中所存储的二进制指令得以输出至各相关控制部件，从而驱动相应操作的执行。在这个示例中，指令要求将内存地址14中的值复制到通用寄存器R0，控制单元会点亮R0的读使能端，同时将指令中的四位比特序列送入地址总线，使其指向对应的存储单元。就这样我们的CPU已经运行了程序的第一条指令。</p>
+<p>指令执行完毕之后，<strong>控制单元内部逻辑</strong>（可将其绑定于每条指令执行流程的终止阶段）将<strong>地址寄存器的值加一</strong>。在本架构中，每条指令的长度固定为一字节，因此地址寄存器简单自增一即可指向下一条指令。然而，在现代计算机架构中，指令数量庞大且指令长度通常并不固定，故其对应的增量（即当前指令所占用的字节数）应依据具体指令类型分别确定。</p>
+<p><img src="/hexo-blog/media/img-f3f7f2a616afeab4.png"></p>
+<p>完成上述地址更新操作后，计算机<strong>返回取指阶段</strong>，开始下一条指令的读取与执行，如此循环往复。</p>
+<p>至此，关于指令的执行流程，读者心中难免会生出两个疑问。</p>
+<p><strong>其一，当地址寄存器自增到最大值后，计算机将如何动作？</strong></p>
+<p>在本架构中，地址寄存器的位宽是有限的，当其值达到最大值（即所有位均为1）时，若再执行加一操作，加法器将产生溢出，结果自然归零，即变为0000。这一溢出行为是由加法器本身的组合逻辑特性所决定的，无需额外控制逻辑介入。因此，取指阶段将自动回到内存的第0行，重新开始新一轮的指令读取，从而形成循环。这也正是计算机在地址空间耗尽后能够自动“复位”的物理基础。</p>
+<p><strong>不过在实际的程序运行中，我们极少依赖这种自然溢出来实现循环。<strong>因为程序当中可以包含</strong>跳转指令</strong>，这类指令的作用是将一个目标地址直接写入地址寄存器，从而让CPU在执行完一段代码后<strong>主动跳转到内存中的任意位置</strong>，包括跳回已执行过的地址，以此形成循环。这样一来，同一段代码只需在内存中存放一次，便可以被反复执行。换言之，程序的执行流程是由跳转指令动态决定的，而非由内存地址的物理顺序所固定约束；<strong>只有当程序完全不含任何跳转指令、全部按顺序执行时，才会一路走到地址空间的尽头。</strong></p>
+<p><strong>其二，既然指令均来源于内存，那么在没有任何软件环境的情况下，指令最初是如何写入内存的？换言之，操作系统又是如何被安装到计算机中的？</strong></p>
+<p>这个问题触及计算机体系结构的根本困境——所谓“先有鸡还是先有蛋”的问题。事实上，计算机在刚刚制造完成、首次通电时，内存（RAM）中的内容均为随机值，此时确实不存在任何可执行程序。然而，CPU并非一开始就去执行RAM中的内容。在计算机主板上，除RAM之外，还固有一块<strong>只读存储器（ROM）</strong>，通常被称为BIOS或Boot ROM。这块ROM在出厂时即已通过硬件方式烧录好了一段固化程序，无需依赖外部写入。</p>
+<p>CPU在通电复位后，其内部的地址寄存器会被硬件强制设定为一个固定值（例如0000），该地址指向的并非RAM，而是ROM。随后，CPU自动进入取指→译码→执行的循环，其执行的第一条指令便来自ROM。这段固化程序的功能是：初始化必要的硬件设备（如内存控制器、键盘、显示器等），然后从外部存储介质（如硬盘或U盘）中读取真正的操作系统代码，并将其加载至RAM的指定位置。加载完成后，控制单元将地址寄存器指向RAM中操作系统的起始地址，从而将控制权转交给操作系统。至此，我们所熟知的软件环境才得以建立。</p>
+<p>实际上讲到这里，我们就已经建立起一个最简单的CPU了。它具备了现代CPU的所有核心组成部分：<strong>运算组</strong>，即算术逻辑单元（ALU），负责执行各类算术与逻辑运算；<strong>控制组</strong>，包括指令寄存器和指令译码器——其中指令译码器本质上就是执行命令控件前的筛选电路，我们把数据总线上的数据连接到每个控件上，再通过电路与指令寄存器中某几位信息的配合，即可实现译码功能；<strong>一组通用寄存器</strong>（R0~R3），用于暂存参与运算的数据；以及<strong>数据总线</strong>、<strong>地址寄存器</strong>，还有<strong>内存译码器</strong>（即内存总线与两个用于定位的二进制译码器）。这些组件共同构成了一个完整可用的简单处理器。</p>
+<p>最后我们再了解一个概念：<strong>32位计算机和64位计算机中的“32”和“64”到底指什么？</strong></p>
+<p>这个数字实际上指的是<strong>CPU内部通用寄存器的宽度</strong>。一般来说，与之关联的许多组件（包括数据总线）也采用相同的位宽，即大多数组件都以该位宽作为基本数据宽度。</p>
+<p>但需要特别强调的是：<strong>这并不意味着内存的基本存储结构发生了改变。</strong> 上一章我们讲到，内存是由8个刻蚀矩阵构成的，每个地址仍然指向1个字节（8位）——这个基本规则并没有因为CPU位宽变大而被打破。32位系统只是<strong>一次性并行传输4个字节</strong>（即4个连续地址单元的数据），这样做纯粹是为了提升数据读取效率，但完全没有改变“内存最小存储单元为1字节”这个规定。</p>
+<p>那么，为什么会有“32位计算机最多只能处理4GB内存”这个说法呢？这实际上是把<strong>数据总线宽度</strong>和<strong>地址总线宽度</strong>搞混了。准确地说，<strong>2³² &#x3D; 4GB这个计算针对的是地址总线宽度</strong>——即32位地址总线最多可以寻址2³²个字节地址，正好是4GB。</p>
+<p>很多人之所以把这个容量限制误认为是“32位数据总线”的结果，背后有一段具体的历史原因。在80386诞生之前，CPU的位数和地址总线宽度本来就是分开的两个概念。例如，16位的Intel 8086，其数据总线为16位，但地址总线却是20位，可寻址1MB；16位的80286，地址总线为24位，可寻址16MB。也就是说，“CPU位数≠地址总线宽度”在早期本是常识。</p>
+<p>然而，1985年Intel推出的80386处理器打破了这一惯例。这款CPU的内部和外部数据总线均为32位，地址总线也恰好是32位，可寻址高达4GB的内存空间。这是x86平台上第一次实现“数据总线&#x3D;地址总线&#x3D;32位”的统一，也是第一次让PC能够访问4GB的内存。在市场营销的简化传播中，这种“恰好”被浓缩成了一句话：“这是一颗32位CPU，能处理4GB内存。”对于普通用户和大多数非底层开发者而言，这个说法足够直观、易于记忆，久而久之，“32位”这个标签就和“最多只能处理4GB内存”这个结果牢牢绑定在了一起，形成了一种广泛流传的认知。</p>
+<p>事实上，后续的发展早已证明这种等同关系并不成立。例如，后来的32位Pentium Pro处理器，其地址总线扩展到了36位，配合PAE（物理地址扩展）技术，实际可支持高达64GB的物理内存，远超出4GB的限制。这充分说明：“32位”指的是CPU内部一次能处理的数据宽度，而不是它的最大寻址能力；“4GB”这个上限是由地址总线的位数决定的，而非数据总线。</p>
+<p>事实上，真正代表“32位”这个数字的，是<strong>数据总线的宽度</strong>（即CPU与内存之间一次并行传输的数据位数），而“32位计算机最多只能处理4GB内存”这个说法中的“32位”，指的却是<strong>地址总线的宽度</strong>，两者所指并非同一回事。</p>
+<p>地址总线宽度决定寻址范围，数据总线宽度决定传输效率，两者各自独立，但共同决定了计算机的整体性能。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://mitchell255ljy.github.io/hexo-blog">辣椒油</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://mitchell255ljy.github.io/hexo-blog/2026/09/07/2%E6%9E%84%E5%BB%BA%E6%9C%80%E7%AE%80%E5%8D%95%E7%9A%84CPU/">https://mitchell255ljy.github.io/hexo-blog/2026/09/07/2%E6%9E%84%E5%BB%BA%E6%9C%80%E7%AE%80%E5%8D%95%E7%9A%84CPU/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://mitchell255ljy.github.io/hexo-blog" target="_blank">Hexo</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/hexo-blog/img/butterfly-icon.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/hexo-blog/2026/09/07/3MOS%E7%AE%A1%E7%9A%84%E4%BC%98%E5%8A%BF%E4%B8%8ED%E3%80%81SRAM/" title=""><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2"></div></div><div class="info-2"><div class="info-item-1">我们回到第一章末尾的这幅图。  回顾可知，当时在讲解MOS管的优势时，我们指出MOS管与三极管在功能结构上基本一致，同样具备三个电极。二者的核心差异在于：MOS管的栅极仅需施加电压即可控制导通，无需像三极管的基极那样持续注入电流，因此其耗电量和发热量均显著低于三极管。在不涉及DRAM这类特殊场景时，MOS管完全可以作为三极管的替代元件。 举例而言，我们完全可以用三极管搭建出SR锁存器（这种结构是本章新提到的），其特点在于两端均具有置位功能——上端输入1后即使回到0，内容仍保持为1；下端输入1后回到0，内容则被置为0。这类似于第一章所述的无门控与或结构锁存器（带Set端和Reset端），其中的两个或非门同样可以采用MOS管来替代三极管实现。   尽管如此，在深入应用之前，我们仍需首先了解MOS管的基本结构及其工作原理。  值得注意的是，三极管分为NPN型和PNP型两种类型，二者的本质区别在于电流流向和电压极性完全相反：NPN型电流从集电极（C）流向发射极（E），因此集电极（C）接高电压，发射极（E）接低电压；PNP型电流从发射极（E）流向集电极（C），因此发射极（E）接高电压，集电...</div></div></div></a><a class="pagination-related" href="/hexo-blog/2026/09/07/1%E4%B8%89%E6%9E%81%E7%AE%A1%E5%88%B0ALU%E4%B8%8ESRAM/" title=""><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2"></div></div><div class="info-2"><div class="info-item-1">三级管的结构 在标准电路图绘制规范中，三极管的集电极（C）位于基极（B）左侧，发射极（E）位于右侧。 三极管分为NPN和PNP两种类型，二者的本质区别在于电流流向和电压极性完全相反：NPN型电流从集电极（C）流向发射极（E），因此其集电极（C）接高电压，发射极（E）接低电压；而PNP型电流从发射极（E）流向集电极（C），因此其发射极（E）接高电压，集电极（C）接低电压。本课程默认只讨论NPN型，即集电极（C）接高电压的情况。 NPN型三极管的三个电极各司其职： 发射极（E）：作为载流子（电子）的发射源，电子由此极注入基区。物理层面实际迁移的粒子为电子，其运动方向与常规电流方向相反。 集电极（C）：作为载流子的终点，由发射极注入的大部分电子最终被集电极所收集，故得名”集电极”。 基极（B）：作为控制电极。当B-E间施加的正向电压达到或超过发射结导通阈值（硅管约0.6V~0.7V）时，发射结正偏，产生基极电流（注意：基极需要在施加电压后产生一个持续的基极电流才能维持E-C间的导通，这意味着基极存在固有的电流消耗。这一特性正是三极管与后文将要介绍的MOS管相比的显著劣势，也是阻碍三极管...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/hexo-blog/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/hexo-blog/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">辣椒油</div><div class="author-info-description"></div><div class="site-data"><a href="/hexo-blog/archives/"><div class="headline">文章</div><div class="length-num">6</div></a><a href="/hexo-blog/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/hexo-blog/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/hexo-blog/2026/09/07/hello-world/" title="无标题">无标题</a><time datetime="2026-09-07T13:22:24.691Z" title="发表于 2026-09-07 21:22:24">2026-09-07</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/hexo-blog/2026/09/07/5%E6%8C%87%E4%BB%A4%E5%91%A8%E6%9C%9F%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%97%B6%E9%92%9F/" title="无标题">无标题</a><time datetime="2026-09-07T13:22:13.496Z" title="发表于 2026-09-07 21:22:13">2026-09-07</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/hexo-blog/2026/09/07/4if%E5%92%8Cwhile%E7%9A%84%E5%BA%95%E5%B1%82%E7%89%A9%E7%90%86%E5%AE%9E%E7%8E%B0/" title="无标题">无标题</a><time datetime="2026-09-07T13:22:13.492Z" title="发表于 2026-09-07 21:22:13">2026-09-07</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/hexo-blog/2026/09/07/3MOS%E7%AE%A1%E7%9A%84%E4%BC%98%E5%8A%BF%E4%B8%8ED%E3%80%81SRAM/" title="无标题">无标题</a><time datetime="2026-09-07T13:22:13.487Z" title="发表于 2026-09-07 21:22:13">2026-09-07</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/hexo-blog/2026/09/07/2%E6%9E%84%E5%BB%BA%E6%9C%80%E7%AE%80%E5%8D%95%E7%9A%84CPU/" title="无标题">无标题</a><time datetime="2026-09-07T13:22:13.481Z" title="发表于 2026-09-07 21:22:13">2026-09-07</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 辣椒油</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.2</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.7.0</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/hexo-blog/js/utils.js?v=5.7.0"></script><script src="/hexo-blog/js/main.js?v=5.7.0"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

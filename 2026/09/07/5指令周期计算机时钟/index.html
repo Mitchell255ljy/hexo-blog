@@ -1,0 +1,292 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Hexo | Hexo</title><meta name="author" content="辣椒油"><meta name="copyright" content="辣椒油"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="计算机的工作原理非常简单：它们逐条执行指令，而每条指令的完成又需要多个步骤——获取指令、解码、然后执行。但人们常常困惑的是：计算机是如何知道要先获取、再解码、然后执行，并且一遍又一遍地按照这个顺序重复的？ 这个问题的答案，简单来说就是时钟。一个能产生振荡信号的小设备，通过其输出的信号与逻辑门协同工作，协调计算机一步步地执行每条指令。  本视频不打算深入讲解时钟的具体实现方式，而是聚焦于一个更根本的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="https://mitchell255ljy.github.io/hexo-blog/2026/09/07/5%E6%8C%87%E4%BB%A4%E5%91%A8%E6%9C%9F%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%97%B6%E9%92%9F/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="计算机的工作原理非常简单：它们逐条执行指令，而每条指令的完成又需要多个步骤——获取指令、解码、然后执行。但人们常常困惑的是：计算机是如何知道要先获取、再解码、然后执行，并且一遍又一遍地按照这个顺序重复的？ 这个问题的答案，简单来说就是时钟。一个能产生振荡信号的小设备，通过其输出的信号与逻辑门协同工作，协调计算机一步步地执行每条指令。  本视频不打算深入讲解时钟的具体实现方式，而是聚焦于一个更根本的">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://mitchell255ljy.github.io/hexo-blog/img/butterfly-icon.png">
+<meta property="article:published_time" content="2026-09-07T13:22:13.496Z">
+<meta property="article:modified_time" content="2026-09-07T13:17:33.737Z">
+<meta property="article:author" content="辣椒油">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://mitchell255ljy.github.io/hexo-blog/img/butterfly-icon.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "",
+  "url": "https://mitchell255ljy.github.io/hexo-blog/2026/09/07/5%E6%8C%87%E4%BB%A4%E5%91%A8%E6%9C%9F%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%97%B6%E9%92%9F/",
+  "image": "https://mitchell255ljy.github.io/hexo-blog/img/butterfly-icon.png",
+  "datePublished": "2026-09-07T13:22:13.496Z",
+  "dateModified": "2026-09-07T13:17:33.737Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "辣椒油",
+      "url": "https://mitchell255ljy.github.io/hexo-blog"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/hexo-blog/img/favicon.png"><link rel="canonical" href="https://mitchell255ljy.github.io/hexo-blog/2026/09/07/5%E6%8C%87%E4%BB%A4%E5%91%A8%E6%9C%9F%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%97%B6%E9%92%9F/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/hexo-blog/css/index.css?v=5.7.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.3.1/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        const data = { value }
+
+        if (ttl != null) {
+          data.expiry = Date.now() + ttl * 86400000
+        }
+
+        localStorage.setItem(key, JSON.stringify(data))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return
+
+        try {
+          const data = JSON.parse(itemStr)
+
+          if (data.expiry && Date.now() > data.expiry) {
+            localStorage.removeItem(key)
+            return
+          }
+
+          return data.value
+        } catch {
+          localStorage.removeItem(key)
+        }
+      }
+    }
+
+    const scriptCache = new Map()
+    const cssCache = new Map()
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => {
+        if (scriptCache.has(url)) {
+          return scriptCache.get(url)
+        }
+
+        const promise = new Promise((resolve, reject) => {
+          const script = document.createElement('script')
+
+          script.src = url
+          script.async = true
+
+          for (const key in attr) {
+            script.setAttribute(key, attr[key])
+          }
+
+          script.onload = resolve
+          script.onerror = reject
+
+          document.head.appendChild(script)
+        })
+
+        scriptCache.set(url, promise)
+
+        return promise
+      },
+      getCSS: (url, id) => {
+        if (cssCache.has(url)) {
+          return cssCache.get(url)
+        }
+
+        const promise = new Promise((resolve, reject) => {
+          const link = document.createElement('link')
+
+          link.rel = 'stylesheet'
+          link.href = url
+
+          if (id) {
+            link.id = id
+          }
+
+          link.onload = resolve
+          link.onerror = reject
+
+          document.head.appendChild(link)
+        })
+
+        cssCache.set(url, promise)
+
+        return promise
+      },
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const metaThemeColor = document.querySelector('meta[name="theme-color"]')
+      const activateDarkMode = () => {
+        document.documentElement.dataset.theme = 'dark'
+        if (metaThemeColor !== null) {
+          metaThemeColor.setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.dataset.theme = 'light'
+        if (metaThemeColor !== null) {
+          metaThemeColor.setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/hexo-blog/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Hexo',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 8.1.2"></head><body><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/hexo-blog/"><span class="site-name">Hexo</span></a><a class="nav-page-title" href="/hexo-blog/"><span class="site-name">Hexo</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"></div></nav><div id="post-info"><h1 class="post-title">无标题</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-09-07T13:22:13.496Z" title="发表于 2026-09-07 21:22:13">2026-09-07</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-09-07T13:17:33.737Z" title="更新于 2026-09-07 21:17:33">2026-09-07</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>计算机的工作原理非常简单：它们逐条执行指令，而每条指令的完成又需要多个步骤——获取指令、解码、然后执行。但人们常常困惑的是：计算机是如何知道要先获取、再解码、然后执行，并且一遍又一遍地按照这个顺序重复的？</p>
+<p>这个问题的答案，简单来说就是<strong>时钟</strong>。一个能产生振荡信号的小设备，通过其输出的信号与逻辑门协同工作，协调计算机一步步地执行每条指令。</p>
+<p><img src="/hexo-blog/media/img-aa74d45340050167.png"></p>
+<p>本视频不打算深入讲解时钟的具体实现方式，而是聚焦于一个更根本的问题：<strong>时钟产生的振荡信号为什么对计算机如此重要？</strong></p>
+<p><img src="/hexo-blog/media/img-d671fd815e7b4b76.png"></p>
+<p>时钟信号可以看作一连串的脉冲，每个脉冲都会促使处理器向前推进一步。我们今天的目标，就是搞清楚它是如何做到这一点的。和往常一样，这个问题有很多种解决方案，我们不会展示最好的那种，而是展示最简单、最直观的那种。</p>
+<p><img src="/hexo-blog/media/img-1e9f8400cf37466e.png"></p>
+<p>我们从时钟信号本身开始。首先要注意的是，时钟可以产生不同类型的波形，但本视频只关心<strong>方波</strong>——因为它只有两个值（0和1），这与计算机的二进制特性完美匹配。</p>
+<p><img src="/hexo-blog/media/img-263ed66570729360.png"></p>
+<p>时钟信号中一个特别重要的特征是<strong>边沿</strong>，也就是信号从0切换到1（<strong>上升沿</strong>）或从1切换到0（<strong>下降沿</strong>）的那一瞬间。</p>
+<p><img src="/hexo-blog/media/img-445652e86e93c0e8.png"></p>
+<p>时钟信号中间那些没有发生变化的部分，我们并不关心——它们就像“死区”，在此期间没有任何事件发生，系统也没有需要响应的东西。但边沿就不同了，因为我们可以构建专门检测边沿的电路。</p>
+<p><img src="/hexo-blog/media/img-46d530bc072b0421.png"></p>
+<p>乍一看，你可能以为这个边沿检测电路总是输出0。因为与门只有两个输入端同时为1时才会输出1，而这里的两个输入来自同一个信号源，其中一个被取反——似乎不可能让它们同时为1。</p>
+<p>但如果我们开始考虑<strong>输入随时间的变化</strong>，情况就不同了。当输入为0时，电路处于稳定状态，什么都不会发生。</p>
+<p><img src="/hexo-blog/media/img-ad4e8449e0c38866.png"></p>
+<p><img src="/hexo-blog/media/img-9dd9e79404911f37.png"></p>
+<p>当时钟信号从0跳变到1（上升沿）时，信号开始向右传播。但反相器需要一定的时间才能完成翻转，这意味着：在反相器更新输出之前，与门的两个输入端会<strong>在极短的时间内同时为1</strong>（通常是几纳秒）。在这个窗口期内，与门输出为1——产生一个短暂的脉冲。一瞬间后，反相器完成翻转，其输出变为0，与门的输出也随之恢复为0。</p>
+<p><img src="/hexo-blog/media/img-ed66d1275c3add38.png"></p>
+<p>当时钟信号从1跳变到0（下降沿）时，反相器的延迟同样会出现，但这一次它<strong>不会</strong>影响输出——因为与门的一个输入已经为0，输出始终保持0。直到下一个上升沿到来时，才会再次触发新的脉冲。</p>
+<p><img src="/hexo-blog/media/img-ccf548adf1f2d1cf.png"></p>
+<p><img src="/hexo-blog/media/img-e134d8b9bc2391ea.png"></p>
+<p>因此，如果我们观察这个电路的输出随时间的变化，并与时钟信号做对比，会发现一个明显的现象：<strong>在时钟信号的每一个上升沿，都会产生一个短暂的高电平脉冲。</strong></p>
+<p><img src="/hexo-blog/media/img-1703b34b7810a289.png"></p>
+<p>换句话说，我们已经构建了一个<strong>上升沿检测器</strong>。</p>
+<p><img src="/hexo-blog/media/img-1cafcbe8d3e76562.png"></p>
+<p>接下来，我们谈谈<strong>触发器</strong>。</p>
+<p>在第三章中，我们简单讨论过 <strong>SR锁存器</strong>。它有两个输入：<strong>S（置位）</strong> 和 <strong>R（复位）</strong>，以及两个输出：<strong>Q</strong> 和 <strong>带横线的Q（Q̄）</strong>，其中Q̄存储的是Q的反向值。激活S会使Q输出为1，即使我们将S恢复为0，该值仍然会保持；激活R会使Q复位为0。当S和R都为0时，锁存器既没有置位也没有复位，Q只会保持之前存储的值。</p>
+<p>但SR锁存器存在一个问题：<strong>当S和R同时为1时，这个状态是没有意义的</strong>——因为我们不应该同时尝试置位和复位。如果强制这样做，Q和Q̄都会被输出为0，这违背了它们“始终相反”的预期。更严重的是，当两个输入同时恢复为0时，电路可能最终保存0或1，具体取决于哪个输入比另一个提前几纳秒发生变化——这引入了<strong>不确定性</strong>。</p>
+<p><img src="/hexo-blog/media/img-cf172b3c455fd5ef.png"></p>
+<p>SR锁存器有一个变体，称为<strong>门控SR锁存器</strong>。它只是在原有基础上增加了一个额外的输入：<strong>使能（Enable）</strong>。当使能输入为0时，S和R不起作用；只有当使能信号为1时，才能通过S或R来设置或复位锁存器。但门控SR锁存器并没有解决S和R同时为1的问题，它在这里只是我们构建更复杂结构的一个中间步骤。</p>
+<p><img src="/hexo-blog/media/img-db262069d6a47d27.png"></p>
+<p>现在，如果我们把时钟信号接入一个上升沿检测器，并将检测器的输出作为门控SR锁存器的使能信号，就构成了一个<strong>触发器（Flip-Flop）</strong>——简单地说，触发器就是一个<strong>边沿触发的锁存器</strong>，而不是电平触发的锁存器。但问题在于：这个触发器<strong>继承</strong>了SR锁存器的无效状态问题——当S和R同时为1时，依然会导致不确定行为。</p>
+<p><img src="/hexo-blog/media/img-c4c0582f70d0170c.png"></p>
+<p><img src="/hexo-blog/media/img-d5a6073437d1fa1e.png"></p>
+<p>为了解决这个问题，可以在两个与门上各增加一个输入，并确保它们永远不会收到相同的值，从而只允许置位或复位中的一路通过，而不会同时使两者生效。仔细想想，Q 和其反相输出正好适合这一点，因为它们始终是相反的。</p>
+<p><img src="/hexo-blog/media/img-8c33cd92e3c1a612.png"></p>
+<p><img src="/hexo-blog/media/img-dada2a2824c328b6.png"></p>
+<p>在这种结构中，输入端被赋予了新的名称：<strong>J</strong> 和 <strong>K</strong>。在上升沿到来时，J执行置位功能，K执行复位功能。随着存储值的不同，J和K只有一端能真正生效：当存储值为0时，只有置位（J）能产生效果；当存储值为1时，只有复位（K）能产生效果。这就避免了SR锁存器同时激活置位和复位的无效状态。而当J和K同时设为1时，则起到<strong>反转</strong>内部存储值的效果。</p>
+<p><img src="/hexo-blog/media/img-50540ebcc3c29ed5.png"></p>
+<p>JK触发器的工作方式可以总结如下：</p>
+<p><strong>仅J被激活</strong>：上升沿使其置位（Q&#x3D;1）</p>
+<p><strong>仅K被激活</strong>：上升沿使其复位（Q&#x3D;0）</p>
+<p><strong>J和K都被激活</strong>：上升沿使其状态反转（Q翻转）</p>
+<p>这个翻转功能有非常多的应用，但我们只关注其中一种。</p>
+<p><img src="/hexo-blog/media/img-6b774589891a5a2b.png"></p>
+<p>如果将J和K永久设为1——即将它们都连接到代表1的电压（通常为5V）——那么时钟信号的每一次上升沿都会使触发器自动反转一次。这样一来，Q端输出的信号就会在0和1之间周期性交替，从而<strong>产生一个新的时钟信号</strong>。仔细观察可以发现：由于翻转只在原始时钟的上升沿发生，新信号的频率正好是原始时钟信号的一半。</p>
+<p><img src="/hexo-blog/media/img-1d13f5cfa472d474.png"></p>
+<p>通过这个频率减半的特性，我们终于可以回答最初的核心问题了：<strong>时钟是如何指示CPU一步步执行取指、译码、执行这些步骤的？</strong></p>
+<p>为了教学目的，我们不再假设经典的“取指→译码→执行”三步流程，而是将每条指令的执行划分为四个阶段：<strong>取指、译码、执行、以及最后的地址寄存器递增</strong>。</p>
+<p><img src="/hexo-blog/media/img-488602af9248bc7a.png"></p>
+<p>我们需要一种电子机制，能够根据当前所处的阶段，<strong>只激活该阶段对应的电路</strong>，而关闭其他所有电路。</p>
+<p>以取指阶段为例：CPU需要同时激活三条控制线路——</p>
+<ol>
+<li><p><strong>地址寄存器的读使能</strong>，将其内容发送到存储器（RAM）的地址输入端；</p>
+</li>
+<li><p><strong>存储器的读使能</strong>，使其将地址寄存器所指向位置的数据输出到数据总线上——此时数据会出现在数据总线上，但只有<strong>指令寄存器的写使能</strong>处于激活状态，因此数据只会被写入指令寄存器；四个通用寄存器因为没有收到写使能信号，所以不会响应这条数据总线上的内容。</p>
+</li>
+<li><p><strong>指令寄存器的写使能</strong>，用从存储器读取的值覆盖其当前内容。</p>
+</li>
+</ol>
+<p>进入下一个阶段——译码阶段后，取指阶段使用的这些线路必须被关闭。取而代之的是：我们需要激活<strong>指令寄存器的读使能</strong>，使其内容流向译码电路进行处理。</p>
+<p>这就是我们要实现的核心目标：<strong>根据当前阶段，只激活对应的一组电路，而让其他所有电路保持静默。</strong></p>
+<p>换句话说，我们需要一个能够在多个电路之间进行选择的装置——这就是<strong>二进制译码器</strong>的用途。</p>
+<p><img src="/hexo-blog/media/img-bd1955f917195a51.png"></p>
+<p>现在我们只需要一种电子机制，能够<strong>周期性地递增译码器的输入</strong>，从而让CPU按顺序循环执行各个阶段。</p>
+<p><img src="/hexo-blog/media/img-f99c382f44541270.png"></p>
+<p>这正是JK触发器发挥作用的地方。我们刚刚看到，当J和K都设为1时，时钟的每个上升沿都会使触发器翻转一次，输出信号的频率变成原始时钟的一半。</p>
+<p><img src="/hexo-blog/media/img-4d924ab0eec2dd09.png"></p>
+<p>那么，如果把这个频率减半的信号用作<strong>第二个触发器的时钟输入</strong>呢？在我们的特定设置中，我们用的是反向输出（Q̄）而不是Q本身。</p>
+<p><img src="/hexo-blog/media/img-9011b160c1767676.png"></p>
+<p>这样第二个触发器的翻转速度就是第一个触发器的一半，即原始时钟的四分之一。以此类推，每增加一个触发器，信号的频率就再减半一次。</p>
+<p>这种分频效应有很多用途，但我们现在只关注其中一个模式。观察上图中的触发器链，随着原始时钟的振荡，整个链中存储的值会如何变化？</p>
+<p>如果你还没发现规律，我来帮你梳理一下：</p>
+<p><img src="/hexo-blog/media/img-ec8a284fb8d551eb.png"></p>
+<p><img src="/hexo-blog/media/img-d2ada1904fb43297.png"></p>
+<p><img src="/hexo-blog/media/img-7edc9118d1cd260d.png"></p>
+<p><img src="/hexo-blog/media/img-61d38798ea6a14db.png"></p>
+<p>将四个触发器的输出看作一个<strong>四位的二进制数</strong>。你会发现，<strong>每一个时钟上升沿，这个数值都会加1</strong>。</p>
+<p><img src="/hexo-blog/media/img-cb6129f5452c88c2.png"></p>
+<p><img src="/hexo-blog/media/img-ddf3d08b45cd9ff1.png"></p>
+<p>当它达到四位二进制能表示的最大值（即1111）时，下一个上升沿会将其重置为0，然后重新开始递增。</p>
+<p><img src="/hexo-blog/media/img-849613f7f699a92d.png"></p>
+<p><img src="/hexo-blog/media/img-56b005875acf84c8.png"></p>
+<p>我们可以将整个电路抽象为一个独立组件。但请注意，时钟信号并不属于这个组件的一部分——因为我们并不总是希望数值随着时间自动递增。它的输入可以来自多种来源，不一定绑定时钟。比如，把时钟信号替换成一个按钮，就可以手动控制上升沿何时发生。这样一来，存储的数值就只在<strong>我们想要它变化的时候</strong>才递增。于是，我们创建了一个<strong>二进制计数器</strong>。</p>
+<p>现在，我们终于可以把所有拼图块组装在一起了。</p>
+<p>还记得前面我们用一个两输入端的二进制译码器连接了四个阶段的线路吗？我们需要一个机制来周期性地改变译码器的输入，以便在不同阶段之间切换。由两个JK触发器构成的二进制计数器就足以完成这个任务。而且，我们并不想每进入下一阶段都手动触发一次按钮，所以把这个计数器连接到时钟信号上，让计算机在每个上升沿自动进入下一阶段。</p>
+<p><img src="/hexo-blog/media/img-96e1d9fb704b45f0.png"></p>
+<p>就是这样。现在我们基本了解了<strong>时钟信号是如何持续地指示计算机一步步向前推进的</strong>。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://mitchell255ljy.github.io/hexo-blog">辣椒油</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://mitchell255ljy.github.io/hexo-blog/2026/09/07/5%E6%8C%87%E4%BB%A4%E5%91%A8%E6%9C%9F%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%97%B6%E9%92%9F/">https://mitchell255ljy.github.io/hexo-blog/2026/09/07/5%E6%8C%87%E4%BB%A4%E5%91%A8%E6%9C%9F%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%97%B6%E9%92%9F/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://mitchell255ljy.github.io/hexo-blog" target="_blank">Hexo</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/hexo-blog/img/butterfly-icon.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related  no-desc" href="/hexo-blog/2026/09/07/hello-world/" title=""><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2"></div></div></div></a><a class="pagination-related" href="/hexo-blog/2026/09/07/4if%E5%92%8Cwhile%E7%9A%84%E5%BA%95%E5%B1%82%E7%89%A9%E7%90%86%E5%AE%9E%E7%8E%B0/" title=""><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2"></div></div><div class="info-2"><div class="info-item-1">编译产物探秘：机器码文件里到底装着什么？在探讨C++与Java的工作流模型时，我们曾详细梳理过两者的编译执行过程。无论底层实现如何差异，其最终落点都是一致的：由运行时环境（Runtime）或操作系统加载器，将编译产物载入内存并驱动CPU执行。（例如，Java的运行时环境就是JVM + 核心类库，即运行器 + 运行时库）。 由此引出一个更本质的问题：这份编译后生成的二进制文件——即机器码文件——其内部究竟是什么？ 从宏观视角看，一个典型的机器码文件（如Linux下的ELF或Windows下的PE）可划分为三大类信息：机器指令、数据，以及元信息。 一、机器指令与数据：执行的物理基础真正在CPU上执行的是机器指令（Machine Code）——也就是二进制的CPU操作码，例如0xB8代表”将数据移入寄存器”。紧随其后的是数据，例如程序中的全局变量、静态常量、字符串字面量等。这两者——指令与数据——构成了程序功能实现的物理基础。在冯·诺依曼体系下，CPU正是通过不断地”取指令”和”读写数据”，驱动了整个程序的逻辑运转。 二、元信息：程序加载的执行蓝图除了指令与数据，文件中还包含了大量元信...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/hexo-blog/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/hexo-blog/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">辣椒油</div><div class="author-info-description"></div><div class="site-data"><a href="/hexo-blog/archives/"><div class="headline">文章</div><div class="length-num">6</div></a><a href="/hexo-blog/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/hexo-blog/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/hexo-blog/2026/09/07/hello-world/" title="无标题">无标题</a><time datetime="2026-09-07T13:22:24.691Z" title="发表于 2026-09-07 21:22:24">2026-09-07</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/hexo-blog/2026/09/07/5%E6%8C%87%E4%BB%A4%E5%91%A8%E6%9C%9F%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%97%B6%E9%92%9F/" title="无标题">无标题</a><time datetime="2026-09-07T13:22:13.496Z" title="发表于 2026-09-07 21:22:13">2026-09-07</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/hexo-blog/2026/09/07/4if%E5%92%8Cwhile%E7%9A%84%E5%BA%95%E5%B1%82%E7%89%A9%E7%90%86%E5%AE%9E%E7%8E%B0/" title="无标题">无标题</a><time datetime="2026-09-07T13:22:13.492Z" title="发表于 2026-09-07 21:22:13">2026-09-07</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/hexo-blog/2026/09/07/3MOS%E7%AE%A1%E7%9A%84%E4%BC%98%E5%8A%BF%E4%B8%8ED%E3%80%81SRAM/" title="无标题">无标题</a><time datetime="2026-09-07T13:22:13.487Z" title="发表于 2026-09-07 21:22:13">2026-09-07</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/hexo-blog/2026/09/07/2%E6%9E%84%E5%BB%BA%E6%9C%80%E7%AE%80%E5%8D%95%E7%9A%84CPU/" title="无标题">无标题</a><time datetime="2026-09-07T13:22:13.481Z" title="发表于 2026-09-07 21:22:13">2026-09-07</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 辣椒油</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.2</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.7.0</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/hexo-blog/js/utils.js?v=5.7.0"></script><script src="/hexo-blog/js/main.js?v=5.7.0"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
