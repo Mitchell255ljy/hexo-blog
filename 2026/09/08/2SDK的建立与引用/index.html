@@ -1,0 +1,381 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>酸酸米老鼠的记忆库 | 酸酸米老鼠的记忆库</title><meta name="author" content="酸酸米老鼠"><meta name="copyright" content="酸酸米老鼠"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="软件开发工具包SDKSDK库的组成部分声明和实现的表现形式为,一套写好声明的.h,一套放实现的.lib&#x2F;.dllSDK 到底封装了什么普通库：封装数据结构 + 算法所谓的普通库就是：头文件库、模板库、传统分离模式SDK：封装带系统资源的复杂活对象（平台SDK&#x2F;部分扩展SDK），或封装复杂逻辑&#x2F;算法&#x2F;状态机（扩展SDK） 平台 SDK与扩展sdk平台 SDK，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="酸酸米老鼠的记忆库">
+<meta property="og:url" content="https://mitchell255ljy.github.io/hexo-blog/2026/09/08/2SDK%E7%9A%84%E5%BB%BA%E7%AB%8B%E4%B8%8E%E5%BC%95%E7%94%A8/index.html">
+<meta property="og:site_name" content="酸酸米老鼠的记忆库">
+<meta property="og:description" content="软件开发工具包SDKSDK库的组成部分声明和实现的表现形式为,一套写好声明的.h,一套放实现的.lib&#x2F;.dllSDK 到底封装了什么普通库：封装数据结构 + 算法所谓的普通库就是：头文件库、模板库、传统分离模式SDK：封装带系统资源的复杂活对象（平台SDK&#x2F;部分扩展SDK），或封装复杂逻辑&#x2F;算法&#x2F;状态机（扩展SDK） 平台 SDK与扩展sdk平台 SDK，">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://mitchell255ljy.github.io/hexo-blog/img/butterfly-icon.png">
+<meta property="article:published_time" content="2026-09-08T00:08:30.265Z">
+<meta property="article:modified_time" content="2026-09-08T00:07:26.065Z">
+<meta property="article:author" content="酸酸米老鼠">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://mitchell255ljy.github.io/hexo-blog/img/butterfly-icon.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "",
+  "url": "https://mitchell255ljy.github.io/hexo-blog/2026/09/08/2SDK%E7%9A%84%E5%BB%BA%E7%AB%8B%E4%B8%8E%E5%BC%95%E7%94%A8/",
+  "image": "https://mitchell255ljy.github.io/hexo-blog/img/butterfly-icon.png",
+  "datePublished": "2026-09-08T00:08:30.265Z",
+  "dateModified": "2026-09-08T00:07:26.065Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "酸酸米老鼠",
+      "url": "https://mitchell255ljy.github.io/hexo-blog"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/hexo-blog/img/favicon.png"><link rel="canonical" href="https://mitchell255ljy.github.io/hexo-blog/2026/09/08/2SDK%E7%9A%84%E5%BB%BA%E7%AB%8B%E4%B8%8E%E5%BC%95%E7%94%A8/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/hexo-blog/css/index.css?v=5.7.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.3.1/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        const data = { value }
+
+        if (ttl != null) {
+          data.expiry = Date.now() + ttl * 86400000
+        }
+
+        localStorage.setItem(key, JSON.stringify(data))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return
+
+        try {
+          const data = JSON.parse(itemStr)
+
+          if (data.expiry && Date.now() > data.expiry) {
+            localStorage.removeItem(key)
+            return
+          }
+
+          return data.value
+        } catch {
+          localStorage.removeItem(key)
+        }
+      }
+    }
+
+    const scriptCache = new Map()
+    const cssCache = new Map()
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => {
+        if (scriptCache.has(url)) {
+          return scriptCache.get(url)
+        }
+
+        const promise = new Promise((resolve, reject) => {
+          const script = document.createElement('script')
+
+          script.src = url
+          script.async = true
+
+          for (const key in attr) {
+            script.setAttribute(key, attr[key])
+          }
+
+          script.onload = resolve
+          script.onerror = reject
+
+          document.head.appendChild(script)
+        })
+
+        scriptCache.set(url, promise)
+
+        return promise
+      },
+      getCSS: (url, id) => {
+        if (cssCache.has(url)) {
+          return cssCache.get(url)
+        }
+
+        const promise = new Promise((resolve, reject) => {
+          const link = document.createElement('link')
+
+          link.rel = 'stylesheet'
+          link.href = url
+
+          if (id) {
+            link.id = id
+          }
+
+          link.onload = resolve
+          link.onerror = reject
+
+          document.head.appendChild(link)
+        })
+
+        cssCache.set(url, promise)
+
+        return promise
+      },
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const metaThemeColor = document.querySelector('meta[name="theme-color"]')
+      const activateDarkMode = () => {
+        document.documentElement.dataset.theme = 'dark'
+        if (metaThemeColor !== null) {
+          metaThemeColor.setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.dataset.theme = 'light'
+        if (metaThemeColor !== null) {
+          metaThemeColor.setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/hexo-blog/',
+  algolia: undefined,
+  localSearch: {"path":"/hexo-blog/search.json","preload":false,"top_n_per_article":1,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '酸酸米老鼠的记忆库',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><style>.recent-posts-search{margin-bottom:1rem}.search-entry{display:flex;align-items:center;justify-content:space-between;width:100%;padding:.65rem 1rem;border:1px solid #e3e8f7;border-radius:12px;background:var(--card-bg,#fff);color:var(--font-color,#4c4948);cursor:pointer;transition:all .3s}.search-entry:hover{border-color:#49b1f5;box-shadow:0 0 8px rgba(73,177,245,.35)}.search-entry-text{opacity:.8}.search-entry-icon{color:#49b1f5}</style><meta name="generator" content="Hexo 8.1.2"></head><body><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/hexo-blog/"><span class="site-name">酸酸米老鼠的记忆库</span></a><a class="nav-page-title" href="/hexo-blog/"><span class="site-name">酸酸米老鼠的记忆库</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div></div></nav><div id="post-info"><h1 class="post-title">无标题</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-09-08T00:08:30.265Z" title="发表于 2026-09-08 08:08:30">2026-09-08</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-09-08T00:07:26.065Z" title="更新于 2026-09-08 08:07:26">2026-09-08</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id=""><a href="#" class="headerlink" title=""></a></h1><h1 id="软件开发工具包SDK"><a href="#软件开发工具包SDK" class="headerlink" title="软件开发工具包SDK"></a>软件开发工具包SDK</h1><h2 id="SDK库的组成部分声明和实现的表现形式为-一套写好声明的-h-一套放实现的-lib-dll"><a href="#SDK库的组成部分声明和实现的表现形式为-一套写好声明的-h-一套放实现的-lib-dll" class="headerlink" title="SDK库的组成部分声明和实现的表现形式为,一套写好声明的.h,一套放实现的.lib&#x2F;.dll"></a>SDK库的组成部分声明和实现的表现形式为,一套写好声明的.h,一套放实现的.lib&#x2F;.dll</h2><h2 id="SDK-到底封装了什么"><a href="#SDK-到底封装了什么" class="headerlink" title="SDK 到底封装了什么"></a>SDK 到底封装了什么</h2><h2 id="普通库：封装数据结构-算法"><a href="#普通库：封装数据结构-算法" class="headerlink" title="普通库：封装数据结构 + 算法"></a>普通库：封装数据结构 + 算法</h2><h2 id="所谓的普通库就是：头文件库、模板库、传统分离模式"><a href="#所谓的普通库就是：头文件库、模板库、传统分离模式" class="headerlink" title="所谓的普通库就是：头文件库、模板库、传统分离模式"></a>所谓的普通库就是：头文件库、模板库、传统分离模式</h2><p><strong>SDK</strong>：封装带系统资源的复杂活对象（平台SDK&#x2F;部分扩展SDK），或封装复杂逻辑&#x2F;算法&#x2F;状态机（扩展SDK）</p>
+<h2 id="-1"><a href="#-1" class="headerlink" title=""></a></h2><h2 id="平台-SDK与扩展sdk"><a href="#平台-SDK与扩展sdk" class="headerlink" title="平台 SDK与扩展sdk"></a>平台 SDK与扩展sdk</h2><p><strong>平台 SDK</strong>，最初就是配合操作系统内核资源（文件、网络、进程）功能实现的 SDK。早期的平台 SDK，绝大部分就是面向系统资源的实现。所以后来它也叫做<strong>内核 SDK</strong>——操作系统层的功能实现，都是说“去调用内核 SDK”。</p>
+<p><strong>扩展 SDK</strong>则不同。它有的涉及内核扩展，有的是纯逻辑，有的调用系统内核资源，有的不调用。但即使它涉及内核资源，<strong>也不叫内核 SDK</strong>。</p>
+<p>为什么？</p>
+<p>因为内核资源只能由官方的 SDK 调用。扩展 SDK 要去调内核资源，实际上必须经过内核 SDK ,这是因为<strong>操作系统内核在设计时，就明确规定了只有自己提供的特定DLL(平台sdk)</strong>（如ntdll.dll、kernel32.dll）内部的那个syscall指令是合法入口,而扩展sdk没有那个“直接作为唯一入口”的地位</p>
+<p><img src="/hexo-blog/media2/img-74cde051d4190b16.png"></p>
+<h1 id="SDK库实现文件的连接原理"><a href="#SDK库实现文件的连接原理" class="headerlink" title="SDK库实现文件的连接原理"></a>SDK库实现文件的连接原理</h1><p>SDK库的实现存放在以.lib&#x2F;.dll为后缀名文件中 而普通库把实现写道.h和.cpp文件种</p>
+<h2 id="一、普通库（头文件库-模板库-传统分离模式）的实现调用流程"><a href="#一、普通库（头文件库-模板库-传统分离模式）的实现调用流程" class="headerlink" title="一、普通库（头文件库&#x2F;模板库&#x2F;传统分离模式）的实现调用流程"></a>一、普通库（头文件库&#x2F;模板库&#x2F;传统分离模式）的实现调用流程</h2><h2 id="1-实现放在当前项目里"><a href="#1-实现放在当前项目里" class="headerlink" title="1. 实现放在当前项目里"></a>1. 实现放在当前项目里</h2><h2 id="模板库：实现写在-h-里"><a href="#模板库：实现写在-h-里" class="headerlink" title="模板库：实现写在 .h 里"></a>模板库：实现写在 .h 里</h2><h2 id="传统分离：-h-声明-cpp-实现"><a href="#传统分离：-h-声明-cpp-实现" class="headerlink" title="传统分离：.h 声明 + .cpp 实现"></a>传统分离：.h 声明 + .cpp 实现</h2><h2 id="头文件库：实现全部写在-h-里"><a href="#头文件库：实现全部写在-h-里" class="headerlink" title="头文件库：实现全部写在 .h 里"></a>头文件库：实现全部写在 .h 里</h2><h2 id="2-编译阶段"><a href="#2-编译阶段" class="headerlink" title="2. 编译阶段"></a>2. 编译阶段</h2><p>实现的源码（.cpp 或 .h 里的实现）<strong>参与编译</strong></p>
+<p>源码经过编译器转成机器码（.obj 或 .o）</p>
+<h2 id="3-链接阶段"><a href="#3-链接阶段" class="headerlink" title="3. 链接阶段"></a>3. 链接阶段</h2><p>把转好的机器码链接到一起，生成 .exe</p>
+<h2 id="本质：实现的源码-→-编译阶段转机器码-→-链接"><a href="#本质：实现的源码-→-编译阶段转机器码-→-链接" class="headerlink" title="本质：实现的源码 → 编译阶段转机器码 → 链接"></a>本质：实现的源码 → 编译阶段转机器码 → 链接</h2><h2 id="二、SDK库的实现调用流程"><a href="#二、SDK库的实现调用流程" class="headerlink" title="二、SDK库的实现调用流程"></a>二、SDK库的实现调用流程</h2><h2 id="1-实现不在当前项目里"><a href="#1-实现不在当前项目里" class="headerlink" title="1. 实现不在当前项目里"></a>1. 实现不在当前项目里</h2><p>你只拿到一个 .h 头文件（里面是声明）</p>
+<h2 id="实现藏在-lib-或-dll-里"><a href="#实现藏在-lib-或-dll-里" class="headerlink" title="实现藏在 .lib 或 .dll 里"></a>实现藏在 .lib 或 .dll 里</h2><h2 id="2-编译阶段-1"><a href="#2-编译阶段-1" class="headerlink" title="2. 编译阶段"></a>2. 编译阶段</h2><h2 id="你-include-这个-h-头文件"><a href="#你-include-这个-h-头文件" class="headerlink" title="你 #include 这个 .h 头文件"></a>你 #include 这个 .h 头文件</h2><p>编译器<strong>只看到声明</strong>（比如 void func(void);）</p>
+<h2 id="编译器不检查实现是否存在，看到声明就放行"><a href="#编译器不检查实现是否存在，看到声明就放行" class="headerlink" title="编译器不检查实现是否存在，看到声明就放行"></a>编译器不检查实现是否存在，看到声明就放行</h2><h2 id="没有实现也不会报错"><a href="#没有实现也不会报错" class="headerlink" title="没有实现也不会报错"></a>没有实现也不会报错</h2><p><strong>关键</strong>：编译阶段，SDK的实现（.lib&#x2F;.dll里的代码）<strong>完全没有参与</strong></p>
+<h2 id="3-链接阶段-1"><a href="#3-链接阶段-1" class="headerlink" title="3. 链接阶段"></a>3. 链接阶段</h2><p>链接器去找 .lib 文件 <strong>并区分 <strong>.lib</strong> 的类型：</strong></p>
+<p>①<strong>静态库</strong>（.lib 里是<strong>功能实现</strong>的机器码）→ 链接器<strong>把机器码复制进最终可执行文件</strong>，运行时不需要 .dll** **</p>
+<h2 id="这种链接方式：称为静态链接"><a href="#这种链接方式：称为静态链接" class="headerlink" title="这种链接方式：称为静态链接"></a>这种链接方式：称为静态链接</h2><hr>
+<p>②<strong>导入库</strong>（导入库.lib 里存放的是<strong>导入描述符</strong>，不是机器码）→ 链接器在<strong>最终可执行文件</strong>里，<strong>根据导入库中的导入描述符和调用情况</strong>，生成<strong>导入表。运行阶段时导入表被映射到内存中，负责把.dll导入到内存中</strong></p>
+<p><img src="/hexo-blog/media2/img-24f9f720e4a8f966.jpg"></p>
+<p><strong>导入描述符的生成与对接规则</strong>： 导入描述符的具体生成方式，以及它如何与 .dll 的导出表（即二进制接口）完成对接，将在后续章节详细说明。本节仅需理解：导入描述符是导入库（.lib）的核心内容，链接器根据它和调用情况生成导入表；而导入表与导出表的成功匹配，是运行阶段 .dll 能够被加载和调用的关键前提。</p>
+<h2 id="这种链接方式称为：动态链接"><a href="#这种链接方式称为：动态链接" class="headerlink" title="这种链接方式称为：动态链接"></a>这种链接方式称为：动态链接</h2><h2 id="4-运行阶段"><a href="#4-运行阶段" class="headerlink" title="4. 运行阶段"></a>4. 运行阶段</h2><p><strong>静态链接的情况</strong>：可执行文件里已经有全部机器码，直接执行lib机器码，不涉及 .dll</p>
+<p><strong>动态链接的情况</strong>：操作系统加载器读取可执行文件里的<strong>导入表</strong>，把对应的 .dll 加载到内存，然后执行 <strong>.dll（.dll 是功能实现的机器码）</strong> 里的机器码</p>
+<p>操作系统的加载读取对应表现就是.exe旁边放.dll文件就能让可执行文件调用.dll里的功能实现</p>
+<h2 id="三、根本原因"><a href="#三、根本原因" class="headerlink" title="三、根本原因"></a>三、根本原因</h2><p><strong>为什么SDK的实现文件不参与编译阶段？</strong></p>
+<p>因为 .lib 和 .dll <strong>本身就是机器码</strong>。</p>
+<p>你用记事本强行打开 .lib 或 .dll，看到的是</p>
+<h2 id="全是-0101010-这样的二进制数据"><a href="#全是-0101010-这样的二进制数据" class="headerlink" title="全是 0101010 这样的二进制数据"></a>全是 0101010 这样的二进制数据</h2><p>它们<strong>不需要再经过编译阶段转机器码</strong>，因为已经是机器码了</p>
+<p><strong>而普通库的实现最初是源文件</strong>（.cpp、.h 里的模板代码），必须在编译阶段由编译器转成机器码。</p>
+<p><img src="/hexo-blog/media2/img-bdf7f67ffa20e609.png"></p>
+<h1 id="链接器链接静态链接库操作"><a href="#链接器链接静态链接库操作" class="headerlink" title="链接器链接静态链接库操作"></a>链接器链接静态链接库操作</h1><p>刚刚讲了**.lib的两种类型<strong>和</strong>.lib与.dll的关系**</p>
+<p>.lib** 是链接阶段用的（静态库或导入库）**也就是说SDK调用实现链接阶段必须有.lib <strong>当 <strong>.lib</strong> 是导入库时, <strong>.dll</strong> 是运行阶段用的（动态链接库）</strong></p>
+<h2 id="我们现在来学习VS链接器链接-lib的具体操作"><a href="#我们现在来学习VS链接器链接-lib的具体操作" class="headerlink" title="我们现在来学习VS链接器链接.lib的具体操作"></a>我们现在来学习VS链接器链接.lib的具体操作</h2><h2 id="默认库列表负责提供需要链接的库文件名"><a href="#默认库列表负责提供需要链接的库文件名" class="headerlink" title="默认库列表负责提供需要链接的库文件名"></a>默认库列表负责提供需要链接的库文件名</h2><p>链接器内部维护了一个默认的库列表（包含<strong>大部分平台 SDK <strong>的 .lib</strong> ,少部分平台SDK</strong>）。链接阶段本质上是解析未定义的符号、寻找其实现。当源文件调用了某个 SDK 函数时，链接器(就会寻找对应实现)会从默认库列表中查找对应的 .lib。</p>
+<p>但扩展 SDK 以及少数平台 SDK 的 .lib <strong>不在链接器的默认列表里</strong>。而<strong>不在该列表中的静态链接库比如sapi.lib需要调用comment指令。</strong></p>
+<p>VS 支持 #pragma comment(lib, “xxx.lib”) 指令。这个指令会在编译生成的 .obj 文件中写入一条记录，<strong>链接器读取到该记录后，会将该库追加到待搜索的库列表中</strong>（效果等同于把它加入默认库列表）。</p>
+<h2 id="默认库目录列表负责提供搜索这些库文件时的目录路径"><a href="#默认库目录列表负责提供搜索这些库文件时的目录路径" class="headerlink" title="默认库目录列表负责提供搜索这些库文件时的目录路径"></a>默认库目录列表负责提供搜索这些库文件时的目录路径</h2><p>在 Visual Studio 中，<strong>默认库列表仅包含库文件名，不包含路径信息，链接器需结合默认库目录列表逐一搜索以定位库文件</strong>。即使是平台 SDK 的 .lib 文件，链接器也需要按照默认库目录列表一个一个找。</p>
+<h2 id="接下来看看默认库目录列表内容"><a href="#接下来看看默认库目录列表内容" class="headerlink" title="接下来看看默认库目录列表内容"></a>接下来看看默认库目录列表内容</h2><h2 id="右键解决方案资源管理器中的项目名称"><a href="#右键解决方案资源管理器中的项目名称" class="headerlink" title="右键解决方案资源管理器中的项目名称"></a>右键解决方案资源管理器中的项目名称</h2><p><img src="/hexo-blog/media2/img-de82168581241119.png"></p>
+<h2 id="在弹出栏中选择最底部的属性"><a href="#在弹出栏中选择最底部的属性" class="headerlink" title="在弹出栏中选择最底部的属性"></a>在弹出栏中选择最底部的属性</h2><p><img src="/hexo-blog/media2/img-a4b5322c76edfcfe.png"></p>
+<h2 id="得到报警面板的-属性页"><a href="#得到报警面板的-属性页" class="headerlink" title="得到报警面板的 属性页"></a>得到报警面板的 属性页</h2><p><img src="/hexo-blog/media2/img-c4ba1648bcac8eae.png"></p>
+<h2 id="弹出窗口"><a href="#弹出窗口" class="headerlink" title="弹出窗口"></a>弹出窗口</h2><p><img src="/hexo-blog/media2/img-04a1b81a659038fa.png"></p>
+<h2 id="计算的值的内容-就是默认库目录列表"><a href="#计算的值的内容-就是默认库目录列表" class="headerlink" title="计算的值的内容 就是默认库目录列表"></a>计算的值的内容 就是默认库目录列表</h2><h2 id="一般来说我们不会把-lib文件放到默认库目录列表当中"><a href="#一般来说我们不会把-lib文件放到默认库目录列表当中" class="headerlink" title="一般来说我们不会把.lib文件放到默认库目录列表当中"></a>一般来说我们不会把.lib文件放到默认库目录列表当中</h2><p>这意味着，即使你在代码中通过 #pragma comment(lib, “xxx.lib”) 指定了库文件名，链接器仍然找不到这个 .lib，因为它不会主动去项目根目录下搜索。</p>
+<p>这时需要向<strong>附加库目录</strong>（项目属性页 → 链接器 → 常规 → 附加库目录 → 计算的值）填入指定的库目录，来实现额外添加的 .lib 文件。</p>
+<p><strong>但注意</strong>：无论你把库目录添加到“附加库目录”还是“默认库目录”，底层逻辑完全一样——附加库目录的内容最终都会被合并到默认库目录里，一起传给链接器。</p>
+<p>区别只在于 <strong>UI 和维护性</strong>：</p>
+<p>写在<strong>默认库目录</strong>里：系统自带路径和你自己添加的路径会混在一起，时间久了分不清哪些是原来的、哪些是你加的，想删除或修改容易搞混。</p>
+<p>写在<strong>附加库目录</strong>里：这个界面只显示你自己添加的路径，和默认库目录的信息完全分离，一眼就能看出哪些是为当前项目额外加入的。</p>
+<p><strong>因此，虽然底层两者是合并的，但推荐写在附加库目录里</strong>，这样既能让链接器找到库，又能保持配置清晰、便于维护。</p>
+<p>写在附加库目录里 &#x3D; 底层和默认库目录合并，但 UI 上分离开，让你看得清哪些是自己加的。</p>
+<p>写在默认库目录里 &#x3D; 底层效果一样，但 UI 上混在一起，分不清哪些是原来的。</p>
+<p><strong>最佳实践是把需要的 <strong>.lib</strong> 文件放在项目根目录（或根目录下的 <strong>lib</strong> 子目录）中</strong></p>
+<p>把 .lib 文件放到项目根目录（或 lib 子目录）里。</p>
+<p><strong>为什么这是最佳？</strong></p>
+<h2 id="因为这样-lib-和项目绑定在一起"><a href="#因为这样-lib-和项目绑定在一起" class="headerlink" title="因为这样 .lib 和项目绑定在一起"></a>因为这样 .lib 和项目绑定在一起</h2><p>整个项目文件夹复制到任何地方，所有依赖都在，不会丢</p>
+<h2 id="方便迁移、打包、团队协作"><a href="#方便迁移、打包、团队协作" class="headerlink" title="方便迁移、打包、团队协作"></a>方便迁移、打包、团队协作</h2><h2 id="但链接器默认找不到项目目录"><a href="#但链接器默认找不到项目目录" class="headerlink" title="但链接器默认找不到项目目录"></a>但链接器默认找不到项目目录</h2><p>链接器的默认库目录列表里，没有项目根目录。</p>
+<p>所以即使你把 .lib 放在了项目里，链接器也不知道去哪找。</p>
+<p><strong>怎么办？</strong></p>
+<p>在项目属性 → 链接器 → 常规→ 附加库目录里→ 计算的值里，添加 $(ProjectDir)</p>
+<p>但是，Visual Studio 有一个<strong>隐式的便利机制</strong>：</p>
+<p>当静态库项目和测试项目在<strong>同一个解决方案</strong>中，并且测试项目通过 #include 包含了静态库项目的头文件（或存在项目依赖关系）时，VS 会<strong>自动</strong>把静态库项目的输出目录（如 StaticLib1\x64\Release）添加到测试项目的库搜索路径中。</p>
+<p><strong>所以在工程上，我们一般把 <strong>.lib</strong> 放到项目目录内，然后：</strong></p>
+<p>#include 头文件（让编译器看到声明）</p>
+<p>把 .lib 添加到默认库列表（通过 #pragma comment(lib, “xxx.lib”)）</p>
+<p>(闲得蛋疼才会已经放到项目目录内了还要额外在默认库&#x2F;附加库目录里写 $(ProjectDir)）</p>
+<p><strong>这样就不用再处理“附加库目录”或“默认库目录”的添加操作了。</strong></p>
+<p><strong>除非:</strong></p>
+<h2 id="lib-不在默认库目录列表里"><a href="#lib-不在默认库目录列表里" class="headerlink" title=".lib 不在默认库目录列表里"></a>.lib 不在默认库目录列表里</h2><h2 id="lib-也不在项目目录里"><a href="#lib-也不在项目目录里" class="headerlink" title=".lib 也不在项目目录里"></a>.lib 也不在项目目录里</h2><p><strong>才需要额外去“附加库目录”或“默认库目录”里手动添加路径。</strong></p>
+<h1 id="普通库实现文件和SDK库实现文件的转化关系-编译"><a href="#普通库实现文件和SDK库实现文件的转化关系-编译" class="headerlink" title="普通库实现文件和SDK库实现文件的转化关系:编译"></a>普通库实现文件和SDK库实现文件的转化关系:编译</h1><p><strong>SDK 库（</strong>.lib**&#x2F;<strong>.dll</strong>）的本质 &#x3D; 传统分离模式普通库的 <strong>.cpp</strong> 被预编译后的产物。**</p>
+<p><strong>而头文件库和模板库因为实现写在 <strong>.h</strong> 里，无法（或不适合）预编译成二进制分发。</strong></p>
+<p>我们接下来分别用VS的静态库模板和动态库模板,来实现一个传统分离模式库的实现部分的.lib与.dll的转化</p>
+<h2 id="1传统分离模式库编译成静态库"><a href="#1传统分离模式库编译成静态库" class="headerlink" title="1传统分离模式库编译成静态库"></a>1传统分离模式库编译成静态库</h2><p><img src="/hexo-blog/media2/img-73592fe5df3fcbd5.png"></p>
+<h2 id="然后新建一个静态库项目"><a href="#然后新建一个静态库项目" class="headerlink" title="然后新建一个静态库项目"></a>然后新建一个静态库项目</h2><p>包含一个源文件StaticLib1.cpp 删除源文件原有内容</p>
+<p>在项目的头文件目录添加一个 hello.h的头文件  在.cpp和.h里分别输入</p>
+<h2 id="hello函数的实现与声明"><a href="#hello函数的实现与声明" class="headerlink" title="hello函数的实现与声明"></a>hello函数的实现与声明</h2><p><img src="/hexo-blog/media2/img-ac7e8ccc726c2a4a.png"></p>
+<p><img src="/hexo-blog/media2/img-9f96d75099e64cd9.png"></p>
+<p>然后点击<strong>运行</strong>按钮时，会弹出一个运行失败的弹窗。</p>
+<p><strong>原因</strong>：生成的是静态库文件（.lib），不是可执行文件（.exe）。</p>
+<p>静态库不能直接运行，所以自然会运行失败。</p>
+<p>虽然运行失败，但 .lib 文件已经成功生成。</p>
+<p><img src="/hexo-blog/media2/img-290f17203aaa1641.png"></p>
+<p><img src="/hexo-blog/media2/img-7a1deb586557231c.png"></p>
+<p>按照路径成功找到了静态库文件 StaticLib1.lib</p>
+<h2 id="2传统分离模式库编译成导入库和动态库"><a href="#2传统分离模式库编译成导入库和动态库" class="headerlink" title="2传统分离模式库编译成导入库和动态库"></a>2传统分离模式库编译成导入库和动态库</h2><p><img src="/hexo-blog/media2/img-7ceb864971dba5e3.png"></p>
+<p>然后新建一个动态库项目Dll1项目 包含一个源文件dllmian.cpp删除这个文件</p>
+<p>在源文件目录里添加一个 DLL实现.cpp   头文件目录添加一个 hello.h</p>
+<p><img src="/hexo-blog/media2/img-00107810fc1b85dc.png"></p>
+<p><img src="/hexo-blog/media2/img-354a6ca1bf595614.png"></p>
+<p>点击生成后，在对应目录中只看到 .dll 文件，没有配套的 .lib 文件。</p>
+<p><img src="/hexo-blog/media2/img-17d12fbe565f4bd4.png"></p>
+<p><strong>原因：</strong> DLL 默认<strong>不导出任何函数</strong>。没有导出，链接器就不会生成导入库（.lib）。</p>
+<p>导出和导入库的生成是<strong>同时、伴生</strong>的。导入库里存放的<strong>导入描述符</strong>，就是 DLL 中所有被标记为导出的实现的记录表</p>
+<p><img src="/hexo-blog/media2/img-233e73169928832b.png"></p>
+<p><img src="/hexo-blog/media2/img-acace974185041c3.png"></p>
+<p>因为EXE和DLL是两个独立的文件（有边界），所以DLL内部的代码默认对外不可见，这就为“隐藏实现”提供了前提。</p>
+<p><img src="/hexo-blog/media2/img-aa6d371998d88f6f.jpg"></p>
+<p>为此，DLL的设计者规定：在编译DLL时，如果想让外部EXE调用某个函数，就必须把这个函数名写入DLL的“导出表”（比如用__declspec(dllexport)），这个写入动作就叫“导出”。</p>
+<p>同时，编译DLL还会附带生成一个.lib文件（导入库），里面存放了刚才导出的那些函数对应的<strong>导入描述符</strong>（记录着函数名、所在DLL名称等信息）。</p>
+<p><strong>至此，SDK的构建阶段结束。</strong></p>
+<p>当进入SDK调用阶段，调用SDK对应的.lib并编译生成EXE时，链接器会根据.lib文件中的这些<strong>导入描述符</strong>，在EXE内部生成**”导入表”**（即把导入描述符实例化到EXE的结构中）。这张导入表就像一张”白名单”，只允许EXE去调用那些有导入描述符记录的函数。</p>
+<p>当EXE运行时，系统再根据导入表去<strong>DLL的导出表</strong>里寻找对应的函数地址，找到后连上线完成调用，这个运行时连线的过程才叫真正的”导入”。</p>
+<p>反过来，如果DLL内部某个函数没有被标记为”导出”（比如仅供内部使用的辅助函数），那么它就不会出现在导出表里，配套的.lib文件中也不会有对应的导入描述符。当EXE尝试调用这个函数时，链接器翻遍.lib文件都找不到对应的导入描述符，因而生成不了导入表项，链接器就会报错（无法解析的外部符号），根本生成不了EXE文件，更别提运行时调用了。</p>
+<p>DLL**默认隐藏所有实现(导出表默认无接口信息)，**只有明确标记“对外开放”的函数，才会被写入导出表。</p>
+<h2 id="下面我们就开始讨论导入操作和导入操作的具体实现"><a href="#下面我们就开始讨论导入操作和导入操作的具体实现" class="headerlink" title="下面我们就开始讨论导入操作和导入操作的具体实现"></a>下面我们就开始讨论导入操作和导入操作的具体实现</h2><h1 id="如何规定dll中的实现接口的开放和隐藏-导出关键字"><a href="#如何规定dll中的实现接口的开放和隐藏-导出关键字" class="headerlink" title="如何规定dll中的实现接口的开放和隐藏 导出关键字"></a>如何规定dll中的实现接口的开放和隐藏 导出关键字</h1><p>在SDK库编译前的头文件（.h）中，通过__declspec(dllexport)关键字进行导出标记。</p>
+<p>在 <strong>SDK 库的编译前阶段</strong>，头文件中加入 __declspec(dllexport) 导出关键字，并在<strong>实现文件</strong>（.cpp）中包含(<strong>include一下,这也是不同于静态库编译前没进行include的操作的操作</strong>)该头文件。这样做的目的，是将头文件中声明的函数标记为需要导出，从而避免在每个函数实现前重复书写 __declspec(dllexport)。</p>
+<p>如果开发者选择不在实现文件中包含头文件，则必须在每一个需要导出的函数实现前手动添加 __declspec(dllexport)。</p>
+<p>无论采用哪种方式，只要至少有一个函数被标记为导出，链接器就会生成对应的导入库（.lib）。</p>
+<p><img src="/hexo-blog/media2/img-22c900de57497900.png"></p>
+<p>在<strong>SDK库的编译后阶段</strong>,根据导出关键字的标记,在生成的装载功能实现.dll文件中,被标记导出的实现会在.dll内的导出表内产生实现对应的接口(<strong>二进制接口</strong>)，为了以后的调用阶段做配对</p>
+<h2 id="如何对接dll导出表中的实现接口-二进制接口-导入关键字"><a href="#如何对接dll导出表中的实现接口-二进制接口-导入关键字" class="headerlink" title="如何对接dll导出表中的实现接口(二进制接口) 导入关键字"></a>如何对接dll导出表中的实现接口(二进制接口) 导入关键字</h2><p>在调用cpp编译前的头文件（.h）中，通过 __declspec(dllimport) 关键字进行导入的标记。</p>
+<p>用户在调用 .dll 内部的实现时，需要在头文件（.h）中使用 __declspec(dllimport) 对函数进行声明，以表明该函数是外部导入的。</p>
+<p>在<strong>链接阶段</strong>，链接器会<strong>根据该导入声明，去查找对应的导入库（.lib）中的导入描述符：</strong></p>
+<p>如果导入库中存在该实现的导入描述符，那么链接器就会将这个函数调用加入到最终可执行文件（.exe）的<strong>导入表</strong>中。</p>
+<p>如果导入库中不存在对应的导入描述符，那么链接将失败，并报出 unresolved external symbol 错误，该调用不会被加入导入表。</p>
+<p>在<strong>运行阶段</strong>，操作系统加载器会根据可执行文件中的导入表，去加载对应的 .dll，并调用其<strong>导出表</strong>中的实现接口（即二进制接口），从而完成函数的实际执行。</p>
+<p>接下来进行SDK库的编译前的内容实现操作 和 编译操作</p>
+<p>1 cpp里写需要被调用的实现 在.h的声明里前接导出关键字</p>
+<p><img src="/hexo-blog/media2/img-99ff8958be5773f2.png"></p>
+<p>实现部分加入一个void neibu()作为导出对比</p>
+<p><img src="/hexo-blog/media2/img-1c8855e15beecbac.png"></p>
+<h2 id="2点击运行-生成编译后文件-在对应目录里找到"><a href="#2点击运行-生成编译后文件-在对应目录里找到" class="headerlink" title="2点击运行(生成编译后文件) 在对应目录里找到"></a>2点击运行(生成编译后文件) 在对应目录里找到</h2><p><img src="/hexo-blog/media2/img-0d3530b3de5be98d.png"></p>
+<p><img src="/hexo-blog/media2/img-9f49d4dc1c07b77b.png"></p>
+<h2 id="SDK库的编译阶段完毕"><a href="#SDK库的编译阶段完毕" class="headerlink" title="SDK库的编译阶段完毕"></a>SDK库的编译阶段完毕</h2><p>对应SDK库的编译阶段时.h前接的<strong>导出关键字</strong>,在SDK调用阶段使用 DLL 时，头文件中的函数声明必须用 __declspec(dllimport)** 导入关键字**标记，告诉编译器这个函数来自外部 DLL。</p>
+<p>这样写DLL和调用DLL的人需要用两套不同的标记 十分的麻烦 能不能用一个头给双方用呢</p>
+<h2 id="用一个头文件给双方用，就是通过条件编译宏实现的"><a href="#用一个头文件给双方用，就是通过条件编译宏实现的" class="headerlink" title="用一个头文件给双方用，就是通过条件编译宏实现的"></a>用一个头文件给双方用，就是通过条件编译宏实现的</h2><h2 id="下面对hello-h做出优化"><a href="#下面对hello-h做出优化" class="headerlink" title="下面对hello.h做出优化"></a>下面对hello.h做出优化</h2><p><img src="/hexo-blog/media2/img-058665a6bd0c51de.png"></p>
+<p>&#x2F;&#x2F; 如果定义了 HELLODLL_EXPORTS 这个宏 那么 定义宏 HELLO_API 为 导出关键字</p>
+<h2 id="否则-定义HELLO-API-为-导入关键字"><a href="#否则-定义HELLO-API-为-导入关键字" class="headerlink" title="&#x2F;&#x2F;否则 定义HELLO_API 为 导入关键字"></a>&#x2F;&#x2F;否则 定义HELLO_API 为 导入关键字</h2><h2 id="结束"><a href="#结束" class="headerlink" title="&#x2F;&#x2F;结束"></a>&#x2F;&#x2F;结束</h2><p>HELLODLL_EXPORTS** 定义时：<strong>HELLO_API</strong> &#x3D; 导出（生成 <strong>.lib</strong>，写入导出表）。**</p>
+<p>HELLODLL_EXPORTS** 未定义时：<strong>HELLO_API</strong> &#x3D; 导入（告诉链接器去外部找）。**</p>
+<p>而HELLODLL_EXPORTS 只在 DLL 编译时被定义，根本原因在于：<strong>它是 Visual Studio 在创建 DLL 项目时，自动为该项目添加的一个预处理器宏，用来标记当前正在构建的是 DLL 本身</strong></p>
+<h1 id="API的调用"><a href="#API的调用" class="headerlink" title="API的调用"></a>API的调用</h1><p><strong>API 就是 SDK 实现文件（</strong>.lib**&#x2F;<strong>.dll</strong>）对应的头文件（<strong>.h</strong>）里的那些“声明”。**</p>
+<h2 id="API-调用的步骤"><a href="#API-调用的步骤" class="headerlink" title="API 调用的步骤"></a>API 调用的步骤</h2><p><img src="/hexo-blog/media2/img-3cd9e775e392e0f3.png"></p>
+<p>我们现在再新建一个控制台项目 扩展SDK测试.cpp 文件 想要<strong>调用静态库文件</strong></p>
+<h2 id="我们把静态链接库对应的头文件移植过来"><a href="#我们把静态链接库对应的头文件移植过来" class="headerlink" title="我们把静态链接库对应的头文件移植过来"></a>我们把静态链接库对应的头文件移植过来</h2><p>头文件内声明StaticLib1.lib里的实现hello()函数</p>
+<p><img src="/hexo-blog/media2/img-8df76b8a62467586.png"></p>
+<p>在扩展SDK测试.cpp里用comment()把 StaticLib1.lib添加到链接库列表里</p>
+<p><img src="/hexo-blog/media2/img-ae13e15f711cecda.png"></p>
+<h2 id="这里的-hello-就是API调用"><a href="#这里的-hello-就是API调用" class="headerlink" title="这里的 hello()就是API调用"></a>这里的 hello()就是API调用</h2><p>在项目目录里移植入StaticLib1.lib</p>
+<p><img src="/hexo-blog/media2/img-34ddf8ccea66ef26.png"></p>
+<p>调试运行(<strong>从当前项目的 <strong>.cpp</strong> 文件中的 <strong>main</strong> 函数作为程序入口点，开始执行已经编译好的 <strong>.exe</strong> 程序。</strong>) 调试控制台正常输出</p>
+<p><img src="/hexo-blog/media2/img-db5631ebcd6ef0b3.png"></p>
+<p>然后这个.lib就复制到了你的可执行文件当中 SDK库的声明和实现了被一个exe包含了</p>
+<p>直接去exe生成目录里运行exe</p>
+<p><img src="/hexo-blog/media2/img-37852354094938e0.png"></p>
+<p><img src="/hexo-blog/media2/img-20ef577eec60ce72.png"></p>
+<h2 id="仍然正常"><a href="#仍然正常" class="headerlink" title="仍然正常"></a>仍然正常</h2><p>我们现在再新建一个控制台项目 扩展SDK(动态)测试.cpp 文件 想要<strong>调用动态库文件</strong></p>
+<h2 id="我们把静态链接库对应的头文件移植过来-1"><a href="#我们把静态链接库对应的头文件移植过来-1" class="headerlink" title="我们把静态链接库对应的头文件移植过来"></a>我们把静态链接库对应的头文件移植过来</h2><p><img src="/hexo-blog/media2/img-9c7a060d91b07a9c.png"></p>
+<p>在扩展SDK(动态)测试.cpp里用comment()把 Dll1.lib添加到链接库列表里</p>
+<p><img src="/hexo-blog/media2/img-c665b7014c0f2217.png"></p>
+<p>在项目目录里移植入 Dll1.dll和Dll1.lib</p>
+<p><img src="/hexo-blog/media2/img-36970f75b32630cb.png"></p>
+<h2 id="调试运行-调试控制台正常输出"><a href="#调试运行-调试控制台正常输出" class="headerlink" title="调试运行() 调试控制台正常输出"></a>调试运行() 调试控制台正常输出</h2><p><img src="/hexo-blog/media2/img-388194dde4e1c761.png"></p>
+<p>然后这个.lib就复制到了你的可执行文件当中 exe内部仅包含了SDK库的API 而DLL仍然独立于exe外部</p>
+<p>所以直接去去exe生成目录(里面没有.dll)里运行exe ,**会报错找不到 **.dll</p>
+<p><img src="/hexo-blog/media2/img-328c10f5184fe57b.png"></p>
+<p><img src="/hexo-blog/media2/img-b203e4b0e7330ecf.png"></p>
+<p><strong>所以我们还需要在.exe旁移植来所需的.dll文件</strong></p>
+<p><img src="/hexo-blog/media2/img-35d0f27e88835b31.png"></p>
+<h2 id="正常运行"><a href="#正常运行" class="headerlink" title="正常运行"></a>正常运行</h2><p><img src="/hexo-blog/media2/img-8e45c4185a36368e.png"></p>
+<p><strong>当然 有人会好奇 .exe是根据什么目录来寻找.dll的</strong></p>
+<p>当 .exe 运行时，操作系统会按一个特定的顺序去查找并加载它所需要的 .dll 文件（被导入库标记的.dll），这个顺序就是 <strong>DLL 搜索顺序 (Dynamic-Link Library Search Order)</strong>。如果找不到，程序就会报错（例如 找不到xxx.dll）并无法启动。<strong>其中.exe 所在目录是最高优先级的.dll搜索位置</strong></p>
+<h2 id="这个操作系统寻找和前面提到的链接器寻找不同"><a href="#这个操作系统寻找和前面提到的链接器寻找不同" class="headerlink" title="这个操作系统寻找和前面提到的链接器寻找不同"></a>这个操作系统寻找和前面提到的链接器寻找不同</h2><p><img src="/hexo-blog/media2/img-58e9a816505ef77d.png"></p>
+<h2 id="恭喜你-完成了SDK库的制作和SDK库的调用"><a href="#恭喜你-完成了SDK库的制作和SDK库的调用" class="headerlink" title="恭喜你 完成了SDK库的制作和SDK库的调用!"></a>恭喜你 完成了SDK库的制作和SDK库的调用!</h2><h1 id="动态链接的优点"><a href="#动态链接的优点" class="headerlink" title="动态链接的优点"></a>动态链接的优点</h1><h1 id="1内存占用（运行时）"><a href="#1内存占用（运行时）" class="headerlink" title="1内存占用（运行时）"></a>1内存占用（运行时）</h1><p><strong>动态链接库（.dll）</strong>：包含实际的<strong>函数实现、全局变量、资源等</strong>。</p>
+<p><strong>导入库（.lib，对应 DLL）</strong>：只包含<strong>符号导入信息</strong>（函数&#x2F;变量的名称、序号、重定位信息），<strong>不包含实现代码</strong>。</p>
+<p><strong>静态库（.lib，对应静态链接）</strong>：包含<strong>完整的函数实现代码</strong>（类似多个 .obj 的打包）。</p>
+<p>所以：使用 DLL 时，.lib 很小。使用静态链接时，.lib 很大。</p>
+<p><strong>DLL</strong>：多个进程可以<strong>共享同一份只读代码段</strong>（物理内存中一份），数据段各自独立。</p>
+<p>节省物理内存（尤其是代码量大的库）。</p>
+<p><strong>静态库</strong>：每个 exe <strong>独立拷贝</strong>一份实现代码到自己的进程地址空间。</p>
+<p>内存占用随进程数线性增长。</p>
+<h2 id="2更新部署（不发整个-exe）"><a href="#2更新部署（不发整个-exe）" class="headerlink" title="2更新部署（不发整个 exe）"></a>2更新部署（不发整个 exe）</h2><h2 id="DLL-更新"><a href="#DLL-更新" class="headerlink" title="DLL 更新"></a>DLL 更新</h2><p>前提：<strong>API 接口不变</strong>（函数名、参数、返回值、调用约定、数据结构布局不变）。</p>
+<p>行为：只需替换 DLL 文件，所有调用它的 exe <strong>无需重新编译、重新链接</strong>，直接获得新实现。</p>
+<p>例外：若接口变更，exe 必须重新编译。</p>
+<h2 id="静态库更新"><a href="#静态库更新" class="headerlink" title="静态库更新"></a>静态库更新</h2><p>即使只修改内部实现（接口未变），也必须：</p>
+<p>重新编译 .lib</p>
+<p>重新链接生成新的 exe</p>
+<p>将整个 exe 发给用户。</p>
+<h1 id="运行时库"><a href="#运行时库" class="headerlink" title="运行时库"></a>运行时库</h1><p><strong>运行时库（Runtime Library）</strong></p>
+<p>运行时库是与编程语言的执行环境（Runtime Executor）相绑定的基础代码集合，其职责是为该语言编写的程序提供内存管理、异常处理、程序启动与终止等底层支撑。它与普通软件开发工具包（SDK）库在物理形式上并无区别——均以静态库（.lib）或导入库配合动态库（.dll）的形式存在，链接机理也完全相同。二者的根本差异在于职责定位：运行时库构建程序的执行地基，SDK库提供操作系统或第三方平台的功能扩展（如网络通信、图形渲染、文件访问等）。</p>
+<p>运行时库的部署位置取决于运行器本身的归属：</p>
+<p>当运行器即为操作系统本身时（如C&#x2F;C++语言），运行时库已被预先置于编译器的默认库搜索路径中，并直接列入其默认链接列表。因此，开发者无需手动配置路径或导入库，链接过程即可自动完成。在此场景下，运行时库表现为操作系统平台SDK的一个子集，这即是”运行时库是被内置到编译器默认环境中的SDK库”这一常见说法的来源。</p>
+<p>当运行器需要独立安装时（如Java虚拟机的JRE、Python解释器），运行时库则被部署于该运行器的安装目录下，并不进入操作系统目录。此时运行时库与操作系统平台SDK呈并行关系，二者相互独立，各自承载不同层级的职责。</p>
+<p>综上，运行时库与普通SDK库的本质区别在于职责——地基与功能的区分——而非是否默认内置；默认内置仅是运行器为操作系统时的特例现象，并非运行时库的普遍定义。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://mitchell255ljy.github.io/hexo-blog">酸酸米老鼠</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://mitchell255ljy.github.io/hexo-blog/2026/09/08/2SDK%E7%9A%84%E5%BB%BA%E7%AB%8B%E4%B8%8E%E5%BC%95%E7%94%A8/">https://mitchell255ljy.github.io/hexo-blog/2026/09/08/2SDK%E7%9A%84%E5%BB%BA%E7%AB%8B%E4%B8%8E%E5%BC%95%E7%94%A8/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://mitchell255ljy.github.io/hexo-blog" target="_blank">酸酸米老鼠的记忆库</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/hexo-blog/img/butterfly-icon.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/hexo-blog/2026/09/08/1%E5%A4%9A%E6%96%87%E4%BB%B6%E9%A1%B9%E7%9B%AE%E5%AE%9E%E7%8E%B0/" title=""><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2"></div></div><div class="info-2"><div class="info-item-1">声明 定义 调用 注意 同一名字的声明是可以在单文件内重复出现的  编译器规定调用前必须有声明，因为编译器逐行从上到下读取。 如果声明在调用后，就会导致出现“调用空气”的概念。 函数于变量在单文件下的调用规则一般的函数和变量不需要单独的声明语句。对于函数而言，如果定义写在调用之前，编译器视为定义即声明,而先调用后定义,则需要再调用之前写上声明;对于变量而言，在单文件内，定义即存在，不存在脱离定义的“爸蒙�”枨螅恢挥性诳缥募猛獠勘淞渴保判枰柚� extern 丶纸�“�”�“ㄒ�”邪氤隼础� 根本原因是函数可以通过函数名是否后接 **{具体实现内容} **(花括号和实现) 来区分定义和声明, 但是变量没有实现部分的构造 所以不支持定义和声明的区分 注意 因为函数的定义大部分的内容是函数的实现 所以在语义上 “函数定义” 和 “函数实现” 几乎是可以互换的同义词   跨文件下的函数与变量的调用规则规则就是 外部的函数和变量在本文件调用时需要额外声明一下 外部函数调用:   运行结果为 外部变量调用:   为什么变量的跨文件调用就需要前接extern来声明 因为 对于i...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/hexo-blog/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/hexo-blog/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">酸酸米老鼠</div><div class="author-info-description"></div><div class="site-data"><a href="/hexo-blog/archives/"><div class="headline">文章</div><div class="length-num">7</div></a><a href="/hexo-blog/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/hexo-blog/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">这是免费文章</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text"></span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E5%8C%85SDK"><span class="toc-number">2.</span> <span class="toc-text">软件开发工具包SDK</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#SDK%E5%BA%93%E7%9A%84%E7%BB%84%E6%88%90%E9%83%A8%E5%88%86%E5%A3%B0%E6%98%8E%E5%92%8C%E5%AE%9E%E7%8E%B0%E7%9A%84%E8%A1%A8%E7%8E%B0%E5%BD%A2%E5%BC%8F%E4%B8%BA-%E4%B8%80%E5%A5%97%E5%86%99%E5%A5%BD%E5%A3%B0%E6%98%8E%E7%9A%84-h-%E4%B8%80%E5%A5%97%E6%94%BE%E5%AE%9E%E7%8E%B0%E7%9A%84-lib-dll"><span class="toc-number">2.1.</span> <span class="toc-text">SDK库的组成部分声明和实现的表现形式为,一套写好声明的.h,一套放实现的.lib&#x2F;.dll</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SDK-%E5%88%B0%E5%BA%95%E5%B0%81%E8%A3%85%E4%BA%86%E4%BB%80%E4%B9%88"><span class="toc-number">2.2.</span> <span class="toc-text">SDK 到底封装了什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%99%AE%E9%80%9A%E5%BA%93%EF%BC%9A%E5%B0%81%E8%A3%85%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E7%AE%97%E6%B3%95"><span class="toc-number">2.3.</span> <span class="toc-text">普通库：封装数据结构 + 算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%80%E8%B0%93%E7%9A%84%E6%99%AE%E9%80%9A%E5%BA%93%E5%B0%B1%E6%98%AF%EF%BC%9A%E5%A4%B4%E6%96%87%E4%BB%B6%E5%BA%93%E3%80%81%E6%A8%A1%E6%9D%BF%E5%BA%93%E3%80%81%E4%BC%A0%E7%BB%9F%E5%88%86%E7%A6%BB%E6%A8%A1%E5%BC%8F"><span class="toc-number">2.4.</span> <span class="toc-text">所谓的普通库就是：头文件库、模板库、传统分离模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#-1"><span class="toc-number">2.5.</span> <span class="toc-text"></span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B9%B3%E5%8F%B0-SDK%E4%B8%8E%E6%89%A9%E5%B1%95sdk"><span class="toc-number">2.6.</span> <span class="toc-text">平台 SDK与扩展sdk</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SDK%E5%BA%93%E5%AE%9E%E7%8E%B0%E6%96%87%E4%BB%B6%E7%9A%84%E8%BF%9E%E6%8E%A5%E5%8E%9F%E7%90%86"><span class="toc-number">3.</span> <span class="toc-text">SDK库实现文件的连接原理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E6%99%AE%E9%80%9A%E5%BA%93%EF%BC%88%E5%A4%B4%E6%96%87%E4%BB%B6%E5%BA%93-%E6%A8%A1%E6%9D%BF%E5%BA%93-%E4%BC%A0%E7%BB%9F%E5%88%86%E7%A6%BB%E6%A8%A1%E5%BC%8F%EF%BC%89%E7%9A%84%E5%AE%9E%E7%8E%B0%E8%B0%83%E7%94%A8%E6%B5%81%E7%A8%8B"><span class="toc-number">3.1.</span> <span class="toc-text">一、普通库（头文件库&#x2F;模板库&#x2F;传统分离模式）的实现调用流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%AE%9E%E7%8E%B0%E6%94%BE%E5%9C%A8%E5%BD%93%E5%89%8D%E9%A1%B9%E7%9B%AE%E9%87%8C"><span class="toc-number">3.2.</span> <span class="toc-text">1. 实现放在当前项目里</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E6%9D%BF%E5%BA%93%EF%BC%9A%E5%AE%9E%E7%8E%B0%E5%86%99%E5%9C%A8-h-%E9%87%8C"><span class="toc-number">3.3.</span> <span class="toc-text">模板库：实现写在 .h 里</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%A0%E7%BB%9F%E5%88%86%E7%A6%BB%EF%BC%9A-h-%E5%A3%B0%E6%98%8E-cpp-%E5%AE%9E%E7%8E%B0"><span class="toc-number">3.4.</span> <span class="toc-text">传统分离：.h 声明 + .cpp 实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%B4%E6%96%87%E4%BB%B6%E5%BA%93%EF%BC%9A%E5%AE%9E%E7%8E%B0%E5%85%A8%E9%83%A8%E5%86%99%E5%9C%A8-h-%E9%87%8C"><span class="toc-number">3.5.</span> <span class="toc-text">头文件库：实现全部写在 .h 里</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E7%BC%96%E8%AF%91%E9%98%B6%E6%AE%B5"><span class="toc-number">3.6.</span> <span class="toc-text">2. 编译阶段</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E9%93%BE%E6%8E%A5%E9%98%B6%E6%AE%B5"><span class="toc-number">3.7.</span> <span class="toc-text">3. 链接阶段</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AC%E8%B4%A8%EF%BC%9A%E5%AE%9E%E7%8E%B0%E7%9A%84%E6%BA%90%E7%A0%81-%E2%86%92-%E7%BC%96%E8%AF%91%E9%98%B6%E6%AE%B5%E8%BD%AC%E6%9C%BA%E5%99%A8%E7%A0%81-%E2%86%92-%E9%93%BE%E6%8E%A5"><span class="toc-number">3.8.</span> <span class="toc-text">本质：实现的源码 → 编译阶段转机器码 → 链接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81SDK%E5%BA%93%E7%9A%84%E5%AE%9E%E7%8E%B0%E8%B0%83%E7%94%A8%E6%B5%81%E7%A8%8B"><span class="toc-number">3.9.</span> <span class="toc-text">二、SDK库的实现调用流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%AE%9E%E7%8E%B0%E4%B8%8D%E5%9C%A8%E5%BD%93%E5%89%8D%E9%A1%B9%E7%9B%AE%E9%87%8C"><span class="toc-number">3.10.</span> <span class="toc-text">1. 实现不在当前项目里</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E8%97%8F%E5%9C%A8-lib-%E6%88%96-dll-%E9%87%8C"><span class="toc-number">3.11.</span> <span class="toc-text">实现藏在 .lib 或 .dll 里</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E7%BC%96%E8%AF%91%E9%98%B6%E6%AE%B5-1"><span class="toc-number">3.12.</span> <span class="toc-text">2. 编译阶段</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%A0-include-%E8%BF%99%E4%B8%AA-h-%E5%A4%B4%E6%96%87%E4%BB%B6"><span class="toc-number">3.13.</span> <span class="toc-text">你 #include 这个 .h 头文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E8%AF%91%E5%99%A8%E4%B8%8D%E6%A3%80%E6%9F%A5%E5%AE%9E%E7%8E%B0%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8%EF%BC%8C%E7%9C%8B%E5%88%B0%E5%A3%B0%E6%98%8E%E5%B0%B1%E6%94%BE%E8%A1%8C"><span class="toc-number">3.14.</span> <span class="toc-text">编译器不检查实现是否存在，看到声明就放行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B2%A1%E6%9C%89%E5%AE%9E%E7%8E%B0%E4%B9%9F%E4%B8%8D%E4%BC%9A%E6%8A%A5%E9%94%99"><span class="toc-number">3.15.</span> <span class="toc-text">没有实现也不会报错</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E9%93%BE%E6%8E%A5%E9%98%B6%E6%AE%B5-1"><span class="toc-number">3.16.</span> <span class="toc-text">3. 链接阶段</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%99%E7%A7%8D%E9%93%BE%E6%8E%A5%E6%96%B9%E5%BC%8F%EF%BC%9A%E7%A7%B0%E4%B8%BA%E9%9D%99%E6%80%81%E9%93%BE%E6%8E%A5"><span class="toc-number">3.17.</span> <span class="toc-text">这种链接方式：称为静态链接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%99%E7%A7%8D%E9%93%BE%E6%8E%A5%E6%96%B9%E5%BC%8F%E7%A7%B0%E4%B8%BA%EF%BC%9A%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5"><span class="toc-number">3.18.</span> <span class="toc-text">这种链接方式称为：动态链接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E8%BF%90%E8%A1%8C%E9%98%B6%E6%AE%B5"><span class="toc-number">3.19.</span> <span class="toc-text">4. 运行阶段</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E6%A0%B9%E6%9C%AC%E5%8E%9F%E5%9B%A0"><span class="toc-number">3.20.</span> <span class="toc-text">三、根本原因</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%A8%E6%98%AF-0101010-%E8%BF%99%E6%A0%B7%E7%9A%84%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%95%B0%E6%8D%AE"><span class="toc-number">3.21.</span> <span class="toc-text">全是 0101010 这样的二进制数据</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%93%BE%E6%8E%A5%E5%99%A8%E9%93%BE%E6%8E%A5%E9%9D%99%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93%E6%93%8D%E4%BD%9C"><span class="toc-number">4.</span> <span class="toc-text">链接器链接静态链接库操作</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%88%91%E4%BB%AC%E7%8E%B0%E5%9C%A8%E6%9D%A5%E5%AD%A6%E4%B9%A0VS%E9%93%BE%E6%8E%A5%E5%99%A8%E9%93%BE%E6%8E%A5-lib%E7%9A%84%E5%85%B7%E4%BD%93%E6%93%8D%E4%BD%9C"><span class="toc-number">4.1.</span> <span class="toc-text">我们现在来学习VS链接器链接.lib的具体操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%BB%98%E8%AE%A4%E5%BA%93%E5%88%97%E8%A1%A8%E8%B4%9F%E8%B4%A3%E6%8F%90%E4%BE%9B%E9%9C%80%E8%A6%81%E9%93%BE%E6%8E%A5%E7%9A%84%E5%BA%93%E6%96%87%E4%BB%B6%E5%90%8D"><span class="toc-number">4.2.</span> <span class="toc-text">默认库列表负责提供需要链接的库文件名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%BB%98%E8%AE%A4%E5%BA%93%E7%9B%AE%E5%BD%95%E5%88%97%E8%A1%A8%E8%B4%9F%E8%B4%A3%E6%8F%90%E4%BE%9B%E6%90%9C%E7%B4%A2%E8%BF%99%E4%BA%9B%E5%BA%93%E6%96%87%E4%BB%B6%E6%97%B6%E7%9A%84%E7%9B%AE%E5%BD%95%E8%B7%AF%E5%BE%84"><span class="toc-number">4.3.</span> <span class="toc-text">默认库目录列表负责提供搜索这些库文件时的目录路径</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A5%E4%B8%8B%E6%9D%A5%E7%9C%8B%E7%9C%8B%E9%BB%98%E8%AE%A4%E5%BA%93%E7%9B%AE%E5%BD%95%E5%88%97%E8%A1%A8%E5%86%85%E5%AE%B9"><span class="toc-number">4.4.</span> <span class="toc-text">接下来看看默认库目录列表内容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%B3%E9%94%AE%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E5%99%A8%E4%B8%AD%E7%9A%84%E9%A1%B9%E7%9B%AE%E5%90%8D%E7%A7%B0"><span class="toc-number">4.5.</span> <span class="toc-text">右键解决方案资源管理器中的项目名称</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%A8%E5%BC%B9%E5%87%BA%E6%A0%8F%E4%B8%AD%E9%80%89%E6%8B%A9%E6%9C%80%E5%BA%95%E9%83%A8%E7%9A%84%E5%B1%9E%E6%80%A7"><span class="toc-number">4.6.</span> <span class="toc-text">在弹出栏中选择最底部的属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BE%97%E5%88%B0%E6%8A%A5%E8%AD%A6%E9%9D%A2%E6%9D%BF%E7%9A%84-%E5%B1%9E%E6%80%A7%E9%A1%B5"><span class="toc-number">4.7.</span> <span class="toc-text">得到报警面板的 属性页</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%B9%E5%87%BA%E7%AA%97%E5%8F%A3"><span class="toc-number">4.8.</span> <span class="toc-text">弹出窗口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E7%9A%84%E5%80%BC%E7%9A%84%E5%86%85%E5%AE%B9-%E5%B0%B1%E6%98%AF%E9%BB%98%E8%AE%A4%E5%BA%93%E7%9B%AE%E5%BD%95%E5%88%97%E8%A1%A8"><span class="toc-number">4.9.</span> <span class="toc-text">计算的值的内容 就是默认库目录列表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E8%88%AC%E6%9D%A5%E8%AF%B4%E6%88%91%E4%BB%AC%E4%B8%8D%E4%BC%9A%E6%8A%8A-lib%E6%96%87%E4%BB%B6%E6%94%BE%E5%88%B0%E9%BB%98%E8%AE%A4%E5%BA%93%E7%9B%AE%E5%BD%95%E5%88%97%E8%A1%A8%E5%BD%93%E4%B8%AD"><span class="toc-number">4.10.</span> <span class="toc-text">一般来说我们不会把.lib文件放到默认库目录列表当中</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%A0%E4%B8%BA%E8%BF%99%E6%A0%B7-lib-%E5%92%8C%E9%A1%B9%E7%9B%AE%E7%BB%91%E5%AE%9A%E5%9C%A8%E4%B8%80%E8%B5%B7"><span class="toc-number">4.11.</span> <span class="toc-text">因为这样 .lib 和项目绑定在一起</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E4%BE%BF%E8%BF%81%E7%A7%BB%E3%80%81%E6%89%93%E5%8C%85%E3%80%81%E5%9B%A2%E9%98%9F%E5%8D%8F%E4%BD%9C"><span class="toc-number">4.12.</span> <span class="toc-text">方便迁移、打包、团队协作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%86%E9%93%BE%E6%8E%A5%E5%99%A8%E9%BB%98%E8%AE%A4%E6%89%BE%E4%B8%8D%E5%88%B0%E9%A1%B9%E7%9B%AE%E7%9B%AE%E5%BD%95"><span class="toc-number">4.13.</span> <span class="toc-text">但链接器默认找不到项目目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lib-%E4%B8%8D%E5%9C%A8%E9%BB%98%E8%AE%A4%E5%BA%93%E7%9B%AE%E5%BD%95%E5%88%97%E8%A1%A8%E9%87%8C"><span class="toc-number">4.14.</span> <span class="toc-text">.lib 不在默认库目录列表里</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lib-%E4%B9%9F%E4%B8%8D%E5%9C%A8%E9%A1%B9%E7%9B%AE%E7%9B%AE%E5%BD%95%E9%87%8C"><span class="toc-number">4.15.</span> <span class="toc-text">.lib 也不在项目目录里</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%99%AE%E9%80%9A%E5%BA%93%E5%AE%9E%E7%8E%B0%E6%96%87%E4%BB%B6%E5%92%8CSDK%E5%BA%93%E5%AE%9E%E7%8E%B0%E6%96%87%E4%BB%B6%E7%9A%84%E8%BD%AC%E5%8C%96%E5%85%B3%E7%B3%BB-%E7%BC%96%E8%AF%91"><span class="toc-number">5.</span> <span class="toc-text">普通库实现文件和SDK库实现文件的转化关系:编译</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E4%BC%A0%E7%BB%9F%E5%88%86%E7%A6%BB%E6%A8%A1%E5%BC%8F%E5%BA%93%E7%BC%96%E8%AF%91%E6%88%90%E9%9D%99%E6%80%81%E5%BA%93"><span class="toc-number">5.1.</span> <span class="toc-text">1传统分离模式库编译成静态库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%84%B6%E5%90%8E%E6%96%B0%E5%BB%BA%E4%B8%80%E4%B8%AA%E9%9D%99%E6%80%81%E5%BA%93%E9%A1%B9%E7%9B%AE"><span class="toc-number">5.2.</span> <span class="toc-text">然后新建一个静态库项目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hello%E5%87%BD%E6%95%B0%E7%9A%84%E5%AE%9E%E7%8E%B0%E4%B8%8E%E5%A3%B0%E6%98%8E"><span class="toc-number">5.3.</span> <span class="toc-text">hello函数的实现与声明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E4%BC%A0%E7%BB%9F%E5%88%86%E7%A6%BB%E6%A8%A1%E5%BC%8F%E5%BA%93%E7%BC%96%E8%AF%91%E6%88%90%E5%AF%BC%E5%85%A5%E5%BA%93%E5%92%8C%E5%8A%A8%E6%80%81%E5%BA%93"><span class="toc-number">5.4.</span> <span class="toc-text">2传统分离模式库编译成导入库和动态库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8B%E9%9D%A2%E6%88%91%E4%BB%AC%E5%B0%B1%E5%BC%80%E5%A7%8B%E8%AE%A8%E8%AE%BA%E5%AF%BC%E5%85%A5%E6%93%8D%E4%BD%9C%E5%92%8C%E5%AF%BC%E5%85%A5%E6%93%8D%E4%BD%9C%E7%9A%84%E5%85%B7%E4%BD%93%E5%AE%9E%E7%8E%B0"><span class="toc-number">5.5.</span> <span class="toc-text">下面我们就开始讨论导入操作和导入操作的具体实现</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E8%A7%84%E5%AE%9Adll%E4%B8%AD%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%BC%80%E6%94%BE%E5%92%8C%E9%9A%90%E8%97%8F-%E5%AF%BC%E5%87%BA%E5%85%B3%E9%94%AE%E5%AD%97"><span class="toc-number">6.</span> <span class="toc-text">如何规定dll中的实现接口的开放和隐藏 导出关键字</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%AF%B9%E6%8E%A5dll%E5%AF%BC%E5%87%BA%E8%A1%A8%E4%B8%AD%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%8E%A5%E5%8F%A3-%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%8E%A5%E5%8F%A3-%E5%AF%BC%E5%85%A5%E5%85%B3%E9%94%AE%E5%AD%97"><span class="toc-number">6.1.</span> <span class="toc-text">如何对接dll导出表中的实现接口(二进制接口) 导入关键字</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E7%82%B9%E5%87%BB%E8%BF%90%E8%A1%8C-%E7%94%9F%E6%88%90%E7%BC%96%E8%AF%91%E5%90%8E%E6%96%87%E4%BB%B6-%E5%9C%A8%E5%AF%B9%E5%BA%94%E7%9B%AE%E5%BD%95%E9%87%8C%E6%89%BE%E5%88%B0"><span class="toc-number">6.2.</span> <span class="toc-text">2点击运行(生成编译后文件) 在对应目录里找到</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SDK%E5%BA%93%E7%9A%84%E7%BC%96%E8%AF%91%E9%98%B6%E6%AE%B5%E5%AE%8C%E6%AF%95"><span class="toc-number">6.3.</span> <span class="toc-text">SDK库的编译阶段完毕</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%A8%E4%B8%80%E4%B8%AA%E5%A4%B4%E6%96%87%E4%BB%B6%E7%BB%99%E5%8F%8C%E6%96%B9%E7%94%A8%EF%BC%8C%E5%B0%B1%E6%98%AF%E9%80%9A%E8%BF%87%E6%9D%A1%E4%BB%B6%E7%BC%96%E8%AF%91%E5%AE%8F%E5%AE%9E%E7%8E%B0%E7%9A%84"><span class="toc-number">6.4.</span> <span class="toc-text">用一个头文件给双方用，就是通过条件编译宏实现的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8B%E9%9D%A2%E5%AF%B9hello-h%E5%81%9A%E5%87%BA%E4%BC%98%E5%8C%96"><span class="toc-number">6.5.</span> <span class="toc-text">下面对hello.h做出优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%A6%E5%88%99-%E5%AE%9A%E4%B9%89HELLO-API-%E4%B8%BA-%E5%AF%BC%E5%85%A5%E5%85%B3%E9%94%AE%E5%AD%97"><span class="toc-number">6.6.</span> <span class="toc-text">&#x2F;&#x2F;否则 定义HELLO_API 为 导入关键字</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E6%9D%9F"><span class="toc-number">6.7.</span> <span class="toc-text">&#x2F;&#x2F;结束</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#API%E7%9A%84%E8%B0%83%E7%94%A8"><span class="toc-number">7.</span> <span class="toc-text">API的调用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#API-%E8%B0%83%E7%94%A8%E7%9A%84%E6%AD%A5%E9%AA%A4"><span class="toc-number">7.1.</span> <span class="toc-text">API 调用的步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%88%91%E4%BB%AC%E6%8A%8A%E9%9D%99%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93%E5%AF%B9%E5%BA%94%E7%9A%84%E5%A4%B4%E6%96%87%E4%BB%B6%E7%A7%BB%E6%A4%8D%E8%BF%87%E6%9D%A5"><span class="toc-number">7.2.</span> <span class="toc-text">我们把静态链接库对应的头文件移植过来</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%99%E9%87%8C%E7%9A%84-hello-%E5%B0%B1%E6%98%AFAPI%E8%B0%83%E7%94%A8"><span class="toc-number">7.3.</span> <span class="toc-text">这里的 hello()就是API调用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8D%E7%84%B6%E6%AD%A3%E5%B8%B8"><span class="toc-number">7.4.</span> <span class="toc-text">仍然正常</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%88%91%E4%BB%AC%E6%8A%8A%E9%9D%99%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93%E5%AF%B9%E5%BA%94%E7%9A%84%E5%A4%B4%E6%96%87%E4%BB%B6%E7%A7%BB%E6%A4%8D%E8%BF%87%E6%9D%A5-1"><span class="toc-number">7.5.</span> <span class="toc-text">我们把静态链接库对应的头文件移植过来</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B0%83%E8%AF%95%E8%BF%90%E8%A1%8C-%E8%B0%83%E8%AF%95%E6%8E%A7%E5%88%B6%E5%8F%B0%E6%AD%A3%E5%B8%B8%E8%BE%93%E5%87%BA"><span class="toc-number">7.6.</span> <span class="toc-text">调试运行() 调试控制台正常输出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%A3%E5%B8%B8%E8%BF%90%E8%A1%8C"><span class="toc-number">7.7.</span> <span class="toc-text">正常运行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%99%E4%B8%AA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AF%BB%E6%89%BE%E5%92%8C%E5%89%8D%E9%9D%A2%E6%8F%90%E5%88%B0%E7%9A%84%E9%93%BE%E6%8E%A5%E5%99%A8%E5%AF%BB%E6%89%BE%E4%B8%8D%E5%90%8C"><span class="toc-number">7.8.</span> <span class="toc-text">这个操作系统寻找和前面提到的链接器寻找不同</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%81%AD%E5%96%9C%E4%BD%A0-%E5%AE%8C%E6%88%90%E4%BA%86SDK%E5%BA%93%E7%9A%84%E5%88%B6%E4%BD%9C%E5%92%8CSDK%E5%BA%93%E7%9A%84%E8%B0%83%E7%94%A8"><span class="toc-number">7.9.</span> <span class="toc-text">恭喜你 完成了SDK库的制作和SDK库的调用!</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E7%9A%84%E4%BC%98%E7%82%B9"><span class="toc-number">8.</span> <span class="toc-text">动态链接的优点</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#1%E5%86%85%E5%AD%98%E5%8D%A0%E7%94%A8%EF%BC%88%E8%BF%90%E8%A1%8C%E6%97%B6%EF%BC%89"><span class="toc-number">9.</span> <span class="toc-text">1内存占用（运行时）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E6%9B%B4%E6%96%B0%E9%83%A8%E7%BD%B2%EF%BC%88%E4%B8%8D%E5%8F%91%E6%95%B4%E4%B8%AA-exe%EF%BC%89"><span class="toc-number">9.1.</span> <span class="toc-text">2更新部署（不发整个 exe）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DLL-%E6%9B%B4%E6%96%B0"><span class="toc-number">9.2.</span> <span class="toc-text">DLL 更新</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E5%BA%93%E6%9B%B4%E6%96%B0"><span class="toc-number">9.3.</span> <span class="toc-text">静态库更新</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E6%97%B6%E5%BA%93"><span class="toc-number">10.</span> <span class="toc-text">运行时库</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/hexo-blog/2026/09/08/2SDK%E7%9A%84%E5%BB%BA%E7%AB%8B%E4%B8%8E%E5%BC%95%E7%94%A8/" title="无标题">无标题</a><time datetime="2026-09-08T00:08:30.265Z" title="发表于 2026-09-08 08:08:30">2026-09-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/hexo-blog/2026/09/08/1%E5%A4%9A%E6%96%87%E4%BB%B6%E9%A1%B9%E7%9B%AE%E5%AE%9E%E7%8E%B0/" title="无标题">无标题</a><time datetime="2026-09-08T00:08:30.262Z" title="发表于 2026-09-08 08:08:30">2026-09-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/hexo-blog/2026/09/07/4if%E5%92%8Cwhile%E7%9A%84%E5%BA%95%E5%B1%82%E7%89%A9%E7%90%86%E5%AE%9E%E7%8E%B0/" title="if和while的底层物理实现">if和while的底层物理实现</a><time datetime="2026-09-07T14:23:04.009Z" title="发表于 2026-09-07 22:23:04">2026-09-07</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/hexo-blog/2026/09/07/5%E6%8C%87%E4%BB%A4%E5%91%A8%E6%9C%9F%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%97%B6%E9%92%9F/" title="指令周期计算机时钟">指令周期计算机时钟</a><time datetime="2026-09-07T14:13:54.970Z" title="发表于 2026-09-07 22:13:54">2026-09-07</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/hexo-blog/2026/09/07/3MOS%E7%AE%A1%E7%9A%84%E4%BC%98%E5%8A%BF%E4%B8%8ED%E3%80%81SRAM/" title="MOS管的优势与D、SRAM">MOS管的优势与D、SRAM</a><time datetime="2026-09-07T14:13:54.370Z" title="发表于 2026-09-07 22:13:54">2026-09-07</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 酸酸米老鼠</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.2</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.7.0</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/hexo-blog/js/utils.js?v=5.7.0"></script><script src="/hexo-blog/js/main.js?v=5.7.0"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/hexo-blog/js/search/local-search.js?v=5.7.0"></script></div></div></body></html>
