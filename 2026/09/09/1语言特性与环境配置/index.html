@@ -1,0 +1,374 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>酸酸米老鼠的记忆库 | 酸酸米老鼠的记忆库</title><meta name="author" content="酸酸米老鼠"><meta name="copyright" content="酸酸米老鼠"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="编辑器的时代转变与集成程度一 记事本（古早编辑器）时代的工作流回到“记事本写代码”的时代，一个完整的编程工具链，至少由三个独立部分组成： 编辑器（如记事本）：负责查看和编写源代码（如 .cpp 或 .java 文件）。 编译器：将源代码编译成可执行文件。 运行器：执行编译后的程序这里需要说明一下： 我们引入了“运行器”这个概念，似乎和之前学习 C&#x2F;C++ 时的知识有冲突。 当时我们认为：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="酸酸米老鼠的记忆库">
+<meta property="og:url" content="https://mitchell255ljy.github.io/hexo-blog/2026/09/09/1%E8%AF%AD%E8%A8%80%E7%89%B9%E6%80%A7%E4%B8%8E%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/index.html">
+<meta property="og:site_name" content="酸酸米老鼠的记忆库">
+<meta property="og:description" content="编辑器的时代转变与集成程度一 记事本（古早编辑器）时代的工作流回到“记事本写代码”的时代，一个完整的编程工具链，至少由三个独立部分组成： 编辑器（如记事本）：负责查看和编写源代码（如 .cpp 或 .java 文件）。 编译器：将源代码编译成可执行文件。 运行器：执行编译后的程序这里需要说明一下： 我们引入了“运行器”这个概念，似乎和之前学习 C&#x2F;C++ 时的知识有冲突。 当时我们认为：">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://mitchell255ljy.github.io/hexo-blog/img/butterfly-icon.png">
+<meta property="article:published_time" content="2026-09-09T10:55:32.903Z">
+<meta property="article:modified_time" content="2026-09-09T10:54:27.499Z">
+<meta property="article:author" content="酸酸米老鼠">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://mitchell255ljy.github.io/hexo-blog/img/butterfly-icon.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "",
+  "url": "https://mitchell255ljy.github.io/hexo-blog/2026/09/09/1%E8%AF%AD%E8%A8%80%E7%89%B9%E6%80%A7%E4%B8%8E%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/",
+  "image": "https://mitchell255ljy.github.io/hexo-blog/img/butterfly-icon.png",
+  "datePublished": "2026-09-09T10:55:32.903Z",
+  "dateModified": "2026-09-09T10:54:27.499Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "酸酸米老鼠",
+      "url": "https://mitchell255ljy.github.io/hexo-blog"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/hexo-blog/img/favicon.png"><link rel="canonical" href="https://mitchell255ljy.github.io/hexo-blog/2026/09/09/1%E8%AF%AD%E8%A8%80%E7%89%B9%E6%80%A7%E4%B8%8E%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/hexo-blog/css/index.css?v=5.7.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.3.1/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        const data = { value }
+
+        if (ttl != null) {
+          data.expiry = Date.now() + ttl * 86400000
+        }
+
+        localStorage.setItem(key, JSON.stringify(data))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return
+
+        try {
+          const data = JSON.parse(itemStr)
+
+          if (data.expiry && Date.now() > data.expiry) {
+            localStorage.removeItem(key)
+            return
+          }
+
+          return data.value
+        } catch {
+          localStorage.removeItem(key)
+        }
+      }
+    }
+
+    const scriptCache = new Map()
+    const cssCache = new Map()
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => {
+        if (scriptCache.has(url)) {
+          return scriptCache.get(url)
+        }
+
+        const promise = new Promise((resolve, reject) => {
+          const script = document.createElement('script')
+
+          script.src = url
+          script.async = true
+
+          for (const key in attr) {
+            script.setAttribute(key, attr[key])
+          }
+
+          script.onload = resolve
+          script.onerror = reject
+
+          document.head.appendChild(script)
+        })
+
+        scriptCache.set(url, promise)
+
+        return promise
+      },
+      getCSS: (url, id) => {
+        if (cssCache.has(url)) {
+          return cssCache.get(url)
+        }
+
+        const promise = new Promise((resolve, reject) => {
+          const link = document.createElement('link')
+
+          link.rel = 'stylesheet'
+          link.href = url
+
+          if (id) {
+            link.id = id
+          }
+
+          link.onload = resolve
+          link.onerror = reject
+
+          document.head.appendChild(link)
+        })
+
+        cssCache.set(url, promise)
+
+        return promise
+      },
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const metaThemeColor = document.querySelector('meta[name="theme-color"]')
+      const activateDarkMode = () => {
+        document.documentElement.dataset.theme = 'dark'
+        if (metaThemeColor !== null) {
+          metaThemeColor.setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.dataset.theme = 'light'
+        if (metaThemeColor !== null) {
+          metaThemeColor.setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/hexo-blog/',
+  algolia: undefined,
+  localSearch: {"path":"/hexo-blog/search.json","preload":false,"top_n_per_article":1,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '酸酸米老鼠的记忆库',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><style>.recent-posts-search{margin-bottom:1rem}.search-entry{display:flex;align-items:center;justify-content:space-between;width:100%;padding:.65rem 1rem;border:1px solid #e3e8f7;border-radius:12px;background:var(--card-bg,#fff);color:var(--font-color,#4c4948);cursor:pointer;transition:all .3s}.search-entry:hover{border-color:#49b1f5;box-shadow:0 0 8px rgba(73,177,245,.35)}.search-entry-text{opacity:.8}.search-entry-icon{color:#49b1f5}.recent-posts-btns{display:flex;gap:.5rem;margin-bottom:1rem}.recent-posts-btn{display:flex;align-items:center;justify-content:center;gap:.4rem;flex:1;padding:.6rem 1rem;border:1px solid #e3e8f7;border-radius:12px;background:var(--card-bg,#fff);color:var(--font-color,#4c4948);cursor:pointer;transition:all .3s;font-size:.95rem}.recent-posts-btn:hover{border-color:#49b1f5;box-shadow:0 0 8px rgba(73,177,245,.35);color:#49b1f5}.recent-posts-btn i{color:#49b1f5}.recent-posts-count{display:flex;align-items:center;padding:.6rem .9rem;border:1px solid #e3e8f7;border-radius:12px;background:var(--card-bg,#fff);color:var(--font-color,#4c4948);font-size:.95rem;white-space:nowrap;cursor:default}.cat-filter-btns{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:1rem;margin-bottom:1.6rem}.cat-filter-btn{display:inline-flex;align-items:center;gap:.5rem;padding:.55rem 1.25rem;border-radius:999px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#fff;font-size:1rem;cursor:pointer;transition:background .3s,color .3s,box-shadow .3s;text-decoration:none;user-select:none}.cat-filter-btn:hover{background:rgba(255,255,255,.34)}.cat-filter-btn.active{background:#fff;color:#49b1f5;border-color:#fff;box-shadow:0 6px 16px rgba(0,0,0,.18)}.cat-filter-btn i{font-size:.95em}.cat-filter-btn:nth-child(1){transform:rotate(-1.5deg)}.cat-filter-btn:nth-child(2){transform:translateY(-7px)}.cat-filter-btn:nth-child(3){transform:rotate(1.5deg)}</style><meta name="generator" content="Hexo 8.1.2"></head><body><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/hexo-blog/"><span class="site-name">酸酸米老鼠的记忆库</span></a><a class="nav-page-title" href="/hexo-blog/"><span class="site-name">酸酸米老鼠的记忆库</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div></div></nav><div id="post-info"><h1 class="post-title">无标题</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-09-09T10:55:32.903Z" title="发表于 2026-09-09 18:55:32">2026-09-09</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-09-09T10:54:27.499Z" title="更新于 2026-09-09 18:54:27">2026-09-09</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="编辑器的时代转变与集成程度"><a href="#编辑器的时代转变与集成程度" class="headerlink" title="编辑器的时代转变与集成程度"></a>编辑器的时代转变与集成程度</h1><h2 id="一-记事本（古早编辑器）时代的工作流"><a href="#一-记事本（古早编辑器）时代的工作流" class="headerlink" title="一 记事本（古早编辑器）时代的工作流"></a>一 记事本（古早编辑器）时代的工作流</h2><p>回到“记事本写代码”的时代，一个完整的编程工具链，至少由三个独立部分组成：</p>
+<p><strong>编辑器</strong>（如记事本）：负责查看和编写源代码（如 .cpp 或 .java 文件）。</p>
+<p><strong>编译器</strong>：将源代码编译成可执行文件。</p>
+<h2 id="运行器：执行编译后的程序"><a href="#运行器：执行编译后的程序" class="headerlink" title="运行器：执行编译后的程序"></a>运行器：执行编译后的程序</h2><p><strong>这里需要说明一下：</strong></p>
+<p>我们引入了“运行器”这个概念，似乎和之前学习 C&#x2F;C++ 时的知识有冲突。 当时我们认为：运行是把编译后的机器码发给操作系统，执行运行的是操作系统本身，没有什么“运行器”这个概念。 <strong>但是</strong>，运行器对于 C&#x2F;C++ 来说就是操作系统，对于 Java 来说不是。 所以我们特化出“运行器”这个概念，用来区分每种语言的“运行者”的不同。</p>
+<h2 id="配置要求"><a href="#配置要求" class="headerlink" title="配置要求"></a>配置要求</h2><p>除了操作系统自带的记事本（编辑器）之外，你需要<strong>自行下载并安装</strong>编译器和运行器。</p>
+<h2 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a>工作流程</h2><p>用记事本打开 .cpp 文件，编写代码并保存。</p>
+<p><strong>手动</strong>找到编译器的目录，执行编译命令，生成可执行文件。</p>
+<p><strong>再手动</strong>找到运行器，执行该文件。</p>
+<p><strong>每一步都是独立操作，没有集成。</strong></p>
+<h2 id="二-现代编辑器时代的工作流（以-VSCode-为例）"><a href="#二-现代编辑器时代的工作流（以-VSCode-为例）" class="headerlink" title="二 现代编辑器时代的工作流（以 VSCode 为例）"></a>二 现代编辑器时代的工作流（以 VSCode 为例）</h2><p>VSCode 本质上是一个<strong>现代化的编辑器</strong>，和记事本一样，它<strong>没有内置编译器和运行器</strong>。 但它相比记事本，<strong>多支持了一类工具</strong>：</p>
+<p><strong>智能报错 &#x2F; 辅助插件</strong>：提供语法高亮、错误提示、代码补全等功能。</p>
+<h2 id="配置要求-1"><a href="#配置要求-1" class="headerlink" title="配置要求"></a>配置要求</h2><p>因为 VSCode 只是一个编辑器，你需要<strong>额外配置</strong>：</p>
+<p><strong>编译器</strong>（如 JDK 中的 javac）</p>
+<p><strong>运行器</strong>（java 命令）</p>
+<p><strong>智能辅助插件</strong>（如 Java Extension Pack）</p>
+<p>要让它能够开发 Java，你需要<strong>手动添加这三样东西</strong>。</p>
+<p><strong>工作流程（与记事本的核心区别）</strong></p>
+<p>现代编辑器不仅多支持了智能插件，还<strong>集成了调用入口</strong>：</p>
+<p>你可以在编辑器里写代码，点击工具栏的 <strong>“编译”</strong> 和 <strong>“运行”</strong> 按钮。</p>
+<p>这些按钮背后调用的仍然是<strong>你手动安装的编译器和运行器</strong>，但你<strong>无需离开编辑器界面</strong>。</p>
+<p>这就是 <strong>“集成”的核心含义</strong>： 编辑器会自动执行记事本时代的 <strong>保存 → 编译 → 运行</strong> 流程，从而简化了手动操作。</p>
+<h2 id="VSCode-的定位：可以变身成-IDE-的轻量级编辑器"><a href="#VSCode-的定位：可以变身成-IDE-的轻量级编辑器" class="headerlink" title="VSCode 的定位：可以变身成 IDE 的轻量级编辑器"></a>VSCode 的定位：可以变身成 IDE 的轻量级编辑器</h2><p>VSCode <strong>本身不算 IDE</strong>，因为 IDE 要求“开箱即用”，而它需要你<strong>自行安装插件和工具链</strong>。</p>
+<p>但由于它可以被配置成具备 IDE 核心功能（代码补全、编译、调试等）， 我们通常说：<strong>VSCode 是一个“可以变身成 IDE 的轻量级编辑器”</strong>。</p>
+<h2 id="理解-VS（IDE）与-VSCode的集成程度区别"><a href="#理解-VS（IDE）与-VSCode的集成程度区别" class="headerlink" title="理解 VS（IDE）与 VSCode的集成程度区别"></a>理解 VS（IDE）与 VSCode的集成程度区别</h2><p><strong>什么才能叫 IDE（集成开发环境）？</strong> 关键在于：是否将编辑器、编译器、运行器、调试器、智能辅助等工具<strong>集成在一个界面中，且下载后即可开箱即用</strong>。</p>
+<p><strong>Visual Studio</strong>：✅ 符合，是完整的 IDE。</p>
+<p><strong>VSCode</strong>：❌ 不符合，集成了调用入口,但是没能做到开箱即用,所以是一个可以变身为 IDE 的编辑器。</p>
+<h2 id="那为什么还要用-VSCode-开发-Java？"><a href="#那为什么还要用-VSCode-开发-Java？" class="headerlink" title="那为什么还要用 VSCode 开发 Java？"></a>那为什么还要用 VSCode 开发 Java？</h2><p>因为 Visual Studio 对 C++ 支持极好，但对 Java 生态中<strong>许多特定库、框架</strong>（如某些轻量级 Web 框架、特定构建工具）的支持较弱。</p>
+<p>VSCode <strong>轻量、灵活、插件丰富</strong>，通过手动配置后，可以针对 Java 项目获得一个<strong>更可控、更模块化</strong>的开发环境。</p>
+<p><strong>配置 Java 环境感觉复杂的原因 并不是因为 Java 语言本身更难，而是因为 VSCode 这个编辑器需要你手动组装这些组件。</strong></p>
+<h1 id="JAVA的语言特性"><a href="#JAVA的语言特性" class="headerlink" title="JAVA的语言特性"></a>JAVA的语言特性</h1><p><strong>C、C++ 是静态编译语言</strong>：在运行前，源代码直接被编译成当前平台能执行的<strong>机器码文件</strong>（如 .exe）。</p>
+<p><strong>Java 是动态编译语言</strong>：在运行时，才把字节码<strong>即时生成机器码</strong>执行（JIT）。</p>
+<p>这个说法在<strong>工程交流</strong>中没问题，但从编译原理角度看，<strong>不够准确</strong>，甚至掩盖了 Java 更本质的设计。</p>
+<p><strong>要理解这个本质，我们得先回顾几个基础概念：</strong></p>
+<p><strong>1什么是动态编译、什么是静态编译语言？</strong></p>
+<p><strong>2前面提到的字节码到底是什么？——这又引出了 Java 的跨平台特性</strong></p>
+<h2 id="1-从C-的“运行时多态”看“静态编译”与“动态行为”的边界"><a href="#1-从C-的“运行时多态”看“静态编译”与“动态行为”的边界" class="headerlink" title="1 从C++的“运行时多态”看“静态编译”与“动态行为”的边界"></a>1 从C++的“运行时多态”看“静态编译”与“动态行为”的边界</h2><p>在学习C++的面向对象时，我们其实已经接触过“编译时”与“运行时”的区别： private 关键字的作用是，将一个函数调用“推迟”到运行时再决定具体调用哪个函数，从而让虚函数表的替换成为可能，最终导致程序执行与编译时看起来“静态绑定”的结果完全不同。</p>
+<p>这表明：<strong>C++ 虽然整体是静态编译语言，但已经具备少量“运行时决定调用”的能力</strong>。 只是这种能力被严格限定在“多态”这一特定场景下，远没有达到“改变整个程序编译模型”的程度。</p>
+<p>而Java，则把这种运行时灵活性，从“语言的某个特性”扩展到了“整个编译模型”的层面。 要理解Java这种独特的编译模型，就必须先了解它实现“一次编写，到处运行”的基石——<strong>跨平台特性背后的架构</strong>。</p>
+<h2 id="2-Java-的跨平台特性后的编译模型：不是“动态编译”，而是“双阶段编译”"><a href="#2-Java-的跨平台特性后的编译模型：不是“动态编译”，而是“双阶段编译”" class="headerlink" title="2 Java 的跨平台特性后的编译模型：不是“动态编译”，而是“双阶段编译”"></a>2 Java 的跨平台特性后的编译模型：不是“动态编译”，而是“双阶段编译”</h2><p>Java 的跨平台能力来源于一个中间产物：<strong>字节码（.class）</strong>。</p>
+<p>字节码不是机器码，而是一种<strong>统一格式的中间表示</strong>。</p>
+<p>运行阶段，JVM 会根据当前操作系统，把字节码编译成对应平台的机器码，因此可以做到“一次编译，到处运行”。</p>
+<p><strong>那 JVM 到底是什么？</strong>  JVM 本质上是一个“运行器”，但它内置了内存管理、类加载、安全沙箱等能 力，比 C++ 的运行器要做的事情多得多，所以被称为“虚拟机”。  但要注意：这个“虚拟机”和我们平常认知中的虚拟机（如 VMware、 VirtualBox）含义完全不同。</p>
+<p><strong>JVM 这类“进程虚拟机”</strong>：只模拟程序的执行环境，实际运行仍依赖本机操 作系统</p>
+<p><strong>VMware 这类“系统虚拟机”</strong>：模拟的是整台电脑（包括 CPU、内存、硬盘、 操作系统等）  所以 JVM 虽然叫“虚拟机”，但它并没有真正模拟一个完整的操作系统，它 的核心作用更接近于 <strong>“字节码 → 机器码的翻译器”</strong>。</p>
+<p>回到编译模型本身，真正的运行过程是：</p>
+<p><strong>编译阶段（javac-java的编译器）</strong>： 源码 → 字节码文件（静态编译，发生在运行前）。</p>
+<p><strong>运行阶段（JVM-java的运行器）</strong>： JVM 把字节码<strong>再编译成当前平台的机器码</strong>（即时编译 JIT，发生在运行时）。</p>
+<p><img src="/hexo-blog/media_tx/img-3c036730e725f0d5.png"></p>
+<p>这就是<strong>双阶段编译</strong>：</p>
+<p>第一阶段：<strong>静态编译</strong>（.java → .class）</p>
+<p>第二阶段：<strong>动态编译 &#x2F; JIT</strong>（.class → 机器码）</p>
+<p>在实际交流中，很多人认为第二阶段更特殊、更重要，于是默认忽略了第一阶段，只强调第二阶段，直接把 Java 称为“动态编译语言”。 <strong>这其实是对双阶段编译模型的简化说法，偏离了本质定义。</strong></p>
+<h2 id="3-Java-的“部分编译”能力：不靠-IDE，靠编译模型"><a href="#3-Java-的“部分编译”能力：不靠-IDE，靠编译模型" class="headerlink" title="3 Java 的“部分编译”能力：不靠 IDE，靠编译模型"></a>3 Java 的“部分编译”能力：不靠 IDE，靠编译模型</h2><p>Java 有一个非常实用的工程优势：<strong>可以在不改动整个程序的情况下，只重新编译部分文件</strong>。</p>
+<p><strong>优势的根源：</strong></p>
+<p>Java 编译器不是生成一个巨大的单体字节码文件，而是<strong>为每个类生成一个独立的字节码文件（.class）</strong>。</p>
+<p>一个 .java 源文件可能包含多个类（例如一个公共类加几个内部类），编译后会生成<strong>对应个数的多个 <strong>.class</strong> 文件</strong>。</p>
+<p><strong>示例：</strong></p>
+<p>一个 Java 程序由 A.java 和 B.java 组成：</p>
+<p>A.java 中定义了 3 个类（A1、A2、A3）</p>
+<p>B.java 中定义了 1 个类（B1）</p>
+<p><img src="/hexo-blog/media_tx/img-96051ee1aa3fb2ed.png"></p>
+<p><strong>示例：</strong></p>
+<p><strong>修改代码的情况：</strong></p>
+<p>修改 A.java（比如改了 A1 类），不修改 B.java。</p>
+<p>只编译 A.java：</p>
+<p>bash</p>
+<p>javac A.java</p>
+<p>生成 <strong>新的</strong> A1.class、A2.class、A3.class（覆盖旧的），保留原来的 B1.class</p>
+<h2 id="✅-程序依然可以正常运行"><a href="#✅-程序依然可以正常运行" class="headerlink" title="✅ 程序依然可以正常运行"></a>✅ 程序依然可以正常运行</h2><p><strong>这就是“部分编译”，更严格的叫法是”增量编译”</strong>：</p>
+<h2 id="不需要重新编译整个项目"><a href="#不需要重新编译整个项目" class="headerlink" title="不需要重新编译整个项目"></a>不需要重新编译整个项目</h2><h2 id="大大减少了重复编译时间"><a href="#大大减少了重复编译时间" class="headerlink" title="大大减少了重复编译时间"></a>大大减少了重复编译时间</h2><p>不依赖任何 IDE 优化，是 Java 编译模型天生支持的</p>
+<h2 id="4-为什么-C-做不到同样的部分编译？"><a href="#4-为什么-C-做不到同样的部分编译？" class="headerlink" title="4 为什么 C++ 做不到同样的部分编译？"></a>4 为什么 C++ 做不到同样的部分编译？</h2><p>C++ 的编译模型不同：</p>
+<p>每个 .cpp 被编译成 .o（目标文件）</p>
+<p>所有 .o 必须经过<strong>静态链接</strong>，最终生成一个<strong>完整、单一的 <strong>.exe</strong> 文件</strong></p>
+<p>这个 .exe 是一个整体，<strong>无法单独替换其中一部分</strong></p>
+<p>因此，在“记事本时代”手动管理编译时：</p>
+<p>修改一个 .cpp</p>
+<p>你需要重新链接整个 .exe</p>
+<p>无法像 Java 那样，只替换一个 .class</p>
+<p>结论：C++ 的手动工作流中，<strong>不存在与 Java 等价的部分编译</strong>。</p>
+<p><strong>那 C++ 的‘预编译头’不是也能实现部分编译吗？</strong></p>
+<h2 id="C-的“预编译头”是工具优化，不是语言特性"><a href="#C-的“预编译头”是工具优化，不是语言特性" class="headerlink" title="C++ 的“预编译头”是工具优化，不是语言特性"></a>C++ 的“预编译头”是工具优化，不是语言特性</h2><p>现代 C++ IDE 引入了<strong>预编译头（PCH）</strong>：</p>
+<p>把不常变的大段头文件（如 windows.h）一次性编译成中间状态</p>
+<h2 id="只要这些头文件不变，就不再重复编译"><a href="#只要这些头文件不变，就不再重复编译" class="headerlink" title="只要这些头文件不变，就不再重复编译"></a>只要这些头文件不变，就不再重复编译</h2><h2 id="可以显著减少重复编译时间"><a href="#可以显著减少重复编译时间" class="headerlink" title="可以显著减少重复编译时间"></a>可以显著减少重复编译时间</h2><p><strong>但请注意：</strong></p>
+<h2 id="预编译头是-IDE-构建工具的工程优化"><a href="#预编译头是-IDE-构建工具的工程优化" class="headerlink" title="预编译头是 IDE &#x2F; 构建工具的工程优化"></a>预编译头是 IDE &#x2F; 构建工具的工程优化</h2><p>它<strong>并没有改变“C++ 必须静态链接成单一可执行文件”的本质</strong></p>
+<p>也就是说，它<strong>没有解决“手动无法实现部分编译”的缺陷</strong></p>
+<p>预编译头和 Java 的“部分编译”是<strong>两个层面的东西</strong>，不能混为一谈。</p>
+<h2 id="关于部分编译-一个常见的错误归因"><a href="#关于部分编译-一个常见的错误归因" class="headerlink" title="关于部分编译 一个常见的错误归因"></a>关于部分编译 一个常见的错误归因</h2><p>很多学艺不精的人会这样认为：</p>
+<p>“Java 能部分编译，是因为它是动态编译语言。”</p>
+<p><strong>这是错的。</strong></p>
+<p>正确的逻辑是：</p>
+<p>Java 能实现部分编译，是因为：</p>
+<p><strong>双阶段编译</strong> → 存在中间表示（字节码）</p>
+<p><strong>多中间文件</strong> → 每个类独立生成一个 .class 文件</p>
+<p>而 C++：</p>
+<h2 id="没有双阶段编译"><a href="#没有双阶段编译" class="headerlink" title="没有双阶段编译"></a>没有双阶段编译</h2><p>最终产物是单体 .exe</p>
+<h2 id="无法替换局部文件"><a href="#无法替换局部文件" class="headerlink" title="无法替换局部文件"></a>无法替换局部文件</h2><p>所以 Java 的部分编译能力，<strong>是编译模型 + 文件组织策略的结果，不是“动态编译”带来的</strong>。</p>
+<p><img src="/hexo-blog/media_tx/img-6c66fd1fcb248ee3.png"></p>
+<h2 id="5-Java-与-C-C-运行器的调用与交付区别"><a href="#5-Java-与-C-C-运行器的调用与交付区别" class="headerlink" title="5 Java 与 C&#x2F;C++ 运行器的调用与交付区别"></a>5 Java 与 C&#x2F;C++ 运行器的调用与交付区别</h2><h2 id="5-1-回到“运行器”概念"><a href="#5-1-回到“运行器”概念" class="headerlink" title="5.1 回到“运行器”概念"></a>5.1 回到“运行器”概念</h2><p>回到上一节刚引入运行器概念的时候，我们说过：</p>
+<p>一个完整的编程工具链由<strong>编辑器、编译器、运行器</strong>三部分组成。 但在 C&#x2F;C++ 里，运行器其实就是<strong>操作系统本身</strong>——双击 .exe，操作系统直接加载机器码执行，没有什么独立的“运行器”程序。</p>
+<p>我们之所以要抽象出“运行器”这个概念，是为了统一描述**“谁负责让程序最终跑起来”**。</p>
+<p><strong>5.2用户运行 Java 程序需要额外安装运行器 对于 C&#x2F;C++ 是操作系统，对于 Java 则是  JVM</strong></p>
+<p>C&#x2F;C++ 的 .exe 发给用户，用户直接双击就能跑，因为操作系统自带“运行器”。</p>
+<p>Java 不行。用户如果想运行 .class 文件，<strong>必须先安装 JDK（里面包含 JAVA运行器JVM以及它依赖的运行库）</strong>。 也就是说，Java 的运行器不是操作系统自带的，需要用户额外下载。</p>
+<p>这里需要澄清一个概念：<strong>Java 运行时环境（JRE）</strong> 确实就是用户运行 Java 程序所需的<strong>最小集合</strong>，仅包含 <strong>JVM</strong> 和 <strong>运行库</strong>。 理论上，用户<strong>只需要安装 JRE 就够了</strong>。</p>
+<p>但在实际操作中，<strong>从 JDK 11 开始，Oracle 不再提供独立的 JRE 安装包</strong>，第三方发行版也大多直接提供 JDK。 加之 <strong>JDK 安装包本身并不大</strong>（约 150–200 MB），对普通用户来说完全可接受。</p>
+<p>因此，<strong>与其纠结 JRE 和 JDK 的区别，不如直接让用户安装 JDK</strong>，省事、统一、不易出错</p>
+<h2 id="调用运行器的两种方式"><a href="#调用运行器的两种方式" class="headerlink" title="调用运行器的两种方式"></a>调用运行器的两种方式</h2><p>无论哪种语言，运行程序通常有两种方式：</p>
+<p><img src="/hexo-blog/media_tx/img-116bdb4633dfc639.png"></p>
+<p><strong>5.3为什么 Java 不能用方式一？</strong></p>
+<p>因为 Java 编译器生成的是<strong>多个 <strong>.class</strong> 文件</strong>（每个类一个），而不是一个单体可执行文件。 双击 Main.class，操作系统不知道如何加载其他依赖的 .class，所以无法运行。</p>
+<h2 id="这是-Java“多中间文件”编译模型的直接后果"><a href="#这是-Java“多中间文件”编译模型的直接后果" class="headerlink" title="这是 Java“多中间文件”编译模型的直接后果"></a>这是 Java“多中间文件”编译模型的直接后果</h2><p><strong>5.4那Java 程序（字节码文件）怎么让用户简单运行？</strong></p>
+<p>你可能会担心：普通用户（或者说“小白”）很可能不会用命令行去调用运行器，总不能让每个人都去下载一个编辑器，再把文件夹加载进去，然后手动点那个绿色的“运行”按钮吧？</p>
+<p>——其实完全不用这么麻烦。</p>
+<p>Java 提供了 <strong>打包（JAR）</strong> 机制：把所有 .class 打包成一个 .jar 文件，并指定入口类。 用户双击 .jar 文件（前提是系统关联了 java -jar），就能运行。</p>
+<p><strong>5.5那为什么开发时默认不打包成 JAR？</strong></p>
+<p>因为开发过程中，你经常要<strong>修改单个类 → 只编译那个类 → 立刻运行测试</strong>。</p>
+<p>如果每次都要先打包成 JAR，流程就变成了：</p>
+<p>text</p>
+<p>修改 A.java → 编译 A.java → 重新打包 JAR → 运行</p>
+<p>这会拖慢开发节奏，也破坏了 Java 的“部分编译”优势。</p>
+<p>所以开发时直接用 java Main（方式二）调用运行器，打包成 JAR 是<strong>发布给用户时才做的事</strong></p>
+<p><strong>总结：</strong></p>
+<p>对于普通用户来说，运行一个 Java 程序（纯 .jar 文件）确实需要：</p>
+<p><strong>电脑上已经安装了 JVM</strong>（通常通过安装 JRE 或 JDK 获得）</p>
+<p><strong>双击 <strong>.jar</strong> 文件</strong>（前提是操作系统已将 .jar 文件关联到 javaw.exe 或 java -jar 命令）</p>
+<p>这就是 Java“一次编译，到处运行”的代价：<strong>用户必须自己装运行器</strong>。</p>
+<p>但是这也有一个好处：因为 JDK 中包含了 JVM 及其运行库，所以用户不会遇到类似 C++ 程序中那种“缺少运行时库”的问题</p>
+<h1 id="JAVA环境的配置"><a href="#JAVA环境的配置" class="headerlink" title="JAVA环境的配置"></a>JAVA环境的配置</h1><p>我们刚才了解了 VSCode 的”变身成 IDE 的轻量级编辑器”这个定位，所以下载 VSCode 后，需要额外准备：</p>
+<p>**编译器 **javac</p>
+<p><strong>运行器 JVM</strong></p>
+<h2 id="智能报错-辅助插件"><a href="#智能报错-辅助插件" class="headerlink" title="智能报错 &#x2F; 辅助插件"></a>智能报错 &#x2F; 辅助插件</h2><p>其中，javac 和 JVM **（以及它的运行库）**被打包进了 <strong>JDK</strong> 里，直接下载安装 JDK 即可同时获得编译器和运行器。</p>
+<p>智能报错 &#x2F; 辅助插件，在 VSCode 的内置商店里搜索安装即可（如 Java Extension Pack）。</p>
+<h2 id="第一步-下载编辑器VSCode"><a href="#第一步-下载编辑器VSCode" class="headerlink" title="第一步 下载编辑器VSCode"></a>第一步 下载编辑器VSCode</h2><p>Visual Studio Code - 开源的AI代码编辑器 |多智能体开发的家园</p>
+<p>下载安装包后一直选择下一步 但是遇到下面的这两个界面需要注意</p>
+<p><img src="/hexo-blog/media_tx/img-e36c073135fc45e8.png"></p>
+<h2 id="安装目录选择空间大、方便打开的D盘根目录"><a href="#安装目录选择空间大、方便打开的D盘根目录" class="headerlink" title="安装目录选择空间大、方便打开的D盘根目录"></a>安装目录选择空间大、方便打开的D盘根目录</h2><p><img src="/hexo-blog/media_tx/img-c87f2c2d5296b46e.png"></p>
+<h2 id="最好全部打勾-这些都是方便使用的选项"><a href="#最好全部打勾-这些都是方便使用的选项" class="headerlink" title="最好全部打勾 这些都是方便使用的选项"></a>最好全部打勾 这些都是方便使用的选项</h2><p><img src="/hexo-blog/media_tx/img-50fbc84a083a6788.png"></p>
+<h2 id="得到了以下界面"><a href="#得到了以下界面" class="headerlink" title="得到了以下界面"></a>得到了以下界面</h2><p><img src="/hexo-blog/media_tx/img-f684e0eb800866e7.png"></p>
+<h2 id="第二步-下载JDK"><a href="#第二步-下载JDK" class="headerlink" title="第二步 下载JDK"></a>第二步 下载JDK</h2><p><strong><a target="_blank" rel="noopener" href="https://adoptium.net/">https://adoptium.net/</a></strong></p>
+<p>下载安装包后一直选择下一步 但是遇到下面的这两个界面需要注意</p>
+<p><img src="/hexo-blog/media_tx/img-75371774eb9dccde.png"></p>
+<p>选择 Install for all users of this machine</p>
+<p><img src="/hexo-blog/media_tx/img-c80252f2b24beffd.png"></p>
+<p><img src="/hexo-blog/media_tx/img-cd18470ffd56786c.png"></p>
+<p><img src="/hexo-blog/media_tx/img-9b48046e25edc36e.png"></p>
+<p>找到 <strong>“设置或重写 JAVA_HOME 变量”</strong> 这一行</p>
+<p>点击前面的图标（你截图里是红色 X）</p>
+<p>在弹出的菜单中，选择 <strong>“此功能将安装到本地硬盘上”</strong>（<strong>不是</strong>“整个功能将安装到本地硬盘上”）</p>
+<p>效果：前面的红色 X 会变成一个<strong>灰色的硬盘图标</strong>（或打勾），表示这个子功能被选中安装了。</p>
+<p><img src="/hexo-blog/media_tx/img-e05ad3af5785b42e.png"></p>
+<p><strong>“修改 PATH 变量值” 这个选项，就是让操作系统暴露 JDK 的命令行工具给 VS Code 及其他程序调用。</strong> 没有这一步，VS Code 点“运行”时会报错：“找不到 javac”。</p>
+<p><strong>第二项（Associate .jar）就是：双击 <strong>.jar</strong> 文件，系统会自动调用 Java 运行器JVM来执行它。</strong></p>
+<p><strong>第三项（设置或重写 JAVA_HOME）就是把 JDK 的安装位置登记到操作系统里，让 VS Code 等工具知道去哪里找 JDK 来调用。</strong></p>
+<p><strong>第三步 在VSCode里下载编辑器的智能报错 &#x2F; 辅助插件</strong></p>
+<p><img src="/hexo-blog/media_tx/img-f3763911b4a3c37b.png"></p>
+<p>左边的资源管理器栏目(对应第一个图标选择时)就会变成这样：</p>
+<p><img src="/hexo-blog/media_tx/img-fa56511597c4db1e.png"></p>
+<p>在搜索框输入：Extension Pack for Java</p>
+<p><img src="/hexo-blog/media_tx/img-c3e206752e4474c4.png"></p>
+<h1 id="Java-开发-运行版本与-JDK-的关系"><a href="#Java-开发-运行版本与-JDK-的关系" class="headerlink" title="Java 开发&#x2F;运行版本与 JDK 的关系"></a>Java 开发&#x2F;运行版本与 JDK 的关系</h1><h2 id="1-Java-SE：JDK-直接提供的就是-Java-SE"><a href="#1-Java-SE：JDK-直接提供的就是-Java-SE" class="headerlink" title="1. Java SE：JDK 直接提供的就是 Java SE"></a>1. Java SE：JDK 直接提供的就是 Java SE</h2><p><strong>Java SE（Standard Edition）</strong> 是 Java 的核心平台。 你从官网下载、安装的 JDK，对应的就是 <strong>Java SE 开发环境</strong>。</p>
+<p><strong>装 JDK &#x3D; 获得完整的 Java SE 开发&#x2F;运行能力。</strong></p>
+<h2 id="2-Java-EE：在-SE-之上附加的企业级能力"><a href="#2-Java-EE：在-SE-之上附加的企业级能力" class="headerlink" title="2. Java EE：在 SE 之上附加的企业级能力"></a>2. Java EE：在 SE 之上附加的企业级能力</h2><p><strong>Java EE（Enterprise Edition）</strong> 是一套<strong>企业级 API 规范</strong>（如 Servlet、JPA、JMS 等），用于开发 Web 应用、微服务、大型分布式系统。</p>
+<p>Java EE 不是一个独立版本的 JDK，而是建立在 Java SE 基础之上的扩展能力。</p>
+<p>要开发 Java EE 应用，需要三步：</p>
+<p><strong>装好 JDK</strong>（获得 Java SE 的运行环境）</p>
+<p><strong>在项目中引入 Jakarta EE 依赖</strong>（如 jakarta.servlet-api）</p>
+<p><strong>配合应用服务器</strong>（如 Tomcat、WildFly）来运行</p>
+<p><strong>Java EE 不需要重新安装另一个 JDK，同一个 JDK 可以直接用来开发 Java SE 或 Jakarta EE 项目。</strong></p>
+<p><strong>只有当你需要用 Java 开发服务器端应用（Web 后端、API 服务、企业级系统）时，才会用到 Java EE（Jakarta EE）的规范。如果只是写普通的桌面程序、命令行工具或基础逻辑，Java SE 就完全足够了。</strong></p>
+<p>而刚刚提到<strong>的应用服务器就是一套“成品”的运行环境，你的 Web 程序（.war 文件）部署到里面，就能直接跑起来。</strong> 它已经实现了 Java EE &#x2F; Jakarta EE 的各种复杂规范，你不用自己从头写这些底层的网络通信、事务管理、数据库连接池等，直接调用它提供的 API 就行。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://mitchell255ljy.github.io/hexo-blog">酸酸米老鼠</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://mitchell255ljy.github.io/hexo-blog/2026/09/09/1%E8%AF%AD%E8%A8%80%E7%89%B9%E6%80%A7%E4%B8%8E%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">https://mitchell255ljy.github.io/hexo-blog/2026/09/09/1%E8%AF%AD%E8%A8%80%E7%89%B9%E6%80%A7%E4%B8%8E%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://mitchell255ljy.github.io/hexo-blog" target="_blank">酸酸米老鼠的记忆库</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/hexo-blog/img/butterfly-icon.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/hexo-blog/2026/09/09/2JAVA%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1%E8%AF%AD%E6%B3%95/" title=""><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2"></div></div><div class="info-2"><div class="info-item-1">Java 为什么没有C&#x2F;C++的头文件C++ 的 .h 与 .cpp：不是本质区别，是工程约定从编译角度看，.h 和 .cpp 没有区别文件名后缀（如 .h、.cpp、.hpp、.cc、.cxx）对 C++ 编译器没有强制语义。 也就是说： 你可以 #include 一个 .cpp 文件,原本用来承载模板库、头文件库的 .h 文件，也可以用 .cpp 来承载，然后通过 #include 来调用 你也可以在一个 .h 文件里写函数调用,把整个项目的代码可以全部写在 .h 文件里（包括 main 函数），然后直接编译这个 .h 文件（如 g++ main.h）来生成可执行程序 没有“哪个后缀只能放什么”的规定。 编译器只认文件内容，不认后缀名。 工程上之所以把 .h 和 .cpp 分开使用，是为了避免重复定义和提高编译速度，这是工程习惯，不是语言强制。 Java 没有做这个区分，而是直接采用了“混用模式”：头文件和调用文件全都用 .java 文件来承载。 换句话说，既然 C++ 里 .h 和 .cpp 承载的内容本质上没有区别，Java 就把原本放在 .h 里的内容（声明、...</div></div></div></a><a class="pagination-related" href="/hexo-blog/2026/09/08/2SDK%E7%9A%84%E5%BB%BA%E7%AB%8B%E4%B8%8E%E5%BC%95%E7%94%A8/" title="0P02 SDK的建立与引用"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">0P02 SDK的建立与引用</div></div><div class="info-2"><div class="info-item-1">软件开发工具包SDKSDK库的组成部分声明和实现的表现形式为,一套写好声明的.h,一套放实现的.lib&#x2F;.dllSDK 到底封装了什么普通库：封装数据结构 + 算法所谓的普通库就是：头文件库、模板库、传统分离模式SDK：封装带系统资源的复杂活对象（平台SDK&#x2F;部分扩展SDK），或封装复杂逻辑&#x2F;算法&#x2F;状态机（扩展SDK） 平台 SDK与扩展sdk平台 SDK，最初就是配合操作系统内核资源（文件、网络、进程）功能实现的 SDK。早期的平台 SDK，绝大部分就是面向系统资源的实现。所以后来它也叫做内核 SDK——操作系统层的功能实现，都是说“去调用内核 SDK”。 扩展 SDK则不同。它有的涉及内核扩展，有的是纯逻辑，有的调用系统内核资源，有的不调用。但即使它涉及内核资源，也不叫内核 SDK。 为什么？ 因为内核资源只能由官方的 SDK 调用。扩展 SDK 要去调内核资源，实际上必须经过内核 SDK ,这是因为操作系统内核在设计时，就明确规定了只有自己提供的特定DLL(平台sdk)（如ntdll.dll、kernel32.dll）内部的那个sys...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/hexo-blog/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/hexo-blog/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">酸酸米老鼠</div><div class="author-info-description"></div><div class="site-data"><a href="/hexo-blog/archives/"><div class="headline">文章</div><div class="length-num">9</div></a><a href="/hexo-blog/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/hexo-blog/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">免费文章 禁止商用</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BC%96%E8%BE%91%E5%99%A8%E7%9A%84%E6%97%B6%E4%BB%A3%E8%BD%AC%E5%8F%98%E4%B8%8E%E9%9B%86%E6%88%90%E7%A8%8B%E5%BA%A6"><span class="toc-number">1.</span> <span class="toc-text">编辑器的时代转变与集成程度</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80-%E8%AE%B0%E4%BA%8B%E6%9C%AC%EF%BC%88%E5%8F%A4%E6%97%A9%E7%BC%96%E8%BE%91%E5%99%A8%EF%BC%89%E6%97%B6%E4%BB%A3%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%B5%81"><span class="toc-number">1.1.</span> <span class="toc-text">一 记事本（古早编辑器）时代的工作流</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E5%99%A8%EF%BC%9A%E6%89%A7%E8%A1%8C%E7%BC%96%E8%AF%91%E5%90%8E%E7%9A%84%E7%A8%8B%E5%BA%8F"><span class="toc-number">1.2.</span> <span class="toc-text">运行器：执行编译后的程序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E8%A6%81%E6%B1%82"><span class="toc-number">1.3.</span> <span class="toc-text">配置要求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="toc-number">1.4.</span> <span class="toc-text">工作流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C-%E7%8E%B0%E4%BB%A3%E7%BC%96%E8%BE%91%E5%99%A8%E6%97%B6%E4%BB%A3%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%B5%81%EF%BC%88%E4%BB%A5-VSCode-%E4%B8%BA%E4%BE%8B%EF%BC%89"><span class="toc-number">1.5.</span> <span class="toc-text">二 现代编辑器时代的工作流（以 VSCode 为例）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E8%A6%81%E6%B1%82-1"><span class="toc-number">1.6.</span> <span class="toc-text">配置要求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VSCode-%E7%9A%84%E5%AE%9A%E4%BD%8D%EF%BC%9A%E5%8F%AF%E4%BB%A5%E5%8F%98%E8%BA%AB%E6%88%90-IDE-%E7%9A%84%E8%BD%BB%E9%87%8F%E7%BA%A7%E7%BC%96%E8%BE%91%E5%99%A8"><span class="toc-number">1.7.</span> <span class="toc-text">VSCode 的定位：可以变身成 IDE 的轻量级编辑器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%90%86%E8%A7%A3-VS%EF%BC%88IDE%EF%BC%89%E4%B8%8E-VSCode%E7%9A%84%E9%9B%86%E6%88%90%E7%A8%8B%E5%BA%A6%E5%8C%BA%E5%88%AB"><span class="toc-number">1.8.</span> <span class="toc-text">理解 VS（IDE）与 VSCode的集成程度区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%82%A3%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%98%E8%A6%81%E7%94%A8-VSCode-%E5%BC%80%E5%8F%91-Java%EF%BC%9F"><span class="toc-number">1.9.</span> <span class="toc-text">那为什么还要用 VSCode 开发 Java？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JAVA%E7%9A%84%E8%AF%AD%E8%A8%80%E7%89%B9%E6%80%A7"><span class="toc-number">2.</span> <span class="toc-text">JAVA的语言特性</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E4%BB%8EC-%E7%9A%84%E2%80%9C%E8%BF%90%E8%A1%8C%E6%97%B6%E5%A4%9A%E6%80%81%E2%80%9D%E7%9C%8B%E2%80%9C%E9%9D%99%E6%80%81%E7%BC%96%E8%AF%91%E2%80%9D%E4%B8%8E%E2%80%9C%E5%8A%A8%E6%80%81%E8%A1%8C%E4%B8%BA%E2%80%9D%E7%9A%84%E8%BE%B9%E7%95%8C"><span class="toc-number">2.1.</span> <span class="toc-text">1 从C++的“运行时多态”看“静态编译”与“动态行为”的边界</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Java-%E7%9A%84%E8%B7%A8%E5%B9%B3%E5%8F%B0%E7%89%B9%E6%80%A7%E5%90%8E%E7%9A%84%E7%BC%96%E8%AF%91%E6%A8%A1%E5%9E%8B%EF%BC%9A%E4%B8%8D%E6%98%AF%E2%80%9C%E5%8A%A8%E6%80%81%E7%BC%96%E8%AF%91%E2%80%9D%EF%BC%8C%E8%80%8C%E6%98%AF%E2%80%9C%E5%8F%8C%E9%98%B6%E6%AE%B5%E7%BC%96%E8%AF%91%E2%80%9D"><span class="toc-number">2.2.</span> <span class="toc-text">2 Java 的跨平台特性后的编译模型：不是“动态编译”，而是“双阶段编译”</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-Java-%E7%9A%84%E2%80%9C%E9%83%A8%E5%88%86%E7%BC%96%E8%AF%91%E2%80%9D%E8%83%BD%E5%8A%9B%EF%BC%9A%E4%B8%8D%E9%9D%A0-IDE%EF%BC%8C%E9%9D%A0%E7%BC%96%E8%AF%91%E6%A8%A1%E5%9E%8B"><span class="toc-number">2.3.</span> <span class="toc-text">3 Java 的“部分编译”能力：不靠 IDE，靠编译模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E2%9C%85-%E7%A8%8B%E5%BA%8F%E4%BE%9D%E7%84%B6%E5%8F%AF%E4%BB%A5%E6%AD%A3%E5%B8%B8%E8%BF%90%E8%A1%8C"><span class="toc-number">2.4.</span> <span class="toc-text">✅ 程序依然可以正常运行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8D%E9%9C%80%E8%A6%81%E9%87%8D%E6%96%B0%E7%BC%96%E8%AF%91%E6%95%B4%E4%B8%AA%E9%A1%B9%E7%9B%AE"><span class="toc-number">2.5.</span> <span class="toc-text">不需要重新编译整个项目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%A7%E5%A4%A7%E5%87%8F%E5%B0%91%E4%BA%86%E9%87%8D%E5%A4%8D%E7%BC%96%E8%AF%91%E6%97%B6%E9%97%B4"><span class="toc-number">2.6.</span> <span class="toc-text">大大减少了重复编译时间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E4%B8%BA%E4%BB%80%E4%B9%88-C-%E5%81%9A%E4%B8%8D%E5%88%B0%E5%90%8C%E6%A0%B7%E7%9A%84%E9%83%A8%E5%88%86%E7%BC%96%E8%AF%91%EF%BC%9F"><span class="toc-number">2.7.</span> <span class="toc-text">4 为什么 C++ 做不到同样的部分编译？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C-%E7%9A%84%E2%80%9C%E9%A2%84%E7%BC%96%E8%AF%91%E5%A4%B4%E2%80%9D%E6%98%AF%E5%B7%A5%E5%85%B7%E4%BC%98%E5%8C%96%EF%BC%8C%E4%B8%8D%E6%98%AF%E8%AF%AD%E8%A8%80%E7%89%B9%E6%80%A7"><span class="toc-number">2.8.</span> <span class="toc-text">C++ 的“预编译头”是工具优化，不是语言特性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%AA%E8%A6%81%E8%BF%99%E4%BA%9B%E5%A4%B4%E6%96%87%E4%BB%B6%E4%B8%8D%E5%8F%98%EF%BC%8C%E5%B0%B1%E4%B8%8D%E5%86%8D%E9%87%8D%E5%A4%8D%E7%BC%96%E8%AF%91"><span class="toc-number">2.9.</span> <span class="toc-text">只要这些头文件不变，就不再重复编译</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%AF%E4%BB%A5%E6%98%BE%E8%91%97%E5%87%8F%E5%B0%91%E9%87%8D%E5%A4%8D%E7%BC%96%E8%AF%91%E6%97%B6%E9%97%B4"><span class="toc-number">2.10.</span> <span class="toc-text">可以显著减少重复编译时间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%84%E7%BC%96%E8%AF%91%E5%A4%B4%E6%98%AF-IDE-%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7%E7%9A%84%E5%B7%A5%E7%A8%8B%E4%BC%98%E5%8C%96"><span class="toc-number">2.11.</span> <span class="toc-text">预编译头是 IDE &#x2F; 构建工具的工程优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E9%83%A8%E5%88%86%E7%BC%96%E8%AF%91-%E4%B8%80%E4%B8%AA%E5%B8%B8%E8%A7%81%E7%9A%84%E9%94%99%E8%AF%AF%E5%BD%92%E5%9B%A0"><span class="toc-number">2.12.</span> <span class="toc-text">关于部分编译 一个常见的错误归因</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B2%A1%E6%9C%89%E5%8F%8C%E9%98%B6%E6%AE%B5%E7%BC%96%E8%AF%91"><span class="toc-number">2.13.</span> <span class="toc-text">没有双阶段编译</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E6%B3%95%E6%9B%BF%E6%8D%A2%E5%B1%80%E9%83%A8%E6%96%87%E4%BB%B6"><span class="toc-number">2.14.</span> <span class="toc-text">无法替换局部文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-Java-%E4%B8%8E-C-C-%E8%BF%90%E8%A1%8C%E5%99%A8%E7%9A%84%E8%B0%83%E7%94%A8%E4%B8%8E%E4%BA%A4%E4%BB%98%E5%8C%BA%E5%88%AB"><span class="toc-number">2.15.</span> <span class="toc-text">5 Java 与 C&#x2F;C++ 运行器的调用与交付区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-1-%E5%9B%9E%E5%88%B0%E2%80%9C%E8%BF%90%E8%A1%8C%E5%99%A8%E2%80%9D%E6%A6%82%E5%BF%B5"><span class="toc-number">2.16.</span> <span class="toc-text">5.1 回到“运行器”概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B0%83%E7%94%A8%E8%BF%90%E8%A1%8C%E5%99%A8%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E5%BC%8F"><span class="toc-number">2.17.</span> <span class="toc-text">调用运行器的两种方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%99%E6%98%AF-Java%E2%80%9C%E5%A4%9A%E4%B8%AD%E9%97%B4%E6%96%87%E4%BB%B6%E2%80%9D%E7%BC%96%E8%AF%91%E6%A8%A1%E5%9E%8B%E7%9A%84%E7%9B%B4%E6%8E%A5%E5%90%8E%E6%9E%9C"><span class="toc-number">2.18.</span> <span class="toc-text">这是 Java“多中间文件”编译模型的直接后果</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JAVA%E7%8E%AF%E5%A2%83%E7%9A%84%E9%85%8D%E7%BD%AE"><span class="toc-number">3.</span> <span class="toc-text">JAVA环境的配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%99%BA%E8%83%BD%E6%8A%A5%E9%94%99-%E8%BE%85%E5%8A%A9%E6%8F%92%E4%BB%B6"><span class="toc-number">3.1.</span> <span class="toc-text">智能报错 &#x2F; 辅助插件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5-%E4%B8%8B%E8%BD%BD%E7%BC%96%E8%BE%91%E5%99%A8VSCode"><span class="toc-number">3.2.</span> <span class="toc-text">第一步 下载编辑器VSCode</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E7%9B%AE%E5%BD%95%E9%80%89%E6%8B%A9%E7%A9%BA%E9%97%B4%E5%A4%A7%E3%80%81%E6%96%B9%E4%BE%BF%E6%89%93%E5%BC%80%E7%9A%84D%E7%9B%98%E6%A0%B9%E7%9B%AE%E5%BD%95"><span class="toc-number">3.3.</span> <span class="toc-text">安装目录选择空间大、方便打开的D盘根目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E5%A5%BD%E5%85%A8%E9%83%A8%E6%89%93%E5%8B%BE-%E8%BF%99%E4%BA%9B%E9%83%BD%E6%98%AF%E6%96%B9%E4%BE%BF%E4%BD%BF%E7%94%A8%E7%9A%84%E9%80%89%E9%A1%B9"><span class="toc-number">3.4.</span> <span class="toc-text">最好全部打勾 这些都是方便使用的选项</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BE%97%E5%88%B0%E4%BA%86%E4%BB%A5%E4%B8%8B%E7%95%8C%E9%9D%A2"><span class="toc-number">3.5.</span> <span class="toc-text">得到了以下界面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5-%E4%B8%8B%E8%BD%BDJDK"><span class="toc-number">3.6.</span> <span class="toc-text">第二步 下载JDK</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Java-%E5%BC%80%E5%8F%91-%E8%BF%90%E8%A1%8C%E7%89%88%E6%9C%AC%E4%B8%8E-JDK-%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="toc-number">4.</span> <span class="toc-text">Java 开发&#x2F;运行版本与 JDK 的关系</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-Java-SE%EF%BC%9AJDK-%E7%9B%B4%E6%8E%A5%E6%8F%90%E4%BE%9B%E7%9A%84%E5%B0%B1%E6%98%AF-Java-SE"><span class="toc-number">4.1.</span> <span class="toc-text">1. Java SE：JDK 直接提供的就是 Java SE</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Java-EE%EF%BC%9A%E5%9C%A8-SE-%E4%B9%8B%E4%B8%8A%E9%99%84%E5%8A%A0%E7%9A%84%E4%BC%81%E4%B8%9A%E7%BA%A7%E8%83%BD%E5%8A%9B"><span class="toc-number">4.2.</span> <span class="toc-text">2. Java EE：在 SE 之上附加的企业级能力</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/hexo-blog/2026/09/09/2JAVA%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1%E8%AF%AD%E6%B3%95/" title="无标题">无标题</a><time datetime="2026-09-09T10:55:36.857Z" title="发表于 2026-09-09 18:55:36">2026-09-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/hexo-blog/2026/09/09/1%E8%AF%AD%E8%A8%80%E7%89%B9%E6%80%A7%E4%B8%8E%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" title="无标题">无标题</a><time datetime="2026-09-09T10:55:32.903Z" title="发表于 2026-09-09 18:55:32">2026-09-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/hexo-blog/2026/09/08/2SDK%E7%9A%84%E5%BB%BA%E7%AB%8B%E4%B8%8E%E5%BC%95%E7%94%A8/" title="0P02 SDK的建立与引用">0P02 SDK的建立与引用</a><time datetime="2026-09-08T00:53:44.957Z" title="发表于 2026-09-08 08:53:44">2026-09-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/hexo-blog/2026/09/08/1%E5%A4%9A%E6%96%87%E4%BB%B6%E9%A1%B9%E7%9B%AE%E5%AE%9E%E7%8E%B0/" title="0P01 多文件项目实现">0P01 多文件项目实现</a><time datetime="2026-09-08T00:53:44.374Z" title="发表于 2026-09-08 08:53:44">2026-09-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/hexo-blog/2026/09/08/5%E6%8C%87%E4%BB%A4%E5%91%A8%E6%9C%9F%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%97%B6%E9%92%9F/" title="0T05 指令周期计算机时钟">0T05 指令周期计算机时钟</a><time datetime="2026-09-08T00:53:43.636Z" title="发表于 2026-09-08 08:53:43">2026-09-08</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 酸酸米老鼠</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.2</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.7.0</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/hexo-blog/js/utils.js?v=5.7.0"></script><script src="/hexo-blog/js/main.js?v=5.7.0"></script><div class="js-pjax"></div><script>function sortPostsByCode(o){var c=document.querySelector("#recent-posts .recent-post-items");if(!c)return;var a=Array.prototype.slice.call(c.querySelectorAll(".recent-post-item[data-code]"));a.sort(function(x,y){var dx=x.getAttribute("data-code"),dy=y.getAttribute("data-code");if(dx===dy)return 0;return o==="earliest"?(dx<dy?-1:1):(dx<dy?1:-1)});a.forEach(function(t){c.appendChild(t)})}</script><script>function filterPostsByCat(cat,btn){var c=document.querySelector("#recent-posts .recent-post-items");if(!c)return;var n=0;c.querySelectorAll(".recent-post-item[data-cat]").forEach(function(it){var show=cat==="all"||it.getAttribute("data-cat")===cat;it.style.display=show?"":"none";if(show)n++});document.querySelectorAll(".cat-filter-btn").forEach(function(b){b.classList.remove("active")});if(btn)btn.classList.add("active");var cnt=document.getElementById("recent-posts-count");if(cnt)cnt.textContent="共"+n+"篇"}</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/hexo-blog/js/search/local-search.js?v=5.7.0"></script></div></div></body></html>

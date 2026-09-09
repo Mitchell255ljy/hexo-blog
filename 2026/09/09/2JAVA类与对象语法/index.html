@@ -1,0 +1,701 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>酸酸米老鼠的记忆库 | 酸酸米老鼠的记忆库</title><meta name="author" content="酸酸米老鼠"><meta name="copyright" content="酸酸米老鼠"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Java 为什么没有C&#x2F;C++的头文件C++ 的 .h 与 .cpp：不是本质区别，是工程约定从编译角度看，.h 和 .cpp 没有区别文件名后缀（如 .h、.cpp、.hpp、.cc、.cxx）对 C++ 编译器没有强制语义。 也就是说： 你可以 #include 一个 .cpp 文件,原本用来承载模板库、头文件库的 .h 文件，也可以用 .cpp 来承载，然后通过 #include">
+<meta property="og:type" content="article">
+<meta property="og:title" content="酸酸米老鼠的记忆库">
+<meta property="og:url" content="https://mitchell255ljy.github.io/hexo-blog/2026/09/09/2JAVA%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1%E8%AF%AD%E6%B3%95/index.html">
+<meta property="og:site_name" content="酸酸米老鼠的记忆库">
+<meta property="og:description" content="Java 为什么没有C&#x2F;C++的头文件C++ 的 .h 与 .cpp：不是本质区别，是工程约定从编译角度看，.h 和 .cpp 没有区别文件名后缀（如 .h、.cpp、.hpp、.cc、.cxx）对 C++ 编译器没有强制语义。 也就是说： 你可以 #include 一个 .cpp 文件,原本用来承载模板库、头文件库的 .h 文件，也可以用 .cpp 来承载，然后通过 #include">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://mitchell255ljy.github.io/hexo-blog/img/butterfly-icon.png">
+<meta property="article:published_time" content="2026-09-09T10:55:36.857Z">
+<meta property="article:modified_time" content="2026-09-09T10:54:48.539Z">
+<meta property="article:author" content="酸酸米老鼠">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://mitchell255ljy.github.io/hexo-blog/img/butterfly-icon.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "",
+  "url": "https://mitchell255ljy.github.io/hexo-blog/2026/09/09/2JAVA%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1%E8%AF%AD%E6%B3%95/",
+  "image": "https://mitchell255ljy.github.io/hexo-blog/img/butterfly-icon.png",
+  "datePublished": "2026-09-09T10:55:36.857Z",
+  "dateModified": "2026-09-09T10:54:48.539Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "酸酸米老鼠",
+      "url": "https://mitchell255ljy.github.io/hexo-blog"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/hexo-blog/img/favicon.png"><link rel="canonical" href="https://mitchell255ljy.github.io/hexo-blog/2026/09/09/2JAVA%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1%E8%AF%AD%E6%B3%95/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/hexo-blog/css/index.css?v=5.7.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.3.1/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        const data = { value }
+
+        if (ttl != null) {
+          data.expiry = Date.now() + ttl * 86400000
+        }
+
+        localStorage.setItem(key, JSON.stringify(data))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return
+
+        try {
+          const data = JSON.parse(itemStr)
+
+          if (data.expiry && Date.now() > data.expiry) {
+            localStorage.removeItem(key)
+            return
+          }
+
+          return data.value
+        } catch {
+          localStorage.removeItem(key)
+        }
+      }
+    }
+
+    const scriptCache = new Map()
+    const cssCache = new Map()
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => {
+        if (scriptCache.has(url)) {
+          return scriptCache.get(url)
+        }
+
+        const promise = new Promise((resolve, reject) => {
+          const script = document.createElement('script')
+
+          script.src = url
+          script.async = true
+
+          for (const key in attr) {
+            script.setAttribute(key, attr[key])
+          }
+
+          script.onload = resolve
+          script.onerror = reject
+
+          document.head.appendChild(script)
+        })
+
+        scriptCache.set(url, promise)
+
+        return promise
+      },
+      getCSS: (url, id) => {
+        if (cssCache.has(url)) {
+          return cssCache.get(url)
+        }
+
+        const promise = new Promise((resolve, reject) => {
+          const link = document.createElement('link')
+
+          link.rel = 'stylesheet'
+          link.href = url
+
+          if (id) {
+            link.id = id
+          }
+
+          link.onload = resolve
+          link.onerror = reject
+
+          document.head.appendChild(link)
+        })
+
+        cssCache.set(url, promise)
+
+        return promise
+      },
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const metaThemeColor = document.querySelector('meta[name="theme-color"]')
+      const activateDarkMode = () => {
+        document.documentElement.dataset.theme = 'dark'
+        if (metaThemeColor !== null) {
+          metaThemeColor.setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.dataset.theme = 'light'
+        if (metaThemeColor !== null) {
+          metaThemeColor.setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/hexo-blog/',
+  algolia: undefined,
+  localSearch: {"path":"/hexo-blog/search.json","preload":false,"top_n_per_article":1,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '酸酸米老鼠的记忆库',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><style>.recent-posts-search{margin-bottom:1rem}.search-entry{display:flex;align-items:center;justify-content:space-between;width:100%;padding:.65rem 1rem;border:1px solid #e3e8f7;border-radius:12px;background:var(--card-bg,#fff);color:var(--font-color,#4c4948);cursor:pointer;transition:all .3s}.search-entry:hover{border-color:#49b1f5;box-shadow:0 0 8px rgba(73,177,245,.35)}.search-entry-text{opacity:.8}.search-entry-icon{color:#49b1f5}.recent-posts-btns{display:flex;gap:.5rem;margin-bottom:1rem}.recent-posts-btn{display:flex;align-items:center;justify-content:center;gap:.4rem;flex:1;padding:.6rem 1rem;border:1px solid #e3e8f7;border-radius:12px;background:var(--card-bg,#fff);color:var(--font-color,#4c4948);cursor:pointer;transition:all .3s;font-size:.95rem}.recent-posts-btn:hover{border-color:#49b1f5;box-shadow:0 0 8px rgba(73,177,245,.35);color:#49b1f5}.recent-posts-btn i{color:#49b1f5}.recent-posts-count{display:flex;align-items:center;padding:.6rem .9rem;border:1px solid #e3e8f7;border-radius:12px;background:var(--card-bg,#fff);color:var(--font-color,#4c4948);font-size:.95rem;white-space:nowrap;cursor:default}.cat-filter-btns{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:1rem;margin-bottom:1.6rem}.cat-filter-btn{display:inline-flex;align-items:center;gap:.5rem;padding:.55rem 1.25rem;border-radius:999px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#fff;font-size:1rem;cursor:pointer;transition:background .3s,color .3s,box-shadow .3s;text-decoration:none;user-select:none}.cat-filter-btn:hover{background:rgba(255,255,255,.34)}.cat-filter-btn.active{background:#fff;color:#49b1f5;border-color:#fff;box-shadow:0 6px 16px rgba(0,0,0,.18)}.cat-filter-btn i{font-size:.95em}.cat-filter-btn:nth-child(1){transform:rotate(-1.5deg)}.cat-filter-btn:nth-child(2){transform:translateY(-7px)}.cat-filter-btn:nth-child(3){transform:rotate(1.5deg)}</style><meta name="generator" content="Hexo 8.1.2"></head><body><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/hexo-blog/"><span class="site-name">酸酸米老鼠的记忆库</span></a><a class="nav-page-title" href="/hexo-blog/"><span class="site-name">酸酸米老鼠的记忆库</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div></div></nav><div id="post-info"><h1 class="post-title">无标题</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-09-09T10:55:36.857Z" title="发表于 2026-09-09 18:55:36">2026-09-09</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-09-09T10:54:48.539Z" title="更新于 2026-09-09 18:54:48">2026-09-09</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="Java-为什么没有C-C-的头文件"><a href="#Java-为什么没有C-C-的头文件" class="headerlink" title="Java 为什么没有C&#x2F;C++的头文件"></a>Java 为什么没有C&#x2F;C++的头文件</h1><h1 id="C-的-h-与-cpp：不是本质区别，是工程约定"><a href="#C-的-h-与-cpp：不是本质区别，是工程约定" class="headerlink" title="C++ 的 .h 与 .cpp：不是本质区别，是工程约定"></a>C++ 的 .h 与 .cpp：不是本质区别，是工程约定</h1><h2 id="从编译角度看，-h-和-cpp-没有区别"><a href="#从编译角度看，-h-和-cpp-没有区别" class="headerlink" title="从编译角度看，.h 和 .cpp 没有区别"></a>从编译角度看，.h 和 .cpp 没有区别</h2><p>文件名后缀（如 .h、.cpp、.hpp、.cc、.cxx）对 C++ 编译器<strong>没有强制语义</strong>。</p>
+<p>也就是说：</p>
+<p>你可以 #include 一个 .cpp 文件,原本用来承载模板库、头文件库的 .h 文件，也可以用 .cpp 来承载，然后通过 #include 来调用</p>
+<p>你也可以在一个 .h 文件里写函数调用,把整个项目的代码可以全部写在 .h 文件里（包括 main 函数），然后直接编译这个 .h 文件（如 g++ main.h）来生成可执行程序</p>
+<p><strong>没有“哪个后缀只能放什么”的规定。</strong> 编译器只认文件内容，不认后缀名。</p>
+<p>工程上之所以把 .h 和 .cpp 分开使用，是为了<strong>避免重复定义</strong>和<strong>提高编译速度</strong>，这是工程习惯，不是语言强制。</p>
+<p>Java 没有做这个区分，而是直接采用了“混用模式”：头文件和调用文件全都用 .java 文件来承载。 换句话说，既然 C++ 里 .h 和 .cpp 承载的内容本质上没有区别，Java 就把原本放在 .h 里的内容（声明、模板等）直接合并进了 .java 文件里，统一成一种文件格式。</p>
+<p>所以 Java 不需要头文件，不是因为它做不到，而是它的编译模型不依赖这种分离。 你需要调用另一个类时，直接使用即可，编译器会自己去类路径里找对应的字节码文件。</p>
+<h1 id="JAVA的强制堆区建立对象与指针隐藏"><a href="#JAVA的强制堆区建立对象与指针隐藏" class="headerlink" title="JAVA的强制堆区建立对象与指针隐藏"></a>JAVA的强制堆区建立对象与指针隐藏</h1><h1 id="一、C-的方式：对象可以在任何地方，指针暴露"><a href="#一、C-的方式：对象可以在任何地方，指针暴露" class="headerlink" title="一、C++ 的方式：对象可以在任何地方，指针暴露"></a>一、C++ 的方式：对象可以在任何地方，指针暴露</h1><p>C++ 的对象可以分配在三个地方：</p>
+<p><img src="/hexo-blog/media_tx/img-e57a82d1ab640141.png"></p>
+<p>同时，C++ 的指针是完全暴露的：</p>
+<p><img src="/hexo-blog/media_tx/img-e234741272ea6b42.png"></p>
+<p>程序员可以随意操作地址，好处是灵活，坏处是容易出错（空指针、野指针、内存泄漏）</p>
+<h1 id="二、Java-的方式：对象强制在堆区，指针隐藏"><a href="#二、Java-的方式：对象强制在堆区，指针隐藏" class="headerlink" title="二、Java 的方式：对象强制在堆区，指针隐藏"></a>二、Java 的方式：对象强制在堆区，指针隐藏</h1><p>Java 中，所有对象（除了基本类型）都强制分配在堆区，没有“栈上对象”这个概念。</p>
+<p>那么在 Java 中要创建对象，是不是等价于 C++ 里写成 MyClass* obj &#x3D; new MyClass(); 这种方式？</p>
+<p>实际上 Java 是这样写的：</p>
+<p><img src="/hexo-blog/media_tx/img-f7100b204993df37.png"></p>
+<p>C++ 程序员看到 MyClass obj &#x3D; new MyClass(); 第一反应是：<strong>错了，左边是对象，右边是指针，类型不匹配。</strong></p>
+<p>为什么 Java 可以这样写？原因如下：</p>
+<h2 id="Java-所有对象强制在堆区创建"><a href="#Java-所有对象强制在堆区创建" class="headerlink" title="Java 所有对象强制在堆区创建"></a>Java 所有对象强制在堆区创建</h2><h2 id="在-Java-中，指针是常态，到处都在用"><a href="#在-Java-中，指针是常态，到处都在用" class="headerlink" title="在 Java 中，指针是常态，到处都在用"></a>在 Java 中，指针是常态，到处都在用</h2><h2 id="既然指针是常态，那就干脆把-省略掉，不写了"><a href="#既然指针是常态，那就干脆把-省略掉，不写了" class="headerlink" title="既然指针是常态，那就干脆把 * 省略掉，不写了"></a>既然指针是常态，那就干脆把 * 省略掉，不写了</h2><p>所以 C++ 中的 MyClass* obj &#x3D; new MyClass(); 在 Java 中就写成了 MyClass obj &#x3D; new MyClass();</p>
+<p>obj 本质上仍然是一个指针（存储的是地址），只是 Java 把 * 隐藏了，让程序员感觉自己在“直接操作对象”。</p>
+<p>如果分开两行写，就更明显了：</p>
+<p><img src="/hexo-blog/media_tx/img-0c455dbb1ef7da1d.png"></p>
+<p>C++ 程序员看到 MyClass obj; 第一反应是“栈上创建对象”，但在 Java 里，这行<strong>什么都没创建</strong>，只是声明了一个引用（本质是地址变量），初始值为 null。 第二行 new MyClass() 才真正在堆区创建对象，并把地址赋值给 obj。</p>
+<p>这两行完全等价于 C++ 中的：</p>
+<p><img src="/hexo-blog/media_tx/img-7751adae7c73ad18.png"></p>
+<h2 id="三、一切皆为引用的设计模式"><a href="#三、一切皆为引用的设计模式" class="headerlink" title="三、一切皆为引用的设计模式"></a>三、一切皆为引用的设计模式</h2><p>顺着上一节“Java 的强制堆区建立对象与指针隐藏”的思路，我们继续探讨：<strong>为什么 Java 要强制所有对象都在堆区创建？</strong> **这样设计的底层逻辑是什么？**这才是理解“一切皆为引用”的关键。</p>
+<p>Java 中的“引用”可以理解为受限制的、安全的指针。</p>
+<p><strong>背景：</strong></p>
+<p>Java 的设计者讨厌 C&#x2F;C++ 中指针的复杂和危险（指针运算、内存泄漏、野指针等）</p>
+<p>但又想方便地管理内存、简化生命周期，而底层实现离不开“地址”的概念</p>
+<p><strong>解决方案：</strong></p>
+<h2 id="底层用指针实现所有对象访问"><a href="#底层用指针实现所有对象访问" class="headerlink" title="底层用指针实现所有对象访问"></a>底层用指针实现所有对象访问</h2><p>语法层面完全隐藏指针操作（不支持 *、&amp;、-&gt; 等）</p>
+<p><strong>结果：</strong></p>
+<p>使用者不需要知道底层是指针，也不会被指针的复杂性困扰</p>
+<p>但当使用者学习时产生疑问：“对象传递到底是怎么实现的？为什么是这样的行为？”</p>
+<p>设计者为了解释这些现象（如对象传递、null、垃圾回收），又不得不用“指针”的原理来说明</p>
+<p>但为了不和 C 的“指针”混为一谈，也不吓到使用者，他们给这个封装后的概念起名叫 <strong>“引用”</strong></p>
+<p><strong>底层是指针，且在语法上做了屏蔽，但为了解释行为、避免误解，Java 把它叫做“引用”。</strong></p>
+<p>这个“一切皆为引用”的设计，直接导致了我们前面讨论的现象：</p>
+<p><strong>为什么 <strong>MyClass obj &#x3D; new MyClass();</strong> 可以这样写？</strong>——因为 obj 是引用（隐藏了 *）</p>
+<p><strong>为什么 <strong>MyClass obj;</strong> 不创建对象？</strong>——因为只声明了引用，没有 new** **创建资源并返回地址</p>
+<p><strong>为什么参数传递能改变原对象？</strong>——因为传的是引用（地址）</p>
+<p><strong>记住这个“一切皆为引用”：</strong></p>
+<h1 id="在后续学习中，凡是遇到-Java-与-C-行为不同的地方，很多都可以追溯到“一切皆为引用”这个底层设计。"><a href="#在后续学习中，凡是遇到-Java-与-C-行为不同的地方，很多都可以追溯到“一切皆为引用”这个底层设计。" class="headerlink" title="在后续学习中，凡是遇到 Java 与 C++ 行为不同的地方，很多都可以追溯到“一切皆为引用”这个底层设计。"></a>在后续学习中，凡是遇到 Java 与 C++ 行为不同的地方，很多都可以追溯到“一切皆为引用”这个底层设计。</h1><h1 id="Java的函数、变量与入口函数"><a href="#Java的函数、变量与入口函数" class="headerlink" title="Java的函数、变量与入口函数"></a>Java的函数、变量与入口函数</h1><h2 id="一-Java与C-：函数变量的承载对比"><a href="#一-Java与C-：函数变量的承载对比" class="headerlink" title="一 Java与C++：函数变量的承载对比"></a>一 Java与C++：函数变量的承载对比</h2><h2 id="核心差异"><a href="#核心差异" class="headerlink" title="核心差异"></a>核心差异</h2><h2 id="C-：多范式承载"><a href="#C-：多范式承载" class="headerlink" title="C++：多范式承载"></a>C++：多范式承载</h2><p>函数和变量可以写在<strong>类外面</strong>（全局函数、全局变量）</p>
+<p>也可以写在<strong>类里面</strong>（成员函数、成员变量）</p>
+<h2 id="程序员有自由选择权"><a href="#程序员有自由选择权" class="headerlink" title="程序员有自由选择权"></a>程序员有自由选择权</h2><h2 id="Java：单一强制承载"><a href="#Java：单一强制承载" class="headerlink" title="Java：单一强制承载"></a>Java：单一强制承载</h2><h2 id="函数和变量必须写在类里面"><a href="#函数和变量必须写在类里面" class="headerlink" title="函数和变量必须写在类里面"></a>函数和变量必须写在类里面</h2><h2 id="不允许任何“类外部”的函数或变量存在"><a href="#不允许任何“类外部”的函数或变量存在" class="headerlink" title="不允许任何“类外部”的函数或变量存在"></a>不允许任何“类外部”的函数或变量存在</h2><h2 id="这是语言层面的强制规定，不是编程风格建议"><a href="#这是语言层面的强制规定，不是编程风格建议" class="headerlink" title="这是语言层面的强制规定，不是编程风格建议"></a>这是语言层面的强制规定，不是编程风格建议</h2><p><strong>总结：Java就是一个退化版的C++</strong>，不允许写全局函数，不允许写全局变量，函数和变量必须写到类里</p>
+<h2 id="二-Java入口函数的承载与修饰符语义"><a href="#二-Java入口函数的承载与修饰符语义" class="headerlink" title="二 Java入口函数的承载与修饰符语义"></a>二 Java入口函数的承载与修饰符语义</h2><h2 id="问题起源"><a href="#问题起源" class="headerlink" title="问题起源"></a>问题起源</h2><p>接第一阶段：Java既然不允许任何函数写在类外面（没有全局函数），那程序的<strong>入口函数</strong>怎么办？</p>
+<p>在C&#x2F;C++中，入口函数main就是一个典型的<strong>全局函数</strong>，它不属于任何类，程序启动时由操作系统直接调用。</p>
+<p>Java必须解决这个问题。</p>
+<h2 id="解决方案：把入口函数塞进类里"><a href="#解决方案：把入口函数塞进类里" class="headerlink" title="解决方案：把入口函数塞进类里"></a>解决方案：把入口函数塞进类里</h2><p>Java的做法很简单：<strong>把入口函数也写到一个类里面</strong>。</p>
+<p>比如：</p>
+<p><img src="/hexo-blog/media_tx/img-413867c5c9081503.png"></p>
+<h2 id="引出的问题"><a href="#引出的问题" class="headerlink" title="引出的问题"></a>引出的问题</h2><p>入口函数放在类里之后，它不就是一个<strong>成员函数</strong>了吗？</p>
+<p>那么，随着包含入口函数的这个类对应对象的不断建立，<strong>不就可以建立多个入口函数了吗？</strong></p>
+<h2 id="static的作用：解决“属于谁”的问题"><a href="#static的作用：解决“属于谁”的问题" class="headerlink" title="static的作用：解决“属于谁”的问题"></a>static的作用：解决“属于谁”的问题</h2><p>把函数放进类里，默认情况下它属于<strong>对象</strong>（非静态方法）。</p>
+<p>但入口函数有两个特殊要求：</p>
+<p><strong>程序启动时还没有任何对象存在</strong>，所以入口函数不能依赖于对象。</p>
+<p><strong>入口函数不能随着所在类对应对象的不断建立而产生多个</strong>——程序只能有一个起点。</p>
+<h2 id="解决方案：用static关键字修饰"><a href="#解决方案：用static关键字修饰" class="headerlink" title="解决方案：用static关键字修饰"></a>解决方案：用static关键字修饰</h2><p>static让main方法<strong>属于类本身</strong>，而不是属于某个具体的对象：</p>
+<p>JVM启动时，直接通过<strong>类名</strong>调用这个静态方法，不需要先创建对象→ <strong>解决要求1</strong></p>
+<p>static方法在内存中只有一份，被所有对象共享，不会随对象创建而产生多个副本 → <strong>解决要求2</strong></p>
+<h2 id="精准总结"><a href="#精准总结" class="headerlink" title="精准总结"></a>精准总结</h2><p><strong>“整个类只有一个入口函数，依靠这个类产生的全部对象都共享它。”</strong></p>
+<h2 id="三-入口函数调用本类其他成员的问题"><a href="#三-入口函数调用本类其他成员的问题" class="headerlink" title="三 入口函数调用本类其他成员的问题"></a>三 入口函数调用本类其他成员的问题</h2><p>既然main是静态的，它想调用本类里的其他函数&#x2F;成员时，分两种情况：</p>
+<p><img src="/hexo-blog/media_tx/img-f9c548a625472d23.png"></p>
+<p><strong>调用非静态成员的正确方式</strong>：先在main里创建对象，然后用对象去调用。</p>
+<p><img src="/hexo-blog/media_tx/img-dd41c5ce01e2c77d.png"></p>
+<p><strong>总结</strong>：“这两个方法不是一个级别的，静态的级别更高，它想调普通方法，只能去调属于具体对象的成员方法。”</p>
+<h2 id="四-对于入口函数public前缀的作用的疑惑"><a href="#四-对于入口函数public前缀的作用的疑惑" class="headerlink" title="四 对于入口函数public前缀的作用的疑惑"></a>四 对于入口函数public前缀的作用的疑惑</h2><p>接下来一个问题：为什么main前面还要写public？</p>
+<p>因为入口函数肯定没有其他函数来调用它，那你写公共访问权限是干啥用的呢？</p>
+<p>换个角度思考：</p>
+<p>JVM调用main，且JVM是外部程序，它需要访问这个入口函数。</p>
+<p>从访问权限的角度，JVM和你的类不在同一个包，甚至不是Java代码。</p>
+<p>因此需要public来允许这种外部访问。</p>
+<p>也就是说，这里的public的公共访问权限对应外部的JVM，是强调有个JVM调用它。</p>
+<p><strong>关键追问</strong>：JVM作为启动器，理论上可以无视访问修饰符直接调用，那写public不是多此一举吗？</p>
+<p><strong>答案</strong>：</p>
+<p>技术上，你没错，JVM确实有这个能力。</p>
+<p>设计上，Java为了保持语法规则的一致性，不允许main成为特例——所有能被外部调用的方法都应该用public标记，main也不例外。</p>
+<p><strong>比喻</strong>：“让上帝遵守规则。实际上上帝可以不遵守，但为了统一规范、写得漂亮，不得不让上帝也遵守规则。”</p>
+<h1 id="五-Java语言特性：C-真正没有的概念——项目多主类"><a href="#五-Java语言特性：C-真正没有的概念——项目多主类" class="headerlink" title="五 Java语言特性：C++真正没有的概念——项目多主类"></a>五 Java语言特性：C++真正没有的概念——项目多主类</h1><h2 id="我们把包含入口函数的类称为主类"><a href="#我们把包含入口函数的类称为主类" class="headerlink" title="我们把包含入口函数的类称为主类"></a>我们把包含入口函数的类称为主类</h2><p>在C++中，一个项目<strong>有且只有一个</strong>main函数。这是链接器的硬性要求——多个main会导致链接失败。</p>
+<p>但在Java中，情况完全不同。</p>
+<h2 id="Java的规则"><a href="#Java的规则" class="headerlink" title="Java的规则"></a>Java的规则</h2><p>Java允许一个项目中有多个类各自包含自己的main方法。 （表现为：一个源文件中的多个类可以各有自己的main，或者多个源文件各有一个带main的类。）</p>
+<p><strong>疑问</strong>：这不和之前说的“程序只能有一个起点”相悖吗？</p>
+<p><strong>答案</strong>：不矛盾。</p>
+<h2 id="根本原因：编译产物的粒度不同"><a href="#根本原因：编译产物的粒度不同" class="headerlink" title="根本原因：编译产物的粒度不同"></a>根本原因：编译产物的粒度不同</h2><h2 id="Java的模型"><a href="#Java的模型" class="headerlink" title="Java的模型"></a>Java的模型</h2><p>Java编译后产生的字节码文件以<strong>类</strong>为粒度，每个类都会生成自己独立的.class文件</p>
+<p>这就让每个类（包括作为入口的主类）独立成为一个字节码文件（<strong>无论多个</strong>main<strong>方法分布在同一个源文件还是不同源文件中，入口的承载粒度始终是单个类，与编译后的字节码文件一一对应</strong>）</p>
+<p>运行时，JVM可以选定<strong>任意一个包含</strong>main<strong>方法的</strong>.class**字节码文件（即独立的入口单元）**来执行</p>
+<p>因为编译产生的是多个独立的文件，所以运行器（JVM）有了<strong>选择用哪个文件作为入口</strong>的可能</p>
+<h2 id="C-的模型"><a href="#C-的模型" class="headerlink" title="C++的模型"></a>C++的模型</h2><p>C++采用<strong>编译 + 链接</strong>的模型。</p>
+<p>编译阶段：每个源文件独立编译成目标文件（.obj 或 .o）。</p>
+<p>链接阶段：链接器将所有目标文件<strong>合并</strong>成一个<strong>单一可执行文件</strong>。</p>
+<p>这个单一可执行文件，从设计上就<strong>只能有一个入口函数</strong>（main）。</p>
+<p>因此，链接器在合并过程中，如果发现多个目标文件都定义了main，就会报“重复定义”错误，<strong>链接失败</strong>。</p>
+<p>这不是链接器“没做兼容”或“没做优化”，而是<strong>C++模型从根本上就不支持多个入口</strong>。链接器只是忠实地执行了这个设计。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><strong>Java允许“项目多主类”的本质原因：编译以类为粒度，产生多个独立的字节码文件，JVM运行时可以动态选择其中任意一个包含</strong>main<strong>的类作为程序入口。</strong></p>
+<p><strong>也就是说：一套字节码文件，根据JVM选择哪个主类作为入口，就能运行出不同的程序行为。</strong></p>
+<p><strong>这就解释了：为什么Java既保证了“单次运行只有一个入口”，又允许“一个项目中存在多个主类”</strong></p>
+<p>这与C++的“整体编译链接成单一可执行文件、入口必须唯一”的模型形成根本性对比。</p>
+<h2 id="实际在-VSCode-中选择不同主类进行运行的操作流程如下："><a href="#实际在-VSCode-中选择不同主类进行运行的操作流程如下：" class="headerlink" title="实际在 VSCode 中选择不同主类进行运行的操作流程如下："></a>实际在 VSCode 中选择不同主类进行运行的操作流程如下：</h2><h2 id="1-多个源文件各含一个入口类"><a href="#1-多个源文件各含一个入口类" class="headerlink" title="1 多个源文件各含一个入口类"></a>1 多个源文件各含一个入口类</h2><p>首先按指定目录结构构建项目，并编写对应的代码。</p>
+<p><img src="/hexo-blog/media_tx/img-4fb720f3320a4c54.png"></p>
+<p>写入以下代码：</p>
+<p><img src="/hexo-blog/media_tx/img-312a00628a748983.png"></p>
+<p><img src="/hexo-blog/media_tx/img-9c7a0850084f1287.png"></p>
+<p>当你选择某个 Java 源代码文件并点击运行时，VSCode 会以该文件编译后生成的、包含 main 方法的对应 .class 文件作为程序入口进行执行。</p>
+<p><img src="/hexo-blog/media_tx/img-d13163211f87aca8.png"></p>
+<p><img src="/hexo-blog/media_tx/img-2a7b3bf517a169ca.png"></p>
+<p><img src="/hexo-blog/media_tx/img-972ad6a34e3b6eea.png"></p>
+<p><img src="/hexo-blog/media_tx/img-fe1be7147c0b10df.png"></p>
+<p><img src="/hexo-blog/media_tx/img-5f7ecf0d82d2e306.png"></p>
+<p><img src="/hexo-blog/media_tx/img-18fc8490e33ced57.png"></p>
+<h2 id="2-单个源文件中含有多个入口类"><a href="#2-单个源文件中含有多个入口类" class="headerlink" title="2. 单个源文件中含有多个入口类"></a>2. 单个源文件中含有多个入口类</h2><p><img src="/hexo-blog/media_tx/img-ef5c4627f5ad4ebc.png"></p>
+<p>因为我们只能选择First.java这个源代码文件来运行，编译器（javac）会将该文件中所有的类都编译成独立的.class字节码文件。但由于该文件中包含多个带有main方法的入口类，运行器（java）无法确定应该从哪个字节码文件开始执行。因此，VSCode在点击运行按钮时会弹出一个弹窗，让用户选择以该源文件中的哪个类作为入口。选定后，VSCode先调用javac完成编译，再告诉运行器以选中的类作为入口来执行。</p>
+<p><img src="/hexo-blog/media_tx/img-50b2b7fa663c335a.png"></p>
+<h1 id="JAVA多源文件项目的代码粒度取舍"><a href="#JAVA多源文件项目的代码粒度取舍" class="headerlink" title="JAVA多源文件项目的代码粒度取舍"></a>JAVA多源文件项目的代码粒度取舍</h1><p>之前我们讨论过：Java编译器以<strong>类</strong>为粒度，每个类独立生成一个.class文件。</p>
+<p>这带来了一个实际好处：<strong>部分编译</strong>。</p>
+<p>修改一个类，通常只需要重新编译这个类对应的.java文件</p>
+<p>其他类不受影响，可以直接使用已有的.class文件</p>
+<p>也就是说，如果每个 .java 文件只包含一个类，那么修改某个类时通常只需要重新编译该文件，从而更好地利用部分编译的优势。但这里有一个问题：类之间有依赖关系。</p>
+<p>如果 A.java 依赖 B.java：</p>
+<p>只修改 A.java → 只编译 A.java 即可</p>
+<p>修改 B.java（例如修改了方法签名） → 所有依赖 B 的类（如 A）必须<strong>重新编译</strong>，否则运行时可能抛出 NoSuchMethodError</p>
+<p>此外，部分编译还会带来<strong>代码阅读上的代价</strong>：当你在审阅某个类的调用关系时，如果被调用的类都分散在不同的文件中，就需要额外打开多个文件才能理清完整的调用逻辑。这不像在单个文件中那样一目了然。</p>
+<p>这反映了<strong>编译效率</strong>与<strong>运行时安全</strong>之间的权衡：</p>
+<p>只编译修改的文件（部分编译）→ 编译速度快，但可能因依赖不一致而导致运行时错误（如 NoSuchMethodError）</p>
+<p>每次都完整重编译所有文件 → 更安全，但编译时间更长</p>
+<h1 id="Java的访问权限、包与包机制"><a href="#Java的访问权限、包与包机制" class="headerlink" title="Java的访问权限、包与包机制"></a>Java的访问权限、包与包机制</h1><p>Java的类语法并非凭空创造，而是在C++类体系的基础上<strong>继承、简化、改造</strong>而来,我们可以与C++的相似内容做对照从而方便学习。</p>
+<h2 id="访问权限修饰符书写规则"><a href="#访问权限修饰符书写规则" class="headerlink" title="访问权限修饰符书写规则"></a>访问权限修饰符书写规则</h2><p><strong>C++的书写规则：</strong></p>
+<p><img src="/hexo-blog/media_tx/img-7ad62d52209de95b.png"></p>
+<p><strong>Java的书写规则：</strong></p>
+<p><img src="/hexo-blog/media_tx/img-f49676775fceb10f.png"></p>
+<h2 id="如果不写访问权限呢？"><a href="#如果不写访问权限呢？" class="headerlink" title="如果不写访问权限呢？"></a>如果不写访问权限呢？</h2><p><strong>C++：</strong></p>
+<p>在 class 中不写 → 默认 private</p>
+<p>在 struct 中不写 → 默认 public</p>
+<p><strong>Java：</strong></p>
+<p>不写访问修饰符 → <strong>包级私有</strong>（同一个包内可见，包外不可见）</p>
+<p><img src="/hexo-blog/media_tx/img-d0fec1b6beebb200.png"></p>
+<h1 id="什么是包级私有？——先要理解“包”的概念"><a href="#什么是包级私有？——先要理解“包”的概念" class="headerlink" title="什么是包级私有？——先要理解“包”的概念"></a>什么是包级私有？——先要理解“包”的概念</h1><p>当项目变大时，我们会把代码拆分到<strong>多个物理目录</strong>中，比如：</p>
+<p><img src="/hexo-blog/media_tx/img-c632defa7f1533dc.png"></p>
+<h2 id="问题的起源：物理目录的隔离"><a href="#问题的起源：物理目录的隔离" class="headerlink" title="问题的起源：物理目录的隔离"></a>问题的起源：物理目录的隔离</h2><p>编译器默认只编译<strong>选定的单个目录</strong>下的源文件。如果所有类都在同一个目录，编译器可以直接找到；一旦拆分到多个目录，编译器就不知道去哪个目录找其他类。</p>
+<p>这种<strong>物理隔绝</strong>带来了调度问题：不同目录下的源码文件，编译器在没有额外信息的情况下，无法跨目录自动发现和关联。</p>
+<h2 id="C-的解决方案：-include-绑定目录"><a href="#C-的解决方案：-include-绑定目录" class="headerlink" title="C++的解决方案：#include &lt;&gt; + 绑定目录"></a>C++的解决方案：#include &lt;&gt; + 绑定目录</h2><p>C++同样面临这个问题——当需要调用<strong>操作系统内核中存放的头文件</strong>（而非项目目录中自己添加的头文件）时，编译器默认找不到。</p>
+<p>C++的解决方式是：</p>
+<p>使用 #include <xxx> 语法（区别于 #include “xxx”）</p>
+<p>在编译器中<strong>手动绑定包含目录</strong>（如 -I 参数指定路径）</p>
+<h2 id="编译器根据绑定的目录去查找头文件"><a href="#编译器根据绑定的目录去查找头文件" class="headerlink" title="编译器根据绑定的目录去查找头文件"></a>编译器根据绑定的目录去查找头文件</h2><p><strong>本质上</strong>：这就是C++的“跨目录调用”机制——把一个目录（如系统头文件目录）关联到当前项目中。只不过我们当时没把“目录”称为“包”。这里的核心概念就是<strong>物理目录的隔离</strong>。</p>
+<h2 id="Java的差异：拆分整个项目，而非仅调度外部头文件"><a href="#Java的差异：拆分整个项目，而非仅调度外部头文件" class="headerlink" title="Java的差异：拆分整个项目，而非仅调度外部头文件"></a>Java的差异：拆分整个项目，而非仅调度外部头文件</h2><p>C++通常只把<strong>外部依赖</strong>（如系统库）放到其他目录，项目本身的源码仍然集中在少数几个目录中。</p>
+<p>而Java喜欢把<strong>整个项目</strong>拆分成多个特定的目录结构（如按照功能模块划分）。因此，Java面临的跨目录调度问题<strong>更普遍、更常见</strong>——不只是外部依赖，项目内部类也广泛分布在不同的目录中。</p>
+<p>为了解决这种更普遍、更彻底的物理目录隔离问题，Java正式引入了<strong>包（package）<strong>与</strong>包机制</strong>。</p>
+<h2 id="1-包的两个概念"><a href="#1-包的两个概念" class="headerlink" title="1 包的两个概念"></a>1 包的两个概念</h2><p><strong>物理包</strong>：源文件实际所在的物理目录。</p>
+<p><strong>逻辑包</strong>：编译器和运行器（JVM）认为源文件所在的目录。</p>
+<h2 id="在没有任何声明的情况下，物理包-逻辑包"><a href="#在没有任何声明的情况下，物理包-逻辑包" class="headerlink" title="在没有任何声明的情况下，物理包 &#x3D; 逻辑包"></a>在没有任何声明的情况下，物理包 &#x3D; 逻辑包</h2><p>例如：源文件com&#x2F;example&#x2F;Student.java 所在的物理目录是 com&#x2F;example，这就是它的物理包，也是它的逻辑包</p>
+<h1 id="2"><a href="#2" class="headerlink" title="2"></a>2</h1><p><strong>包机制对应两个关键字：package 和 import</strong></p>
+<p>package 关键字的作用是：<strong>把当前源文件所在的物理目录，从逻辑层面上修改成另一个包</strong></p>
+<p><img src="/hexo-blog/media_tx/img-53fff6b87f56bed7.png"></p>
+<p><strong>效果：</strong></p>
+<p>物理包（实际目录）：com&#x2F;example</p>
+<p>逻辑包（声明值）：com.example.school</p>
+<h2 id="编译器和-JVM-按照逻辑包去定位这个类"><a href="#编译器和-JVM-按照逻辑包去定位这个类" class="headerlink" title="编译器和 JVM 按照逻辑包去定位这个类"></a>编译器和 JVM 按照逻辑包去定位这个类</h2><p><strong>具体表现：</strong></p>
+<p>若多个源文件的逻辑包相同（例如都是 com.example.school），编译后所有 .class 文件会生成到同一个逻辑包对应的物理目录（com&#x2F;example&#x2F;school&#x2F;）中，并且可以互相调用、共同运行。</p>
+<p>若多个源文件的逻辑包不同（例如 com.example.school 和 com.example.office），即使它们位于同一物理根目录下，编译器和 JVM 也认为它们属于不同的逻辑边界，不会自动互相识别或共同编译运行。<strong>1必须通过 <strong>import</strong> 显式导入，2或者使用全限定名（<strong>包名.类名</strong>）才能跨逻辑包调用。</strong></p>
+<p>import 是包机制的另一个核心组成部分。它的作用是：<strong>导入其他逻辑包下的类</strong>，使得当前文件可以用短名（类名）而非全限定名（逻辑包名.类名）来引用</p>
+<h1 id="包机制的限制"><a href="#包机制的限制" class="headerlink" title="包机制的限制"></a>包机制的限制</h1><p>编译器按照<strong>逻辑包</strong>的位置来生成和查找字节码文件，因此：</p>
+<p><strong>逻辑包对应的物理目录必须在文件系统中真实存在。</strong></p>
+<p>也就是说，包不能完全是抽象的逻辑概念。你声明的逻辑包（如 com.example.school），必须在物理上有对应的目录结构（com&#x2F;example&#x2F;school&#x2F;），否则编译器无法放置和定位 .class 文件。</p>
+<h1 id="3"><a href="#3" class="headerlink" title="3"></a>3</h1><h2 id="没有包（默认包）的情况"><a href="#没有包（默认包）的情况" class="headerlink" title="没有包（默认包）的情况"></a>没有包（默认包）的情况</h2><p>如果不写 package，所有类都在<strong>同一个默认包</strong>里</p>
+<p><img src="/hexo-blog/media_tx/img-1632c810c83c36d3.png"></p>
+<p><strong>效果：</strong> 两个类在同一个包里（默认包），可以互相调用。</p>
+<p><img src="/hexo-blog/media_tx/img-170ba3dbcd151575.png"></p>
+<h1 id="这和-C-很像：跨文件实例化对象时，当前文件无需重复声明目标类，只需依赖外部已有的定义（Java中为编译后的"><a href="#这和-C-很像：跨文件实例化对象时，当前文件无需重复声明目标类，只需依赖外部已有的定义（Java中为编译后的" class="headerlink" title="这和 C++ 很像：跨文件实例化对象时，当前文件无需重复声明目标类，只需依赖外部已有的定义（Java中为编译后的"></a>这和 C++ 很像：跨文件实例化对象时，当前文件无需重复声明目标类，只需依赖外部已有的定义（Java中为编译后的</h1><p><strong>.class文件），即可直接创建对象。区别在于：C++ 调用其他类时，需要在当前文件中通过 #include 显式包含其声明；而 Java 不需要任何显式声明，编译器会自动查找对应的 .class 文件</strong></p>
+<h2 id="引入包后的情况："><a href="#引入包后的情况：" class="headerlink" title="引入包后的情况："></a>引入包后的情况：</h2><p>引入包之后，<strong>原本跨文件默认共享的局面被打破了</strong>。类是否可见，不再取决于是否在同一个物理目录，而是取决于它所在的包以及访问修饰符。包成了一个访问边界：同包的类可以直接访问，不同包的类则需要显式授权（import）</p>
+<p><img src="/hexo-blog/media_tx/img-12130b67db1383ce.png"></p>
+<p><strong>第一个 Java 文件</strong>：逻辑包地址为 com.student</p>
+<p><strong>第二个 Java 文件</strong>：逻辑包地址为 com.main</p>
+<p>两者的逻辑包不同，因此第二个文件需要 import 导入第一个文件中的类，才能进行调用。</p>
+<h2 id="4-回到包级私有"><a href="#4-回到包级私有" class="headerlink" title="4 回到包级私有"></a>4 回到包级私有</h2><p>对于 public、protected、private 这些访问修饰符，跨包时的访问权限规则与同包时一致，区别仅在于跨包使用前需要先 import。</p>
+<p>而包级私有（不写修饰符）在本包内相当于 public（同包所有类可见），跨包时相当于 private（完全不可见）。</p>
+<p><img src="/hexo-blog/media_tx/img-ccadd0da04703135.png"></p>
+<p><img src="/hexo-blog/media_tx/img-64ff617577bfcfec.png"></p>
+<h1 id="类的两种访问权限：包级私有与public"><a href="#类的两种访问权限：包级私有与public" class="headerlink" title="类的两种访问权限：包级私有与public"></a>类的两种访问权限：包级私有与public</h1><p>Java 中，每个源文件只能有一个 public 类，其余类只能写 class 类名 {}，即<strong>普通类（包级私有）</strong>。</p>
+<p>这一点与 C++ 不同：Java 对<strong>类本身</strong>也有两种访问权限：</p>
+<p><img src="/hexo-blog/media_tx/img-3f94a049a3e92dce.png"></p>
+<h2 id="跨包调用的限制"><a href="#跨包调用的限制" class="headerlink" title="跨包调用的限制"></a>跨包调用的限制</h2><p><strong>跨包时，只能调用 <strong>public</strong> 类</strong> 非 public 类（包级私有）无法通过 import 或全限定名被跨包访问。</p>
+<p>也就是说： public 类 → 可跨包（需 import） 包级私有类 → 不可跨包（跨包完全不可见）</p>
+<h1 id="JAVA的IO函数和基础类型"><a href="#JAVA的IO函数和基础类型" class="headerlink" title="JAVA的IO函数和基础类型"></a>JAVA的IO函数和基础类型</h1><h2 id="Out输出函数是成员方法-System-out-println"><a href="#Out输出函数是成员方法-System-out-println" class="headerlink" title="Out输出函数是成员方法 System.out.println()"></a>Out输出函数是成员方法 System.out.println()</h2><p>System.out.println() 是 Java 中最常用的输出语句。它由三部分组成：</p>
+<p><img src="/hexo-blog/media_tx/img-7581201d3cd01d69.png"></p>
+<p><strong>System.out.println() 的调用机制分析</strong></p>
+<p>System.out.println() 看起来很长，写法很像全限定名调用，但它实际上是<strong>短名调用</strong>。我们没有看到 import 语句，却可以直接使用短名 System，这是为什么？下面逐个讲解：</p>
+<p><strong>1为什么这么多 <strong>.</strong> 却不是全限定名调用？</strong></p>
+<h2 id="System-这一级就是类名"><a href="#System-这一级就是类名" class="headerlink" title="System 这一级就是类名"></a>System 这一级就是类名</h2><p>**①区别于C++ 以类名::调用静态成员, **Java 通过 类名. 可以调用该类的静态成员。这里的 out 就是 System 类的一个静态成员对象,故以类名System 加.来调用</p>
+<p><strong>②</strong>然后由于 out 本身是一个对象，因此可以继续通过 . 来调用它所拥有的实例方法（如 println）</p>
+<p>System 这个类的前面<strong>没有逻辑包名,<strong>所以System</strong> 是短名调用，不是全限定名调用。</strong></p>
+<p>而System 类的全限定名是：java.lang.System</p>
+<p>真正的全限定名调用应该是：java.lang.System.out.println(“Hello”);</p>
+<p>日常写法System.out.println(“Hello”);   <em>&#x2F;&#x2F; 这是短名调用，不是全限定名</em></p>
+<p><strong>2为什么可以用短名（以类开头） System 调用？System 类在和我们项目的逻辑包地址显然不一样啊？</strong></p>
+<p>因为 java.lang 包是 Java <strong>唯一默认导入</strong>的包,属于这个包的所有类都被导入了，相当于编译器自动帮我们写好了：</p>
+<p><img src="/hexo-blog/media_tx/img-8d5ac787da0f2abc.png"></p>
+<p>但显然，系统不可能真的逐行列出 java.lang 包下的每一个类（因为太多了）。这里就引出了通配符 * 的概念：*** 表示导入当前逻辑包下的所有类**</p>
+<p>用通配符写法，上面的多行 import 可以简化为一行：</p>
+<p><img src="/hexo-blog/media_tx/img-de5f7612cb4088b7.png"></p>
+<p><strong>就能导入 <strong>java.lang</strong> 包中的所有类</strong>。</p>
+<p>系统默认导入 java.lang 包，本质上就相当于在每个 Java 文件的开头自动加上了这一行 import java.lang.*;。</p>
+<p>所以可以省略 java.lang.，直接用短名 System。</p>
+<h1 id="3-1"><a href="#3-1" class="headerlink" title="3"></a>3</h1><p><strong>System.out.println(对象实例) 会输出什么？</strong></p>
+<p>在 Java 中，所有对象（除基本类型外）都分配在堆内存中，变量持有的实际上是对象的<strong>引用</strong>（reference），而非对象本身。当我们调用 System.out.println(obj) 时，很多人会好奇：既然输出的是引用，会不会打印出类似 C 语言中的内存地址？</p>
+<p>答案是：<strong>不会</strong>。Java 的设计原则之一就是<strong>不向程序员暴露底层内存地址</strong>。</p>
+<h2 id="执行流程"><a href="#执行流程" class="headerlink" title="执行流程"></a>执行流程</h2><p>System.out 是一个 PrintStream 类型的对象，PrintStream 类为 println 方法提供了<strong>多种重载版本</strong>，分别对应不同的参数类型：</p>
+<p><img src="/hexo-blog/media_tx/img-128972a2f57c9c18.png"></p>
+<p>当参数是<strong>对象引用</strong>时，进入 println(Object x) 方法，该方法内部会调用 String.valueOf(x)：</p>
+<p><img src="/hexo-blog/media_tx/img-85e1210970dc3c72.png"></p>
+<p>可以看到，整个链路的终点是 obj.toString()。</p>
+<h2 id="默认输出格式"><a href="#默认输出格式" class="headerlink" title="默认输出格式"></a>默认输出格式</h2><p>如果该类<strong>没有重写 <strong>toString()</strong> 方法</strong>，则调用的是 Object 类中的默认实现：</p>
+<p><img src="/hexo-blog/media_tx/img-c96414715c8e39cc.png"></p>
+<h2 id="getClass-getName-解释"><a href="#getClass-getName-解释" class="headerlink" title="getClass().getName() 解释"></a>getClass().getName() 解释</h2><p>每个类都直接或间接继承自 Object 类，因此每个类内部都有 getClass() 方法。在 toString() 方法中调用 getClass()，可以拿到一个 Class 类的实例（即 Class 对象），这个对象记录着<strong>当前类的全部信息</strong>（类名、构造方法、字段、方法等）。然后通过这个 Class 实例的成员方法 getName()，就能获得当前类的全限定名（包名.类名）。</p>
+<p>因此，默认输出格式为：</p>
+<p><img src="/hexo-blog/media_tx/img-e0310fdc19a681a2.png"></p>
+<p>其中：</p>
+<p>com.example.MyClass —— 该对象的<strong>全限定类名</strong></p>
+<h2 id="——-分隔符"><a href="#——-分隔符" class="headerlink" title="@ —— 分隔符"></a>@ —— 分隔符</h2><p>15db9742 —— <strong>哈希码（hashCode）的十六进制表示</strong></p>
+<h2 id="哈希码解释"><a href="#哈希码解释" class="headerlink" title="哈希码解释"></a>哈希码解释</h2><p>hashCode() 默认返回的<strong>不是真正的物理内存地址</strong>，而是一个由 JVM 根据对象内存地址或特定算法生成的<strong>身份哈希值</strong>，用于对象在散列集合（如 HashMap、HashSet）中的快速定位。只不过在 HotSpot JVM 的某些实现中，默认哈希值的生成确实与内存地址有关联，但<strong>这属于底层实现细节，不应视为内存地址本身</strong>。</p>
+<h2 id="In输入函数对应多个Scanner类下的成员方法"><a href="#In输入函数对应多个Scanner类下的成员方法" class="headerlink" title="In输入函数对应多个Scanner类下的成员方法"></a>In输入函数对应多个Scanner类下的成员方法</h2><p>java.util 包下的 Scanner 类提供了多个用于输入的成员方法。</p>
+<p>因为 java.util 包<strong>不是</strong>默认导入的（不像 java.lang 包），所以需要手动导入：</p>
+<p><img src="/hexo-blog/media_tx/img-10fd3b87e3d56c03.png"></p>
+<h2 id="Scanner-类下的两套输入方法"><a href="#Scanner-类下的两套输入方法" class="headerlink" title="Scanner 类下的两套输入方法"></a>Scanner 类下的两套输入方法</h2><p><img src="/hexo-blog/media_tx/img-40ab5193bae38860.png"></p>
+<p><strong>例如：</strong></p>
+<p>hasNextInt() 只检查下一个输入是不是整数，<strong>不会从缓冲区中拿走数据</strong></p>
+<p>nextInt() 才会真正读取并<strong>消费</strong>掉缓冲区中的数据</p>
+<p>这与 C++ 中的一些输入检测函数不同——C++ 的 cin.peek() 或某些检测操作可能会影响后续读取。而 Java 的 has 系列方法<strong>纯检测，不消费</strong>，所以：</p>
+<p><strong>想要真正读取输入，必须调用 <strong>next</strong> 系列方法。</strong></p>
+<p><strong>典型用法示例：</strong></p>
+<p><img src="/hexo-blog/media_tx/img-5531744b90c5f09f.png"></p>
+<h2 id="Java的基础数据类型"><a href="#Java的基础数据类型" class="headerlink" title="Java的基础数据类型"></a>Java的基础数据类型</h2><p><img src="/hexo-blog/media_tx/img-28abc07b152d8d94.png"></p>
+<p><img src="/hexo-blog/media_tx/img-569afefb70e99a79.png"></p>
+<p><strong>Java 的 <strong>char</strong> 在 Windows 上等同于 C++ 的 <strong>wchar_t</strong>（都是 2 字节 UTF-16LE）</strong></p>
+<p>**因为 UTF-16LE 这个字符集（或者说码表）从英文字母、数字、符号，到俄语、法语、日语、中文，再到 emoji 表情，全都包含在内。  **</p>
+<p><strong>所以你在 Java 里可以直接写 char a &#x3D; ‘中’; 这完全是合法的。</strong></p>
+<h1 id="一切皆引用造成的Java与C-的差异"><a href="#一切皆引用造成的Java与C-的差异" class="headerlink" title="一切皆引用造成的Java与C++的差异"></a>一切皆引用造成的Java与C++的差异</h1><h2 id="Java-对象的-是引用复制"><a href="#Java-对象的-是引用复制" class="headerlink" title="Java 对象的 &#x3D; 是引用复制"></a>Java 对象的 &#x3D; 是引用复制</h2><p>在 C++ 中：</p>
+<p><img src="/hexo-blog/media_tx/img-cb165565fa0b71d2.png"></p>
+<p>在 Java 中：</p>
+<p><img src="/hexo-blog/media_tx/img-75bb09ffdba66c9b.png"></p>
+<p><strong>因为 <strong>a</strong> 和 <strong>b</strong> 本质上都是指针（引用），<strong>b &#x3D; a</strong> 复制的是地址，不是对象本身。</strong></p>
+<p><strong>结果：</strong></p>
+<h2 id="修改-b-的内容，a-也会改变"><a href="#修改-b-的内容，a-也会改变" class="headerlink" title="修改 b 的内容，a 也会改变"></a>修改 b 的内容，a 也会改变</h2><p>这不是“浅拷贝”，而是<strong>根本没有拷贝对象，只是复制了引用</strong></p>
+<h2 id="Java-对象的-是引用比较"><a href="#Java-对象的-是引用比较" class="headerlink" title="Java 对象的 &#x3D;&#x3D; 是引用比较"></a>Java 对象的 &#x3D;&#x3D; 是引用比较</h2><p>在 C++ 中，如果我们希望两个对象能进行 &#x3D;&#x3D; 比较，因为没有原生的对象比较函数,通常需要<strong>手动重载 <strong>&#x3D;&#x3D;</strong> 运算符,且重载时，我们一般写成按成员内容比较的方式：</strong></p>
+<p>#include&lt;bits&#x2F;stdc++.h&gt;</p>
+<p>using namespace std;</p>
+<p>class student{</p>
+<p>public:</p>
+<p>string name;&#x2F;&#x2F;类有两个成员 name和age</p>
+<p>int age;</p>
+<p>bool operator&#x3D;&#x3D;(student &amp; other) {</p>
+<p>if ((this-&gt;name &#x3D;&#x3D; other.name) &amp;&amp; (this-&gt;age &#x3D;&#x3D; other.age)) {&#x2F;&#x2F;那么我们重载函数的判断条件就是按name和age的值是否相同</p>
+<p>return 1;</p>
+<p>}</p>
+<p>else return 0;</p>
+<p>}</p>
+<p>};</p>
+<p><strong>意图：</strong> 比较两个对象的<strong>内部成员值</strong>是否相同。 <strong>结果：</strong> 只要内容相同，即使两个对象在内存中是独立的两份数据（地址不同），&#x3D;&#x3D; 也返回 true。</p>
+<p>在 Java 中，对于引用类型（所有对象），&#x3D;&#x3D; <strong>不能自定义行为</strong>，它永远只做一件事：<strong>判断两个引用是否指向内存中的同一个对象（即地址是否相同）</strong></p>
+<p><img src="/hexo-blog/media_tx/img-08f06cbf1103ddea.png"></p>
+<p>就算 a 和 b 这两个对象的内部成员值完全相同，只要地址不同，a &#x3D;&#x3D; b 也会返回 false。</p>
+<p>因为 a 和 b 在 Java 中本质上都是指针（只是符号 * 被隐藏了），所以 a &#x3D;&#x3D; b 实际上就是在比较这两个指针里存的<strong>地址值</strong>是否相同，也就是比较它们指向的对象是否相同</p>
+<h2 id="Java数组的声明语法"><a href="#Java数组的声明语法" class="headerlink" title="Java数组的声明语法"></a>Java数组的声明语法</h2><p>在 C++ 中，堆上创建一个数组并让指针指向它，写法是：</p>
+<p><img src="/hexo-blog/media_tx/img-246ebce1323bd0c5.png"></p>
+<p>这里：</p>
+<h2 id="a-是一个指针"><a href="#a-是一个指针" class="headerlink" title="a 是一个指针"></a>a 是一个指针</h2><p>指针类型是 int*</p>
+<h2 id="语法明确暴露了“指针”概念"><a href="#语法明确暴露了“指针”概念" class="headerlink" title="语法明确暴露了“指针”概念"></a>语法明确暴露了“指针”概念</h2><h2 id="Java-的对应写法"><a href="#Java-的对应写法" class="headerlink" title="Java 的对应写法"></a>Java 的对应写法</h2><p>Java 中同样在堆上创建数组：</p>
+<p><img src="/hexo-blog/media_tx/img-1f069dcfc4a97c5e.png"></p>
+<p>这里：</p>
+<p>new int[5] 返回的是一个<strong>内存地址</strong>（本质是返回一个指针）</p>
+<h2 id="a-就是这个指针的名字"><a href="#a-就是这个指针的名字" class="headerlink" title="a 就是这个指针的名字"></a>a 就是这个指针的名字</h2><p>而 Java 宣称<strong>没有指针</strong>（实际是隐藏指针）所以把int<em>a 修改成了int[]a 来隐藏代表指针的</em>号。那能不能直接删掉*也不用这个[]呢：</p>
+<p>java</p>
+<p>int a &#x3D; new int[5];  <em>&#x2F;&#x2F; 编译错误</em></p>
+<p><strong>原因</strong>： int 是基本类型，a 只能存一个整数值（比如 100），不能存一个内存地址（引用）。 编译器无法区分“我想让 a 是一个普通整数”还是“我想让 a 指向一个数组”。</p>
+<p>所以采用的是用[]符号替换*符,既能保证不会引发删除照成的错误,也用[]强调了这个类型的用途（数组）</p>
+<h1 id="JAVA的关键字super"><a href="#JAVA的关键字super" class="headerlink" title="JAVA的关键字super"></a>JAVA的关键字super</h1><h1 id="Java里没有-怎么办？"><a href="#Java里没有-怎么办？" class="headerlink" title="Java里没有 :: 怎么办？"></a>Java里没有 :: 怎么办？</h1><h2 id="回忆-C-中-的三种用途"><a href="#回忆-C-中-的三种用途" class="headerlink" title="回忆 C++ 中 :: 的三种用途"></a>回忆 C++ 中 :: 的三种用途</h2><p><img src="/hexo-blog/media_tx/img-08e36fcfc16ab76c.png"></p>
+<h2 id="对应三种用途，Java-没有-怎么处理"><a href="#对应三种用途，Java-没有-怎么处理" class="headerlink" title="对应三种用途，Java 没有 ::怎么处理"></a>对应三种用途，Java 没有 ::怎么处理</h2><p><img src="/hexo-blog/media_tx/img-03d0233f2e54d0e1.png"></p>
+<p><strong>这里我们引出了 <strong>super</strong> 关键字。</strong></p>
+<p>super 不仅可以用来访问父类中被隐藏的成员（变量和方法），还能用来<strong>显式调用子类根本没有继承的父类构造方法</strong>——这也是它与 C++ 中 父类名:: 最大的功能区别</p>
+<p><img src="/hexo-blog/media_tx/img-f2204fde9f07a154.png"></p>
+<h2 id="1访问父类中被隐藏-重写的成员"><a href="#1访问父类中被隐藏-重写的成员" class="headerlink" title="1访问父类中被隐藏&#x2F;重写的成员"></a>1访问父类中被隐藏&#x2F;重写的成员</h2><p>C++ 中用 父类名::成员名 来指定要访问的是父类版本。</p>
+<p>Java 中把 父类名:: 换成 super. 就行：</p>
+<h2 id="2调用父类的构造方法"><a href="#2调用父类的构造方法" class="headerlink" title="2调用父类的构造方法"></a>2调用父类的构造方法</h2><p>父类的构造方法不会被继承到子类中，子类的成员列表里没有父类构造方法的名字。但因为子类对象内部包含父类的所有成员变量，这些父类成员必须被初始化，而初始化它们的代码写在父类构造方法里，所以我们必须通过某种方式去调用父类的构造函数。</p>
+<p>那么由谁来调用呢？实际上是<strong>编译器</strong>帮我们做的——因为我们无法在子类中主动调用父类构造方法（它不被继承），所以只能依赖编译器的处理。</p>
+<p>调用时机非常严苛：父类构造方法必须在子类构造方法<strong>之前</strong>被调用，确保父类部分先初始化，然后才能初始化子类自己的部分。也就是说，父类构造必须伴随着子类构造函数，并且在子类构造函数体执行之前完成。</p>
+<p>具体实现方式上：</p>
+<p><strong>C++</strong> 是在子类构造函数的形参列表后面写 : 父类名(形参列表)。如果没有写冒号和后面的内容，编译器默认调用父类的默认构造。</p>
+<p><strong>Java</strong> 是在子类构造方法体的<strong>第一行</strong>写 super(形参列表)。如果没写，编译器会自动在第一行插入 super()（调用父类无参构造）。</p>
+<p>两者的本质完全一样：<strong>在子类构造函数体执行之前，先调用父类构造，完成父类部分的初始化。</strong></p>
+<h2 id="编译器默认添加无参-super"><a href="#编译器默认添加无参-super" class="headerlink" title="编译器默认添加无参 super()"></a>编译器默认添加无参 super()</h2><p>如果子类构造方法中没有显式调用 super(参数)，<strong>编译器</strong>会自动在第一行插入：</p>
+<p><img src="/hexo-blog/media_tx/img-76cfba3d6acfa6ef.png"></p>
+<p>这是调用父类的<strong>无参构造方法</strong>。</p>
+<p>注意：是<strong>编译器</strong>干的，不是编辑器。而且它插入的永远是 super()（无参版本），不会自动帮你填参数</p>
+<p><strong>为什么还要显式写 super(参数)？</strong></p>
+<p>编译器默认插入的 super() 只能调用父类的<strong>无参构造</strong>。</p>
+<p>但有些情况下：</p>
+<p>父类<strong>根本没有无参构造</strong>（只有有参构造）</p>
+<p>或者我们想通过<strong>有参构造</strong>给父类部分的成员赋特定的初始值</p>
+<p>这时就必须<strong>显式</strong>写出：</p>
+<p><img src="/hexo-blog/media_tx/img-c8df69d30f13a310.png"></p>
+<p>显式写 super(参数) 后，编译器<strong>不再</strong>自动插入 super()，而是执行你写的这个版本</p>
+<p>看到这里，你应该想起来了——这和 <strong>C++ 的子类构造转发</strong> 完全一样。</p>
+<p><img src="/hexo-blog/media_tx/img-3611088b4f4a689d.png"></p>
+<p><strong>本质完全一样：都是在子类构造时，手动指定用哪个父类构造来初始化父类部分</strong></p>
+<p>JAVA的关键字final</p>
+<h2 id="没啥好讲的"><a href="#没啥好讲的" class="headerlink" title="没啥好讲的"></a>没啥好讲的</h2><p>final 变量 不可修改 final 类 不可继承 final 方法不可重写</p>
+<h2 id="是前缀"><a href="#是前缀" class="headerlink" title="是前缀"></a>是前缀</h2><h1 id="关键字-final"><a href="#关键字-final" class="headerlink" title="关键字 final"></a>关键字 final</h1><p>final 是一个前缀修饰关键字，用于限制变量、类或方法的“可变性”。</p>
+<p><img src="/hexo-blog/media_tx/img-7daabbb355de56a6.png"></p>
+<p><strong>用法示例：</strong></p>
+<p><img src="/hexo-blog/media_tx/img-cfdc6e8b5b86b8c1.png"></p>
+<h1 id="关键字-abstract"><a href="#关键字-abstract" class="headerlink" title="关键字 abstract"></a>关键字 abstract</h1><p>abstract 可以修饰<strong>方法</strong>或<strong>类</strong>，放在前缀位置。</p>
+<h2 id="修饰方法时"><a href="#修饰方法时" class="headerlink" title="修饰方法时"></a>修饰方法时</h2><p><img src="/hexo-blog/media_tx/img-1ac01107c75ea62f.png"></p>
+<p>表示该方法<strong>没有方法体</strong>（不写 {}，直接 ; 结束）</p>
+<p>相当于 C++ 中的 virtual void func() &#x3D; 0;，即<strong>纯虚函数（在java里也常被叫做抽象方法）</strong></p>
+<h2 id="子类必须重写这个方法，否则子类也是抽象类"><a href="#子类必须重写这个方法，否则子类也是抽象类" class="headerlink" title="子类必须重写这个方法，否则子类也是抽象类"></a>子类必须重写这个方法，否则子类也是抽象类</h2><h2 id="修饰类时"><a href="#修饰类时" class="headerlink" title="修饰类时"></a>修饰类时</h2><p><img src="/hexo-blog/media_tx/img-5cc365175d7892f6.png"></p>
+<p>这个类变成<strong>抽象类</strong>，不能实例化（不能 new）</p>
+<p>抽象类**可以没有抽象方法（纯虚函数）**这是 Java 与 C++ 的重要区别</p>
+<p>但是给类加上 abstract 前缀，定义这个类是抽象类，这里<strong>引出了一个特性</strong>：</p>
+<p>在 C++ 中，<strong>没有主动标记类为抽象类的语法</strong>。一个类是否为抽象类，完全取决于它是否<strong>包含至少一个纯虚函数</strong>（即 virtual void func() &#x3D; 0;）。如果一个类没有纯虚函数，即使它的设计意图是作为基类、不希望被实例化，C++ 编译器仍然会允许它被直接实例化。换句话说，C++ 无法强制一个“没有纯虚函数的类”成为抽象类。</p>
+<p>而在 Java 中情况不同：abstract** 关键字可以主动将一个类声明为抽象类**，而<strong>不依赖于类中是否存在抽象方法（纯虚函数）</strong>。即使一个类里没有任何抽象方法，只要给它加上 abstract 前缀，它依然是抽象类，编译器仍然禁止对它进行实例化。</p>
+<p><strong>这就意味着：在Java中一个类可以不包含任何抽象方法却依然可以是抽象类</strong></p>
+<p><img src="/hexo-blog/media_tx/img-c76c301325ea2a84.png"></p>
+<p><strong>这个特性有什么用？</strong></p>
+<p>当你想让一个类<strong>不能被直接实例化</strong>，只能由它的子类来创建对象，但这个类本身又<strong>不需要提供任何抽象方法</strong>让子类去重写时，就可以把它标记为 abstract。</p>
+<p><img src="/hexo-blog/media_tx/img-f84a8aed1c106193.png"></p>
+<p>这在 C++ 中是做不到的。如果你想让一个类不能被实例化，就必须<strong>在类中至少添加一个纯虚函数</strong>，哪怕这个函数没有任何实际意义。</p>
+<p>也就是说，C++ 中为了实现“禁止父类被实例化”这个目的，你不得不：</p>
+<p>在父类中定义一个<strong>无意义的纯虚函数</strong>（例如 virtual void dummy() &#x3D; 0;）</p>
+<p>在子类中<strong>重写这个函数</strong>（哪怕重写是空的）</p>
+<p>这个纯虚函数的存在，纯粹是为了满足语法要求，与业务逻辑无关。这样既污染了类的设计，也给子类增加了不必要的重写负担。</p>
+<p>而在 Java 中，你只需要给父类加上 abstract 关键字就行了。</p>
+<p>JAVA的关键字 interface和implements</p>
+<p>分别是接口声明和接口继承 那什么是接口 这个是C++里没讲过的东西</p>
+<p>接口就是内部所有方法都是纯虚函数的抽象类 是完完全全的真抽象类啊</p>
+<p>我们写inteface关键字就能强制性的让一个类中只能是写前接abstract关键字的纯虚函数 连有方法体的虚函数都不行(java8之前 但是我们就讨论java8之前的性质就行)</p>
+<p>也就是说你能在接口类里看到一列列整齐的abstract 函数名(); 因为强制写abstract 所以仅在接口类中 我们可以默认省略这个关键字</p>
+<p>但是我们实现全为纯虚函数的抽象类还有另一种方式 就是一个类不用interface标记它是接口 而是本身我们就把其内部所有的方法都是纯虚函数 这样也是实现了一个全为纯虚函数的抽象类，但是它不能算是接口</p>
+<p>因为接口可以用implements 而这种实现只能用extend</p>
+<p>那么这个接口实现的implements和普通的extend有啥去别呢 就是它可以实现间接的多继承</p>
+<h1 id="关键字-interface-和-implements"><a href="#关键字-interface-和-implements" class="headerlink" title="关键字 interface 和 implements"></a>关键字 interface 和 implements</h1><h2 id="一、什么是接口？"><a href="#一、什么是接口？" class="headerlink" title="一、什么是接口？"></a>一、什么是接口？</h2><p>接口是 Java 中的一种特殊类型。你可以把它理解为：<strong>内部所有方法都是纯虚函数的抽象类</strong>，是一个完完全全的“真抽象类”。</p>
+<p>在 C++ 中没有直接对应的概念，C++ 的抽象类可以包含普通方法（有方法体的虚函数），而接口不允许。</p>
+<h2 id="二、interface-关键字的强制作用"><a href="#二、interface-关键字的强制作用" class="headerlink" title="二、interface 关键字的强制作用"></a>二、interface 关键字的强制作用</h2><p>用 interface 声明的类，<strong>强制要求内部所有方法都必须是纯虚函数</strong>（即 abstract 方法），连有方法体的虚函数都不允许写（Java 8 之前是这样，我们只讨论 Java 8 之前）。</p>
+<p>也就是说，在接口里你只能看到一列列的：</p>
+<p><img src="/hexo-blog/media_tx/img-e166d3f22479f104.png"></p>
+<p>由于接口中<strong>所有方法都强制是 <strong>abstract，所以在接口中 abstract 关键字可以</strong>默认省略</strong>，直接写：</p>
+<p><img src="/hexo-blog/media_tx/img-f94e1682b9c438cf.png"></p>
+<p>编译器会默认理解为 abstract 方法。</p>
+<h2 id="三、接口-vs-内部所有方法都是纯虚函数的抽象类"><a href="#三、接口-vs-内部所有方法都是纯虚函数的抽象类" class="headerlink" title="三、接口 vs 内部所有方法都是纯虚函数的抽象类"></a>三、接口 vs 内部所有方法都是纯虚函数的抽象类</h2><p>一个普通类，即使它内部<strong>所有方法都是纯虚函数</strong>，它也只能算是一个“全为纯虚函数的抽象类”，<strong>不能算接口</strong>。</p>
+<p>区别在于：</p>
+<p><img src="/hexo-blog/media_tx/img-d1e5f223774b305d.png"></p>
+<h2 id="四、implements-与-extends-的区别"><a href="#四、implements-与-extends-的区别" class="headerlink" title="四、implements 与 extends 的区别"></a>四、implements 与 extends 的区别</h2><p>extends 用于继承普通类或抽象类，是<strong>单继承</strong>（只能继承一个父类）</p>
+<p>implements 用于子类继承、然后实现接口，可以<strong>同时继承多个接口</strong></p>
+<p>这就引出了接口的核心价值：</p>
+<p><strong>接口让 Java 实现了“间接的多继承”</strong>——一个类只能继承一个父类，但可以继承、实现多个接口，从而获得多种“能力”或“契约”。</p>
+<p><img src="/hexo-blog/media_tx/img-0e0734f7f28a0447.png"></p>
+<p>子类继承父类,父类继承多个接口。</p>
+<h1 id="Java-多态的实现与底层原理"><a href="#Java-多态的实现与底层原理" class="headerlink" title="Java 多态的实现与底层原理"></a>Java 多态的实现与底层原理</h1><h2 id="一、回顾-C-的多态机制"><a href="#一、回顾-C-的多态机制" class="headerlink" title="一、回顾 C++ 的多态机制"></a>一、回顾 C++ 的多态机制</h2><p>在 C++ 中，多态（动态绑定）需要满足两个条件：</p>
+<p>函数被声明为 virtual</p>
+<h2 id="通过指针或引用调用"><a href="#通过指针或引用调用" class="headerlink" title="通过指针或引用调用"></a>通过指针或引用调用</h2><p>如果没有 virtual，编译器会在编译阶段进行<strong>静态绑定</strong>，直接确定调用的函数地址。有了 virtual，编译器才会生成<strong>虚函数表（vftable）<strong>和</strong>虚函数指针（vfptr）</strong>，把调用延迟到运行时。</p>
+<p><img src="/hexo-blog/media_tx/img-8071f71e0b9b7de0.jpg"></p>
+<h2 id="二、Java方法天然支持动态绑定"><a href="#二、Java方法天然支持动态绑定" class="headerlink" title="二、Java方法天然支持动态绑定"></a>二、Java方法天然支持动态绑定</h2><p>Java 的设计不同。它的编译模型是<strong>双阶段</strong>的：</p>
+<p>第一阶段：Java 源码编译成字节码（.class 文件）</p>
+<p>第二阶段：JVM 加载字节码，解释执行或 JIT 编译成本地代码</p>
+<p>在这个模型下，<strong>Java 不需要 <strong>virtual</strong> 关键字来“打破”编译时的静态绑定</strong>，因为**Java 真正的编译成机器码的阶段在运行时（第二阶段），<strong>也就是说Java 的方法调用本身就默认采用</strong>运行时绑定 **（除了 static、final、private 方法）。</p>
+<p><strong>不像C++ 的机器码生成在编译阶段（第一阶段），所以需要 <strong>virtual</strong> 来人为标记哪些函数要延迟绑定。</strong></p>
+<h2 id="通过对照C-的多态底层原理流程图"><a href="#通过对照C-的多态底层原理流程图" class="headerlink" title="通过对照C++的多态底层原理流程图"></a>通过对照C++的多态底层原理流程图</h2><p>Java 已经具备了实现多态的三个条件：</p>
+<h2 id="1向上转型2同名函数重写3自动动态绑定"><a href="#1向上转型2同名函数重写3自动动态绑定" class="headerlink" title="1向上转型2同名函数重写3自动动态绑定"></a>1向上转型2同名函数重写3自动动态绑定</h2><h2 id="和流程图相比还差一个4虚函数表替换机制"><a href="#和流程图相比还差一个4虚函数表替换机制" class="headerlink" title="和流程图相比还差一个4虚函数表替换机制"></a>和流程图相比还差一个4虚函数表替换机制</h2><p>因此，接下来只需要验证一个问题：</p>
+<p><strong>Java 中子类重写父类方法后，是否也会产生类似 C++ 的三份函数地址（父类原方法、子类原方法、子类继承来的方法）？</strong></p>
+<p>如果这个<strong>前提</strong>成立，就可以确认：<strong>Java 底层在理论上可以采用了与 C++ 类似的虚方法表替换机制来实现多态。</strong></p>
+<h2 id="三、验证：重写后也是三份地址吗？"><a href="#三、验证：重写后也是三份地址吗？" class="headerlink" title="三、验证：重写后也是三份地址吗？"></a>三、验证：重写后也是三份地址吗？</h2><p>在 C++ 中，虚函数重写会产生三份函数地址：</p>
+<h2 id="父类自己的函数地址"><a href="#父类自己的函数地址" class="headerlink" title="父类自己的函数地址"></a>父类自己的函数地址</h2><h2 id="子类自己的函数地址"><a href="#子类自己的函数地址" class="headerlink" title="子类自己的函数地址"></a>子类自己的函数地址</h2><p>子类从父类继承来的函数地址（后被覆盖）</p>
+<p>Java 底层也是如此：</p>
+<h2 id="父类虚方法表中存有父类方法的地址"><a href="#父类虚方法表中存有父类方法的地址" class="headerlink" title="父类虚方法表中存有父类方法的地址"></a>父类虚方法表中存有父类方法的地址</h2><h2 id="子类虚方法表一开始复制父类的虚方法表"><a href="#子类虚方法表一开始复制父类的虚方法表" class="headerlink" title="子类虚方法表一开始复制父类的虚方法表"></a>子类虚方法表一开始复制父类的虚方法表</h2><p>重写时，子类虚方法表中对应槽位（slot）的地址被覆盖为子类方法地址</p>
+<h2 id="父类自己的虚方法表不受影响"><a href="#父类自己的虚方法表不受影响" class="headerlink" title="父类自己的虚方法表不受影响"></a>父类自己的虚方法表不受影响</h2><h1 id="结论：Java-和-C-的底层逻辑是一致的，所以-Java-多态的底层逻辑与-C-完全一致——事实上，Java-正是套用了-C-虚函数表替换机制的核心思想来实现的。"><a href="#结论：Java-和-C-的底层逻辑是一致的，所以-Java-多态的底层逻辑与-C-完全一致——事实上，Java-正是套用了-C-虚函数表替换机制的核心思想来实现的。" class="headerlink" title="结论：Java 和 C++ 的底层逻辑是一致的，所以 Java 多态的底层逻辑与 C++ 完全一致——事实上，Java 正是套用了 C++ 虚函数表替换机制的核心思想来实现的。"></a>结论：Java 和 C++ 的底层逻辑是一致的，所以 Java 多态的底层逻辑与 C++ 完全一致——事实上，Java 正是套用了 C++ 虚函数表替换机制的核心思想来实现的。</h1><h2 id="四、Java-多态中的底层的替换机理：虚方法表（vtable）"><a href="#四、Java-多态中的底层的替换机理：虚方法表（vtable）" class="headerlink" title="四、Java 多态中的底层的替换机理：虚方法表（vtable）"></a>四、Java 多态中的底层的替换机理：虚方法表（vtable）</h2><p>Java 底层采用了和 C++ 类似的实现方式：</p>
+<p>每个对象中隐藏着一个指针，指向<strong>虚方法表（vtable）</strong></p>
+<p>虚方法表中存储着该类所有<strong>虚方法</strong>（即可以被重写的普通方法）的函数地址</p>
+<p>当子类重写父类方法时，JVM 会<strong>将子类虚方法表中对应的方法地址覆盖为子类自己的实现</strong></p>
+<p>这个过程和 C++ 的虚函数表机制<strong>本质完全一样</strong>，只是 Java 换了个叫法：<strong>虚方法表</strong>。</p>
+<h2 id="五、JAVA自动动态绑定机理造成的多态使用表现"><a href="#五、JAVA自动动态绑定机理造成的多态使用表现" class="headerlink" title="五、JAVA自动动态绑定机理造成的多态使用表现"></a>五、JAVA自动动态绑定机理造成的多态使用表现</h2><p>Java 完整实现了向上转型、虚方法表替换、动态绑定等一系列多态所需的底层机制。</p>
+<p>由于动态绑定在 Java 中是<strong>自动生效</strong>的（不需要像 C++ 那样用 virtual 关键字主动标记），所以：</p>
+<p><strong>想要实现多态，只需要两个条件：</strong></p>
+<h2 id="子类重写父类的同名方法"><a href="#子类重写父类的同名方法" class="headerlink" title="子类重写父类的同名方法"></a>子类重写父类的同名方法</h2><h2 id="通过向上转型（父类引用指向子类对象）调用该方法"><a href="#通过向上转型（父类引用指向子类对象）调用该方法" class="headerlink" title="通过向上转型（父类引用指向子类对象）调用该方法"></a>通过向上转型（父类引用指向子类对象）调用该方法</h2><p>不需要任何额外关键字来“开启”动态绑定。</p>
+<p><strong>这意味着在 Java 中，一个普通方法（非 static&#x2F;final&#x2F;private）：</strong></p>
+<h2 id="原本只是普通方法"><a href="#原本只是普通方法" class="headerlink" title="原本只是普通方法"></a>原本只是普通方法</h2><h2 id="一旦被子类重写，并且通过向上转型调用"><a href="#一旦被子类重写，并且通过向上转型调用" class="headerlink" title="一旦被子类重写，并且通过向上转型调用"></a>一旦被子类重写，并且通过向上转型调用</h2><p>它就<strong>自动具备</strong>了虚函数的特性：运行时动态绑定、调用子类版本</p>
+<p>换句话说：</p>
+<p><strong>Java 的普通方法，在“被重写 + 向上转型”后，就从普通方法“变身”为可以实现多态的虚函数。</strong></p>
+<p>因此 Java 不需要像 C++ 那样专门设置“虚函数”这个名词——因为除了 private、final 和 static 方法之外，所有普通方法默认就是虚函数。 只有“纯虚函数”（C++ 中 virtual void f() &#x3D; 0）才需要 Java 创建“抽象方法”这个名词来对应。</p>
+<h1 id="匿名类"><a href="#匿名类" class="headerlink" title="匿名类"></a>匿名类</h1><p><img src="/hexo-blog/media_tx/img-21297d9ea88786f4.png"></p>
+<p>这是匿名类的核心语法——<strong>在创建对象的同时，直接在后面跟上一对大括号 <strong>{}</strong>，在大括号内重写父类的方法。</strong></p>
+<p>普通的对象创建是 new 类名();，分号表示结束。而匿名类把分号换成了 {}，在大括号里完成方法的重写或实现，最后再补上分号。</p>
+<h1 id=""><a href="#" class="headerlink" title=""></a></h1><h2 id="C-和-Java-的“匿名类”不是一回事"><a href="#C-和-Java-的“匿名类”不是一回事" class="headerlink" title="C++ 和 Java 的“匿名类”不是一回事"></a>C++ 和 Java 的“匿名类”不是一回事</h2><p>C++ 也有一个“匿名类”，但和 Java 的同音不同义。Java 这里的匿名类是 C++ 没有的内容。</p>
+<p>在教科书上，<strong>匿名类</strong>也通常被叫做<strong>匿名子类</strong>——因为它一般用于重写父类或接口的方法，干子类干的的活。</p>
+<p>但问题是按照匿名类是子类来理解：这个匿名子类没有名字，无法单独创建对象，所以它只能和父类&#x2F;接口绑定在一起，从头到尾仅有一个父类对象被创建了。</p>
+<p><strong>从“只能和父类对象绑定”这个位置关系来看：</strong></p>
+<p>它不像是传统意义上的独立子类——传统子类是“先定义子类，再创建子类对象，子类对象和父类对象是两码事”。</p>
+<p>而匿名类是：new 父类() { … }——你只有父类的引用，子类没有名字、没有独立存在。它更像是<strong>一个替换了子类功能的内部类</strong>，直接附着在父类对象上。</p>
+<h1 id="为什么可以说是“"><a href="#为什么可以说是“" class="headerlink" title="为什么可以说是“"></a>为什么可以说是“</h1><p><strong>替换了子类功能的内部类”�，内部类也能实现子类的活</strong></p>
+<p>当外嵌类的方法是抽象方法或者普通方法时，内部类又继承于外嵌类,就能重写抽象方法或者普通方法：</p>
+<p><img src="/hexo-blog/media_tx/img-599dce243a464e41.png"></p>
+<p><img src="/hexo-blog/media_tx/img-d232437d20b47fc2.png"></p>
+<p>而且匿名类还有普通子类做不到但是和内部类能做到的功能：<strong>可以访问被寄生类（外嵌类）的私有成员（内部类才能实现）,所以匿名类实现内容的和有继承的内部类是一样的，而子类无法实现匿名类的”访问私有内容”的功能 所以说匿名类就是一个（实现继承的）内部类</strong></p>
+<h2 id="那为什么匿名类在教科书上常被称为“匿名子类”呢？"><a href="#那为什么匿名类在教科书上常被称为“匿名子类”呢？" class="headerlink" title="那为什么匿名类在教科书上常被称为“匿名子类”呢？"></a>那为什么匿名类在教科书上常被称为“匿名子类”呢？</h2><p>这是因为从功能上看，它最常用于重写父类或接口的方法，行为上像子类。教材只强调其“子类”特性，是因为“继承外嵌类的内部类”这个概念较复杂，为降低门槛，教材从最直观的功能出发将其简化为“匿名子类”。</p>
+<p><strong>但从本质上看，匿名类并不是传统意义上的子类。</strong> 传统子类是独立存在的类，通过 extends 继承父类，与父类是两个独立类型。而匿名类必须定义在外嵌类内部，持有对外嵌类实例的引用，能访问其私有成员——这些特征全部来自“内部类”身份。</p>
+<p><strong>因此，更准确的定义是：</strong></p>
+<p><strong>匿名类本质上是一个“继承了外嵌类的内部类”。</strong></p>
+<p><strong>它与普通子类的本质区别在于：普通子类只有继承关系，没有内部类的访问能力。</strong></p>
+<h1 id="异常类与抛出接住机理"><a href="#异常类与抛出接住机理" class="headerlink" title="异常类与抛出接住机理"></a>异常类与抛出接住机理</h1><h2 id="一、什么是异常类？"><a href="#一、什么是异常类？" class="headerlink" title="一、什么是异常类？"></a>一、什么是异常类？</h2><p>异常类就是<strong>继承自 <strong>Exception</strong> 或 <strong>RuntimeException</strong> 的类</strong>（也可以是这两个类本身）。</p>
+<p>为什么必须是它们？因为异常类的用途是<strong>抛出异常</strong>——即发生错误时，向外发出报警信息。</p>
+<p>Exception 和 RuntimeException 这两个基类自带了一个关键方法：printStackTrace()，用于输出堆栈信息。JVM 或 catch 块收到异常后，需要调用这个方法输出报警信息。所以，只有继承自它们的类，<strong>才能保证 JVM 能正确调用这个方法，才能叫做异常类</strong>。</p>
+<p>RuntimeException 是 Exception 的子类，那为什么还要把两者并列来介绍呢？</p>
+<p>因为 Exception** 类本身及其所有子类（除了 <strong>RuntimeException</strong> 及其子类）都属于受检异常**。也就是说，Exception 这个分支下，实际上分为两派：</p>
+<p>一派是 RuntimeException 及其子类（非受检异常）</p>
+<p>另一派是 Exception 的其他子类（受检异常）</p>
+<p>我们之所以把两者并列引出，就是为了先讲清“继承关系”，为后面区分“受检异常”和“非受检异常”打下基础。</p>
+<p><strong>下面我们先讲简单的异常类（即非受检异常，如 RuntimeException 及其子类）作为前提。</strong></p>
+<h2 id="二、抛出的信息是什么？"><a href="#二、抛出的信息是什么？" class="headerlink" title="二、抛出的信息是什么？"></a>二、抛出的信息是什么？</h2><p>抛出的是一个<strong>指针</strong>（即异常对象的地址）。</p>
+<h2 id="三、抛出后谁接收？——两种情况"><a href="#三、抛出后谁接收？——两种情况" class="headerlink" title="三、抛出后谁接收？——两种情况"></a>三、抛出后谁接收？——两种情况</h2><p><img src="/hexo-blog/media_tx/img-462437d452efe11e.png"></p>
+<h2 id="情况一：被-try-catch-接住"><a href="#情况一：被-try-catch-接住" class="headerlink" title="情况一：被 try-catch 接住"></a>情况一：被 try-catch 接住</h2><p><img src="/hexo-blog/media_tx/img-5918acb83f478c36.png"></p>
+<p>catch 的参数列表是 异常类类名 对象名（这里的对象名本质上也是一个指针，Java 隐藏了 *），正好和抛出的指针类型匹配。</p>
+<h2 id="情况二：没被接住"><a href="#情况二：没被接住" class="headerlink" title="情况二：没被接住"></a>情况二：没被接住</h2><p>如果异常抛出后没有被任何 catch 接住，就会<strong>传给 JVM</strong>，由 JVM 处理。</p>
+<h2 id="四、接住后如何发出警报？"><a href="#四、接住后如何发出警报？" class="headerlink" title="四、接住后如何发出警报？"></a>四、接住后如何发出警报？</h2><p>1 JVM 收到未捕获的异常后，会做两件事：</p>
+<p>调用异常对象的 printStackTrace() 方法，输出堆栈信息（这就是为什么异常类必须继承自 Exception 或 RuntimeException——保证这个方法存在）</p>
+<h2 id="调用-exit-方法，结束程序运行"><a href="#调用-exit-方法，结束程序运行" class="headerlink" title="调用 exit() 方法，结束程序运行"></a>调用 exit() 方法，结束程序运行</h2><p>2 如果是 catch 接住了，你可以：</p>
+<p>主动调用 e.printStackTrace() 输出堆栈信息</p>
+<h2 id="主动调用-System-exit-结束程序"><a href="#主动调用-System-exit-结束程序" class="headerlink" title="主动调用 System.exit() 结束程序"></a>主动调用 System.exit() 结束程序</h2><h2 id="写异常修正逻辑，不输出、不退出，让程序继续运行"><a href="#写异常修正逻辑，不输出、不退出，让程序继续运行" class="headerlink" title="写异常修正逻辑，不输出、不退出，让程序继续运行"></a>写异常修正逻辑，不输出、不退出，让程序继续运行</h2><h2 id="或者什么都不做"><a href="#或者什么都不做" class="headerlink" title="或者什么都不做"></a>或者什么都不做</h2><h2 id="五、谁触发抛出？谁实现抛出动作？"><a href="#五、谁触发抛出？谁实现抛出动作？" class="headerlink" title="五、谁触发抛出？谁实现抛出动作？"></a>五、谁触发抛出？谁实现抛出动作？</h2><p>这里要分清两个角色：</p>
+<p><img src="/hexo-blog/media_tx/img-056b9593b8713a62.png"></p>
+<p><strong>异常类本身只是一个装载错误信息的类，没有抛出功能。</strong></p>
+<h2 id="方式一：手动触发-手动抛出"><a href="#方式一：手动触发-手动抛出" class="headerlink" title="方式一：手动触发 + 手动抛出"></a>方式一：手动触发 + 手动抛出</h2><p>自己写检测逻辑，用 throw 关键字抛出：</p>
+<p><img src="/hexo-blog/media_tx/img-96decce81c43b303.png"></p>
+<h2 id="触发：你的检测逻辑"><a href="#触发：你的检测逻辑" class="headerlink" title="触发：你的检测逻辑"></a>触发：你的检测逻辑</h2><h2 id="抛出动作：throw-关键字"><a href="#抛出动作：throw-关键字" class="headerlink" title="抛出动作：throw 关键字"></a>抛出动作：throw 关键字</h2><h2 id="方式二：JVM-自动触发-自动抛出"><a href="#方式二：JVM-自动触发-自动抛出" class="headerlink" title="方式二：JVM 自动触发 + 自动抛出"></a>方式二：JVM 自动触发 + 自动抛出</h2><p>当代码运行时发生<strong>运行时异常（RE）</strong>，JVM 会：</p>
+<h2 id="自动检测到错误"><a href="#自动检测到错误" class="headerlink" title="自动检测到错误"></a>自动检测到错误</h2><p>自动创建一个默认的异常类对象（如 NullPointerException、ArithmeticException 等）</p>
+<h2 id="自动执行-throw-将该异常对象抛出"><a href="#自动执行-throw-将该异常对象抛出" class="headerlink" title="自动执行 throw 将该异常对象抛出"></a>自动执行 throw 将该异常对象抛出</h2><p><img src="/hexo-blog/media_tx/img-9a2dd5fec99e6c6d.png"></p>
+<h2 id="六、受检异常与throws"><a href="#六、受检异常与throws" class="headerlink" title="六、受检异常与throws"></a>六、受检异常与throws</h2><h2 id="throw-与-throws-的区别"><a href="#throw-与-throws-的区别" class="headerlink" title="throw 与 throws 的区别"></a>throw 与 throws 的区别</h2><p><img src="/hexo-blog/media_tx/img-49edfb6a20cf4e06.png"></p>
+<p>受检异常（Exception 及其子类，不包括 RuntimeException）有一个硬性规定：<strong>要么被 <strong>try-catch</strong> 接住，要么在方法上写 <strong>throws</strong> 声明</strong>。</p>
+<p>如果你写了 throw new Exception(“…”) 但既不加 try-catch，也不加 throws，<strong>编译直接报错</strong>——这不是运行时问题，是语法错误。</p>
+<p><img src="/hexo-blog/media_tx/img-4c09982c68ae062a.png"></p>
+<h1 id="为什么受检异常必须被处理（try-catch-或-throws）？"><a href="#为什么受检异常必须被处理（try-catch-或-throws）？" class="headerlink" title="为什么受检异常必须被处理（try-catch 或 throws）？"></a>为什么受检异常必须被处理（try-catch 或 throws）？</h1><p><strong>核心原因：受检异常就是用来防止你忘记处理的异常。</strong></p>
+<p>如果你既不用 try-catch 接住，也不写 throws 声明（表示“我看到了，但我不接”），那就说明你可能根本没意识到这个异常的存在——这恰恰失去了“受检”两个字的意义。</p>
+<p>所以编译器强制要求：要么你主动接住（try-catch），要么你明确声明“我看到了，但我不处理，交给上层”（throws）。</p>
+<h2 id="throws-的向上级丢锅，最终到JVM"><a href="#throws-的向上级丢锅，最终到JVM" class="headerlink" title="throws 的向上级丢锅，最终到JVM"></a>throws 的向上级丢锅，最终到JVM</h2><p>throws 的意思是：<strong>这个异常我看到了，但我不在这里用 <strong>try-catch</strong> 处理，我把它抛给调用我的方法。</strong></p>
+<p><img src="/hexo-blog/media_tx/img-316667c8cc6ecc6a.png"></p>
+<p>这里我们的受检异常被抛出，且没有用 try-catch 接住，所以它会根据 test() 方法后面写的 throws，向上抛给调用它的方法。</p>
+<p>调用它的方法面临同样的选择：</p>
+<h2 id="要么用-try-catch-接住"><a href="#要么用-try-catch-接住" class="headerlink" title="要么用 try-catch 接住"></a>要么用 try-catch 接住</h2><p><img src="/hexo-blog/media_tx/img-bfb00484b96e8b14.png"></p>
+<h2 id="要么继续写-throws，再往上抛"><a href="#要么继续写-throws，再往上抛" class="headerlink" title="要么继续写 throws，再往上抛"></a>要么继续写 throws，再往上抛</h2><p>就这样一层一层往上抛，直到 main 函数。</p>
+<p>如果 main 函数也写 throws 而不接住，那么异常最终就传给了 JVM，由 JVM 来处理（打印堆栈信息并退出程序）</p>
+<p><img src="/hexo-blog/media_tx/img-d613e91dcab78dce.png"></p>
+<h1 id="Class类与class对象"><a href="#Class类与class对象" class="headerlink" title="Class类与class对象"></a>Class类与class对象</h1><p>Class 是 Java 中一个预定义的类（位于 java.lang 包），专门用来<strong>读取和记录每个类的结构信息</strong>（类名、方法、字段、构造器等）。</p>
+<h2 id="你可以把它理解为一个用来描述“类”的类"><a href="#你可以把它理解为一个用来描述“类”的类" class="headerlink" title="你可以把它理解为一个用来描述“类”的类"></a>你可以把它理解为一个用来描述“类”的类</h2><p>在 Java 中，<strong>每个类被加载到内存时，JVM 都会自动为它创建一个 <strong>Class</strong> 类的对象且它的名字恒为class</strong>。这个对象包含了该类的完整信息。</p>
+<p>你可以理解为：每个类的定义里，<strong>默认隐藏着一行类似这样的代码</strong>：</p>
+<p><img src="/hexo-blog/media_tx/img-4acbba17ad2f11a0.png"></p>
+<p>也就是说class** 这个对象是一个 <strong>public static final</strong> 的成员变量：<strong>public</strong> 表示跨包可访问，<strong>static</strong> 表示类级，<strong>final</strong> 表示不可修改（不能重新赋值）。**</p>
+<p>当然，这只是为了帮助你理解——实际上你写代码时看不到这行，但它确实存在于 JVM 的运行时数据中。</p>
+<p><strong>通过 类名.class（class 是一个静态的类级成员，前面讲过 Java 没有 ::，调用静态成员统一用 类名.成员名）或调用所有类中都有的 getClass() 实例方法，就可以获取到这个 Class 对象。但 getClass() 是实例方法，必须通过 对象名.getClass() 才能调用。然而 Class 对象本身是类级别的，在类加载时就已经存在，并不需要先创建目标类的实例。这就产生了一个矛盾：为了拿到已经存在的 Class 对象，反而要先创建一个不必要的对象，用 对象名.getClass() 去取。</strong></p>
+<h2 id="与-C-的对比"><a href="#与-C-的对比" class="headerlink" title="与 C++ 的对比"></a>与 C++ 的对比</h2><p>C++ 中没有 Java 的 Class 类。C++ 虽然也有 RTTI（运行时类型信息）和 typeid 运算符，能获取一些类型信息，但<strong>不会自动为每个类创建一个元对象</strong>。要实现类似 Java 反射的功能，需要手动编写复杂的代码。所以我们学习C++的类时没有引出相关内容</p>
+<h1 id="class-这个对象的两大核心功能"><a href="#class-这个对象的两大核心功能" class="headerlink" title="class 这个对象的两大核心功能"></a>class 这个对象的两大核心功能</h1><h2 id="一-反射-通过class获取类信息"><a href="#一-反射-通过class获取类信息" class="headerlink" title="一 反射(通过class获取类信息)"></a>一 反射(通过class获取类信息)</h2><p>在反射中，要获取一个类的信息，首先需要拿到该类的 Class 对象，然后通过 Class 对象的成员方法来获取类的详细信息。最常用的四个成员方法是：</p>
+<p><img src="/hexo-blog/media_tx/img-f9af7df5ccaeee73.png"></p>
+<p>Field[]、Method[]、Constructor[] 中的 Field、Method、Constructor 都是<strong>类名</strong>，后面加 [] 就表示该类的对象数组，和 int[] 是一个道理。</p>
+<p><strong>字段（Field）</strong> 就是成员变量（类中定义的属性）</p>
+<p><strong>方法（Method）</strong> 就是成员方法（类中定义的行为）</p>
+<p><strong>构造器（Constructor）</strong> 就是构造函数（用于创建对象的特殊方法）</p>
+<p><strong>注意</strong>：getDeclaredFields()、getDeclaredMethods()、getDeclaredConstructors() 只能获取<strong>当前类自己声明</strong>的成员，<strong>不包括父类</strong>，但可以获取到 private 修饰的私有成员。</p>
+<h2 id="导包说明"><a href="#导包说明" class="headerlink" title="导包说明"></a>导包说明</h2><p>getName() 定义在 java.lang.Class 类中，由于 java.lang 包是默认导入的，因此可以直接使用，无需手动导包。</p>
+<p>但 Field、Method、Constructor 这三个类都位于 java.lang.reflect 包下，<strong>不属于 <strong>java.lang</strong> 包，不会被默认导入</strong>。所以使用前需要手动导入：</p>
+<p><img src="/hexo-blog/media_tx/img-7e032c66597218ed.png"></p>
+<p>或者一次性导入整个包：</p>
+<p><img src="/hexo-blog/media_tx/img-78c855727f460996.png"></p>
+<p>下面给出java.lang.reflect包下的三个方法的具体应用：</p>
+<p><img src="/hexo-blog/media_tx/img-53d7ab01e4bde701.png"></p>
+<h1 id="获取构造方法、成员变量、普通方法的返回值处理"><a href="#获取构造方法、成员变量、普通方法的返回值处理" class="headerlink" title="获取构造方法、成员变量、普通方法的返回值处理"></a>获取构造方法、成员变量、普通方法的返回值处理</h1><p>getDeclaredConstructors() 返回的是 Constructor[] 数组。如果类中<strong>只有一个构造方法</strong>（比如只有默认无参构造），这个数组的长度就是 1。</p>
+<h2 id="如果你能确定这个类只有一个构造方法，可以这样接"><a href="#如果你能确定这个类只有一个构造方法，可以这样接" class="headerlink" title="如果你能确定这个类只有一个构造方法，可以这样接"></a>如果你能确定这个类只有一个构造方法，可以这样接</h2><p><img src="/hexo-blog/media_tx/img-f3d97e4394423cb2.png"></p>
+<h2 id="如果不确定有几个，建议用数组接"><a href="#如果不确定有几个，建议用数组接" class="headerlink" title="如果不确定有几个，建议用数组接"></a>如果不确定有几个，建议用数组接</h2><p><img src="/hexo-blog/media_tx/img-de70dce4576d8d03.png"></p>
+<p>getDeclaredFields() 和 getDeclaredMethods() 同理：</p>
+<p>如果确定类中只有一个成员变量 &#x2F; 一个普通方法，可以直接用 [0] 取第一个</p>
+<h2 id="如果不确定，用数组接更稳妥"><a href="#如果不确定，用数组接更稳妥" class="headerlink" title="如果不确定，用数组接更稳妥"></a>如果不确定，用数组接更稳妥</h2><p><strong>但是，成员变量和普通方法一般很少只有一个</strong>，所以通常还是用数组来接，更稳妥</p>
+<h2 id="二-根据类名动态创建对象（实例化）"><a href="#二-根据类名动态创建对象（实例化）" class="headerlink" title="二 根据类名动态创建对象（实例化）"></a>二 根据类名动态创建对象（实例化）</h2><p>正常情况下，创建一个对象是用 new 类名()，比如 new String(“Hello”)。但 new 有一个限制：<strong>类名必须在编译时就确定</strong>，写死在代码里。</p>
+<p>如果类名在运行时才能确定（比如从配置文件读取、从用户输入获取），new 就无能为力了。这时候就需要用<strong>反射</strong>来实现”根据一个字符串类名，动态地创建出对应的对象”。</p>
+<p><strong>具体怎么做？</strong></p>
+<p>分三步走：</p>
+<h2 id="第一步：根据全限定名获取-Class-对象"><a href="#第一步：根据全限定名获取-Class-对象" class="headerlink" title="第一步：根据全限定名获取 Class 对象"></a>第一步：根据全限定名获取 Class 对象</h2><p><img src="/hexo-blog/media_tx/img-42ccbe27bb43e173.png"></p>
+<p>Class 对象可以理解为”类的说明书”，里面记录了该类有哪些构造方法、哪些字段、哪些方法。</p>
+<h2 id="第二步：从-Class-对象中获取构造方法对象"><a href="#第二步：从-Class-对象中获取构造方法对象" class="headerlink" title="第二步：从 Class 对象中获取构造方法对象"></a>第二步：从 Class 对象中获取构造方法对象</h2><p><img src="/hexo-blog/media_tx/img-5f25bbbb78b9d6d2.png"></p>
+<p>Constructor 对象可以理解为”构造方法的说明书”，它描述了该构造方法需要什么参数。</p>
+<h2 id="第三步：通过构造方法对象真正创建出实例"><a href="#第三步：通过构造方法对象真正创建出实例" class="headerlink" title="第三步：通过构造方法对象真正创建出实例"></a>第三步：通过构造方法对象真正创建出实例</h2><p><img src="/hexo-blog/media_tx/img-90f2a96f8c35443a.png"></p>
+<p>newInstance() 就是实际执行构造方法，在堆内存中分配空间，创建出目标类的对象。</p>
+<h2 id="为什么用-Class-forName-而不是-对象-getClass-？"><a href="#为什么用-Class-forName-而不是-对象-getClass-？" class="headerlink" title="为什么用 Class.forName() 而不是 对象.getClass()？"></a>为什么用 Class.forName() 而不是 对象.getClass()？</h2><p>要回答这个问题，先看两种方式的区别：</p>
+<h2 id="方式一：通过-对象-getClass-获取"><a href="#方式一：通过-对象-getClass-获取" class="headerlink" title="方式一：通过 对象.getClass() 获取"></a>方式一：通过 对象.getClass() 获取</h2><p><img src="/hexo-blog/media_tx/img-20df4579dc5d76be.png"></p>
+<p>虽然每个类被加载到内存后，JVM 都会为其创建一个唯一的 Class 类型的实例（即 String.class 这个类级对象），该实例<strong>无需创建 <strong>String</strong> 对象就已经存在</strong>——它是类级别的，在类加载时就已经产生。但问题是：getClass() 是一个<strong>成员方法</strong>，必须通过对象来调用。即便 Class 对象本身已经存在于内存中，我们也无法直接通过类名调用 getClass()。这意味着<strong>必须先创建目标类的一个对象</strong>，才能通过这个对象调用 getClass() 拿到 Class 对象——这显然与”根据类名动态创建对象”的初衷相矛盾：我都还没有对象，怎么用 getClass() 去拿？拿了就是为了创建对象的呀。</p>
+<h2 id="方式二：通过-类名-class-获取"><a href="#方式二：通过-类名-class-获取" class="headerlink" title="方式二：通过 类名.class 获取"></a>方式二：通过 类名.class 获取</h2><p><img src="/hexo-blog/media_tx/img-298c117317e1b57e.png"></p>
+<p>这种方式不需要创建对象，因为 class 是类级的静态成员，类加载到内存后就已经存在。但它的局限性在于：<strong>类名在编译时就必须确定</strong>，无法做到运行时动态传入。</p>
+<p><strong>方式三：通过 <strong>Class.forName()</strong> 获取</strong></p>
+<p><img src="/hexo-blog/media_tx/img-5c8b8e40c6bf79e8.png"></p>
+<p>Class.forName() 的优势在于：</p>
+<p><strong>不需要先创建对象</strong>——它是静态方法，类级调用，无需实例存在</p>
+<p><strong>类名可以动态传入</strong>——参数是字符串，可以在运行时从外部获取（配置文件、网络传输、用户输入等）</p>
+<p>Class.forName() 和 getDeclaredConstructor() 和 newInstance() 这三个方法都含有受检异常，所以下面代码中我们用 try-catch 接住它们：</p>
+<p><img src="/hexo-blog/media_tx/img-a379c2f751487a97.png"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://mitchell255ljy.github.io/hexo-blog">酸酸米老鼠</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://mitchell255ljy.github.io/hexo-blog/2026/09/09/2JAVA%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1%E8%AF%AD%E6%B3%95/">https://mitchell255ljy.github.io/hexo-blog/2026/09/09/2JAVA%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1%E8%AF%AD%E6%B3%95/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://mitchell255ljy.github.io/hexo-blog" target="_blank">酸酸米老鼠的记忆库</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/hexo-blog/img/butterfly-icon.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/hexo-blog/2026/09/09/1%E8%AF%AD%E8%A8%80%E7%89%B9%E6%80%A7%E4%B8%8E%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" title=""><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2"></div></div><div class="info-2"><div class="info-item-1">编辑器的时代转变与集成程度一 记事本（古早编辑器）时代的工作流回到“记事本写代码”的时代，一个完整的编程工具链，至少由三个独立部分组成： 编辑器（如记事本）：负责查看和编写源代码（如 .cpp 或 .java 文件）。 编译器：将源代码编译成可执行文件。 运行器：执行编译后的程序这里需要说明一下： 我们引入了“运行器”这个概念，似乎和之前学习 C&#x2F;C++ 时的知识有冲突。 当时我们认为：运行是把编译后的机器码发给操作系统，执行运行的是操作系统本身，没有什么“运行器”这个概念。 但是，运行器对于 C&#x2F;C++ 来说就是操作系统，对于 Java 来说不是。 所以我们特化出“运行器”这个概念，用来区分每种语言的“运行者”的不同。 配置要求除了操作系统自带的记事本（编辑器）之外，你需要自行下载并安装编译器和运行器。 工作流程用记事本打开 .cpp 文件，编写代码并保存。 手动找到编译器的目录，执行编译命令，生成可执行文件。 再手动找到运行器，执行该文件。 每一步都是独立操作，没有集成。 二 现代编辑器时代的工作流（以 VSCode 为例）VSCode 本质上是一个现代化...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/hexo-blog/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/hexo-blog/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">酸酸米老鼠</div><div class="author-info-description"></div><div class="site-data"><a href="/hexo-blog/archives/"><div class="headline">文章</div><div class="length-num">9</div></a><a href="/hexo-blog/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/hexo-blog/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">免费文章 禁止商用</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Java-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%B2%A1%E6%9C%89C-C-%E7%9A%84%E5%A4%B4%E6%96%87%E4%BB%B6"><span class="toc-number">1.</span> <span class="toc-text">Java 为什么没有C&#x2F;C++的头文件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#C-%E7%9A%84-h-%E4%B8%8E-cpp%EF%BC%9A%E4%B8%8D%E6%98%AF%E6%9C%AC%E8%B4%A8%E5%8C%BA%E5%88%AB%EF%BC%8C%E6%98%AF%E5%B7%A5%E7%A8%8B%E7%BA%A6%E5%AE%9A"><span class="toc-number">2.</span> <span class="toc-text">C++ 的 .h 与 .cpp：不是本质区别，是工程约定</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8E%E7%BC%96%E8%AF%91%E8%A7%92%E5%BA%A6%E7%9C%8B%EF%BC%8C-h-%E5%92%8C-cpp-%E6%B2%A1%E6%9C%89%E5%8C%BA%E5%88%AB"><span class="toc-number">2.1.</span> <span class="toc-text">从编译角度看，.h 和 .cpp 没有区别</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JAVA%E7%9A%84%E5%BC%BA%E5%88%B6%E5%A0%86%E5%8C%BA%E5%BB%BA%E7%AB%8B%E5%AF%B9%E8%B1%A1%E4%B8%8E%E6%8C%87%E9%92%88%E9%9A%90%E8%97%8F"><span class="toc-number">3.</span> <span class="toc-text">JAVA的强制堆区建立对象与指针隐藏</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E3%80%81C-%E7%9A%84%E6%96%B9%E5%BC%8F%EF%BC%9A%E5%AF%B9%E8%B1%A1%E5%8F%AF%E4%BB%A5%E5%9C%A8%E4%BB%BB%E4%BD%95%E5%9C%B0%E6%96%B9%EF%BC%8C%E6%8C%87%E9%92%88%E6%9A%B4%E9%9C%B2"><span class="toc-number">4.</span> <span class="toc-text">一、C++ 的方式：对象可以在任何地方，指针暴露</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E3%80%81Java-%E7%9A%84%E6%96%B9%E5%BC%8F%EF%BC%9A%E5%AF%B9%E8%B1%A1%E5%BC%BA%E5%88%B6%E5%9C%A8%E5%A0%86%E5%8C%BA%EF%BC%8C%E6%8C%87%E9%92%88%E9%9A%90%E8%97%8F"><span class="toc-number">5.</span> <span class="toc-text">二、Java 的方式：对象强制在堆区，指针隐藏</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Java-%E6%89%80%E6%9C%89%E5%AF%B9%E8%B1%A1%E5%BC%BA%E5%88%B6%E5%9C%A8%E5%A0%86%E5%8C%BA%E5%88%9B%E5%BB%BA"><span class="toc-number">5.1.</span> <span class="toc-text">Java 所有对象强制在堆区创建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%A8-Java-%E4%B8%AD%EF%BC%8C%E6%8C%87%E9%92%88%E6%98%AF%E5%B8%B8%E6%80%81%EF%BC%8C%E5%88%B0%E5%A4%84%E9%83%BD%E5%9C%A8%E7%94%A8"><span class="toc-number">5.2.</span> <span class="toc-text">在 Java 中，指针是常态，到处都在用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A2%E7%84%B6%E6%8C%87%E9%92%88%E6%98%AF%E5%B8%B8%E6%80%81%EF%BC%8C%E9%82%A3%E5%B0%B1%E5%B9%B2%E8%84%86%E6%8A%8A-%E7%9C%81%E7%95%A5%E6%8E%89%EF%BC%8C%E4%B8%8D%E5%86%99%E4%BA%86"><span class="toc-number">5.3.</span> <span class="toc-text">既然指针是常态，那就干脆把 * 省略掉，不写了</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E4%B8%80%E5%88%87%E7%9A%86%E4%B8%BA%E5%BC%95%E7%94%A8%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F"><span class="toc-number">5.4.</span> <span class="toc-text">三、一切皆为引用的设计模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BA%95%E5%B1%82%E7%94%A8%E6%8C%87%E9%92%88%E5%AE%9E%E7%8E%B0%E6%89%80%E6%9C%89%E5%AF%B9%E8%B1%A1%E8%AE%BF%E9%97%AE"><span class="toc-number">5.5.</span> <span class="toc-text">底层用指针实现所有对象访问</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9C%A8%E5%90%8E%E7%BB%AD%E5%AD%A6%E4%B9%A0%E4%B8%AD%EF%BC%8C%E5%87%A1%E6%98%AF%E9%81%87%E5%88%B0-Java-%E4%B8%8E-C-%E8%A1%8C%E4%B8%BA%E4%B8%8D%E5%90%8C%E7%9A%84%E5%9C%B0%E6%96%B9%EF%BC%8C%E5%BE%88%E5%A4%9A%E9%83%BD%E5%8F%AF%E4%BB%A5%E8%BF%BD%E6%BA%AF%E5%88%B0%E2%80%9C%E4%B8%80%E5%88%87%E7%9A%86%E4%B8%BA%E5%BC%95%E7%94%A8%E2%80%9D%E8%BF%99%E4%B8%AA%E5%BA%95%E5%B1%82%E8%AE%BE%E8%AE%A1%E3%80%82"><span class="toc-number">6.</span> <span class="toc-text">在后续学习中，凡是遇到 Java 与 C++ 行为不同的地方，很多都可以追溯到“一切皆为引用”这个底层设计。</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Java%E7%9A%84%E5%87%BD%E6%95%B0%E3%80%81%E5%8F%98%E9%87%8F%E4%B8%8E%E5%85%A5%E5%8F%A3%E5%87%BD%E6%95%B0"><span class="toc-number">7.</span> <span class="toc-text">Java的函数、变量与入口函数</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80-Java%E4%B8%8EC-%EF%BC%9A%E5%87%BD%E6%95%B0%E5%8F%98%E9%87%8F%E7%9A%84%E6%89%BF%E8%BD%BD%E5%AF%B9%E6%AF%94"><span class="toc-number">7.1.</span> <span class="toc-text">一 Java与C++：函数变量的承载对比</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E5%B7%AE%E5%BC%82"><span class="toc-number">7.2.</span> <span class="toc-text">核心差异</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C-%EF%BC%9A%E5%A4%9A%E8%8C%83%E5%BC%8F%E6%89%BF%E8%BD%BD"><span class="toc-number">7.3.</span> <span class="toc-text">C++：多范式承载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A8%8B%E5%BA%8F%E5%91%98%E6%9C%89%E8%87%AA%E7%94%B1%E9%80%89%E6%8B%A9%E6%9D%83"><span class="toc-number">7.4.</span> <span class="toc-text">程序员有自由选择权</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java%EF%BC%9A%E5%8D%95%E4%B8%80%E5%BC%BA%E5%88%B6%E6%89%BF%E8%BD%BD"><span class="toc-number">7.5.</span> <span class="toc-text">Java：单一强制承载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E5%92%8C%E5%8F%98%E9%87%8F%E5%BF%85%E9%A1%BB%E5%86%99%E5%9C%A8%E7%B1%BB%E9%87%8C%E9%9D%A2"><span class="toc-number">7.6.</span> <span class="toc-text">函数和变量必须写在类里面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8D%E5%85%81%E8%AE%B8%E4%BB%BB%E4%BD%95%E2%80%9C%E7%B1%BB%E5%A4%96%E9%83%A8%E2%80%9D%E7%9A%84%E5%87%BD%E6%95%B0%E6%88%96%E5%8F%98%E9%87%8F%E5%AD%98%E5%9C%A8"><span class="toc-number">7.7.</span> <span class="toc-text">不允许任何“类外部”的函数或变量存在</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%99%E6%98%AF%E8%AF%AD%E8%A8%80%E5%B1%82%E9%9D%A2%E7%9A%84%E5%BC%BA%E5%88%B6%E8%A7%84%E5%AE%9A%EF%BC%8C%E4%B8%8D%E6%98%AF%E7%BC%96%E7%A8%8B%E9%A3%8E%E6%A0%BC%E5%BB%BA%E8%AE%AE"><span class="toc-number">7.8.</span> <span class="toc-text">这是语言层面的强制规定，不是编程风格建议</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C-Java%E5%85%A5%E5%8F%A3%E5%87%BD%E6%95%B0%E7%9A%84%E6%89%BF%E8%BD%BD%E4%B8%8E%E4%BF%AE%E9%A5%B0%E7%AC%A6%E8%AF%AD%E4%B9%89"><span class="toc-number">7.9.</span> <span class="toc-text">二 Java入口函数的承载与修饰符语义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E8%B5%B7%E6%BA%90"><span class="toc-number">7.10.</span> <span class="toc-text">问题起源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%EF%BC%9A%E6%8A%8A%E5%85%A5%E5%8F%A3%E5%87%BD%E6%95%B0%E5%A1%9E%E8%BF%9B%E7%B1%BB%E9%87%8C"><span class="toc-number">7.11.</span> <span class="toc-text">解决方案：把入口函数塞进类里</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E5%87%BA%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">7.12.</span> <span class="toc-text">引出的问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#static%E7%9A%84%E4%BD%9C%E7%94%A8%EF%BC%9A%E8%A7%A3%E5%86%B3%E2%80%9C%E5%B1%9E%E4%BA%8E%E8%B0%81%E2%80%9D%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">7.13.</span> <span class="toc-text">static的作用：解决“属于谁”的问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%EF%BC%9A%E7%94%A8static%E5%85%B3%E9%94%AE%E5%AD%97%E4%BF%AE%E9%A5%B0"><span class="toc-number">7.14.</span> <span class="toc-text">解决方案：用static关键字修饰</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B2%BE%E5%87%86%E6%80%BB%E7%BB%93"><span class="toc-number">7.15.</span> <span class="toc-text">精准总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89-%E5%85%A5%E5%8F%A3%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E6%9C%AC%E7%B1%BB%E5%85%B6%E4%BB%96%E6%88%90%E5%91%98%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">7.16.</span> <span class="toc-text">三 入口函数调用本类其他成员的问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B-%E5%AF%B9%E4%BA%8E%E5%85%A5%E5%8F%A3%E5%87%BD%E6%95%B0public%E5%89%8D%E7%BC%80%E7%9A%84%E4%BD%9C%E7%94%A8%E7%9A%84%E7%96%91%E6%83%91"><span class="toc-number">7.17.</span> <span class="toc-text">四 对于入口函数public前缀的作用的疑惑</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%94-Java%E8%AF%AD%E8%A8%80%E7%89%B9%E6%80%A7%EF%BC%9AC-%E7%9C%9F%E6%AD%A3%E6%B2%A1%E6%9C%89%E7%9A%84%E6%A6%82%E5%BF%B5%E2%80%94%E2%80%94%E9%A1%B9%E7%9B%AE%E5%A4%9A%E4%B8%BB%E7%B1%BB"><span class="toc-number">8.</span> <span class="toc-text">五 Java语言特性：C++真正没有的概念——项目多主类</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%88%91%E4%BB%AC%E6%8A%8A%E5%8C%85%E5%90%AB%E5%85%A5%E5%8F%A3%E5%87%BD%E6%95%B0%E7%9A%84%E7%B1%BB%E7%A7%B0%E4%B8%BA%E4%B8%BB%E7%B1%BB"><span class="toc-number">8.1.</span> <span class="toc-text">我们把包含入口函数的类称为主类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java%E7%9A%84%E8%A7%84%E5%88%99"><span class="toc-number">8.2.</span> <span class="toc-text">Java的规则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B9%E6%9C%AC%E5%8E%9F%E5%9B%A0%EF%BC%9A%E7%BC%96%E8%AF%91%E4%BA%A7%E7%89%A9%E7%9A%84%E7%B2%92%E5%BA%A6%E4%B8%8D%E5%90%8C"><span class="toc-number">8.3.</span> <span class="toc-text">根本原因：编译产物的粒度不同</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java%E7%9A%84%E6%A8%A1%E5%9E%8B"><span class="toc-number">8.4.</span> <span class="toc-text">Java的模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C-%E7%9A%84%E6%A8%A1%E5%9E%8B"><span class="toc-number">8.5.</span> <span class="toc-text">C++的模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">8.6.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%99%85%E5%9C%A8-VSCode-%E4%B8%AD%E9%80%89%E6%8B%A9%E4%B8%8D%E5%90%8C%E4%B8%BB%E7%B1%BB%E8%BF%9B%E8%A1%8C%E8%BF%90%E8%A1%8C%E7%9A%84%E6%93%8D%E4%BD%9C%E6%B5%81%E7%A8%8B%E5%A6%82%E4%B8%8B%EF%BC%9A"><span class="toc-number">8.7.</span> <span class="toc-text">实际在 VSCode 中选择不同主类进行运行的操作流程如下：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%A4%9A%E4%B8%AA%E6%BA%90%E6%96%87%E4%BB%B6%E5%90%84%E5%90%AB%E4%B8%80%E4%B8%AA%E5%85%A5%E5%8F%A3%E7%B1%BB"><span class="toc-number">8.8.</span> <span class="toc-text">1 多个源文件各含一个入口类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%8D%95%E4%B8%AA%E6%BA%90%E6%96%87%E4%BB%B6%E4%B8%AD%E5%90%AB%E6%9C%89%E5%A4%9A%E4%B8%AA%E5%85%A5%E5%8F%A3%E7%B1%BB"><span class="toc-number">8.9.</span> <span class="toc-text">2. 单个源文件中含有多个入口类</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JAVA%E5%A4%9A%E6%BA%90%E6%96%87%E4%BB%B6%E9%A1%B9%E7%9B%AE%E7%9A%84%E4%BB%A3%E7%A0%81%E7%B2%92%E5%BA%A6%E5%8F%96%E8%88%8D"><span class="toc-number">9.</span> <span class="toc-text">JAVA多源文件项目的代码粒度取舍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Java%E7%9A%84%E8%AE%BF%E9%97%AE%E6%9D%83%E9%99%90%E3%80%81%E5%8C%85%E4%B8%8E%E5%8C%85%E6%9C%BA%E5%88%B6"><span class="toc-number">10.</span> <span class="toc-text">Java的访问权限、包与包机制</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BF%E9%97%AE%E6%9D%83%E9%99%90%E4%BF%AE%E9%A5%B0%E7%AC%A6%E4%B9%A6%E5%86%99%E8%A7%84%E5%88%99"><span class="toc-number">10.1.</span> <span class="toc-text">访问权限修饰符书写规则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E6%9E%9C%E4%B8%8D%E5%86%99%E8%AE%BF%E9%97%AE%E6%9D%83%E9%99%90%E5%91%A2%EF%BC%9F"><span class="toc-number">10.2.</span> <span class="toc-text">如果不写访问权限呢？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%8C%85%E7%BA%A7%E7%A7%81%E6%9C%89%EF%BC%9F%E2%80%94%E2%80%94%E5%85%88%E8%A6%81%E7%90%86%E8%A7%A3%E2%80%9C%E5%8C%85%E2%80%9D%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="toc-number">11.</span> <span class="toc-text">什么是包级私有？——先要理解“包”的概念</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E7%9A%84%E8%B5%B7%E6%BA%90%EF%BC%9A%E7%89%A9%E7%90%86%E7%9B%AE%E5%BD%95%E7%9A%84%E9%9A%94%E7%A6%BB"><span class="toc-number">11.1.</span> <span class="toc-text">问题的起源：物理目录的隔离</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C-%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%EF%BC%9A-include-%E7%BB%91%E5%AE%9A%E7%9B%AE%E5%BD%95"><span class="toc-number">11.2.</span> <span class="toc-text">C++的解决方案：#include &lt;&gt; + 绑定目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E8%AF%91%E5%99%A8%E6%A0%B9%E6%8D%AE%E7%BB%91%E5%AE%9A%E7%9A%84%E7%9B%AE%E5%BD%95%E5%8E%BB%E6%9F%A5%E6%89%BE%E5%A4%B4%E6%96%87%E4%BB%B6"><span class="toc-number">11.3.</span> <span class="toc-text">编译器根据绑定的目录去查找头文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java%E7%9A%84%E5%B7%AE%E5%BC%82%EF%BC%9A%E6%8B%86%E5%88%86%E6%95%B4%E4%B8%AA%E9%A1%B9%E7%9B%AE%EF%BC%8C%E8%80%8C%E9%9D%9E%E4%BB%85%E8%B0%83%E5%BA%A6%E5%A4%96%E9%83%A8%E5%A4%B4%E6%96%87%E4%BB%B6"><span class="toc-number">11.4.</span> <span class="toc-text">Java的差异：拆分整个项目，而非仅调度外部头文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%8C%85%E7%9A%84%E4%B8%A4%E4%B8%AA%E6%A6%82%E5%BF%B5"><span class="toc-number">11.5.</span> <span class="toc-text">1 包的两个概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%A8%E6%B2%A1%E6%9C%89%E4%BB%BB%E4%BD%95%E5%A3%B0%E6%98%8E%E7%9A%84%E6%83%85%E5%86%B5%E4%B8%8B%EF%BC%8C%E7%89%A9%E7%90%86%E5%8C%85-%E9%80%BB%E8%BE%91%E5%8C%85"><span class="toc-number">11.6.</span> <span class="toc-text">在没有任何声明的情况下，物理包 &#x3D; 逻辑包</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2"><span class="toc-number">12.</span> <span class="toc-text">2</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E8%AF%91%E5%99%A8%E5%92%8C-JVM-%E6%8C%89%E7%85%A7%E9%80%BB%E8%BE%91%E5%8C%85%E5%8E%BB%E5%AE%9A%E4%BD%8D%E8%BF%99%E4%B8%AA%E7%B1%BB"><span class="toc-number">12.1.</span> <span class="toc-text">编译器和 JVM 按照逻辑包去定位这个类</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8C%85%E6%9C%BA%E5%88%B6%E7%9A%84%E9%99%90%E5%88%B6"><span class="toc-number">13.</span> <span class="toc-text">包机制的限制</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3"><span class="toc-number">14.</span> <span class="toc-text">3</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B2%A1%E6%9C%89%E5%8C%85%EF%BC%88%E9%BB%98%E8%AE%A4%E5%8C%85%EF%BC%89%E7%9A%84%E6%83%85%E5%86%B5"><span class="toc-number">14.1.</span> <span class="toc-text">没有包（默认包）的情况</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BF%99%E5%92%8C-C-%E5%BE%88%E5%83%8F%EF%BC%9A%E8%B7%A8%E6%96%87%E4%BB%B6%E5%AE%9E%E4%BE%8B%E5%8C%96%E5%AF%B9%E8%B1%A1%E6%97%B6%EF%BC%8C%E5%BD%93%E5%89%8D%E6%96%87%E4%BB%B6%E6%97%A0%E9%9C%80%E9%87%8D%E5%A4%8D%E5%A3%B0%E6%98%8E%E7%9B%AE%E6%A0%87%E7%B1%BB%EF%BC%8C%E5%8F%AA%E9%9C%80%E4%BE%9D%E8%B5%96%E5%A4%96%E9%83%A8%E5%B7%B2%E6%9C%89%E7%9A%84%E5%AE%9A%E4%B9%89%EF%BC%88Java%E4%B8%AD%E4%B8%BA%E7%BC%96%E8%AF%91%E5%90%8E%E7%9A%84"><span class="toc-number">15.</span> <span class="toc-text">这和 C++ 很像：跨文件实例化对象时，当前文件无需重复声明目标类，只需依赖外部已有的定义（Java中为编译后的</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E5%85%A5%E5%8C%85%E5%90%8E%E7%9A%84%E6%83%85%E5%86%B5%EF%BC%9A"><span class="toc-number">15.1.</span> <span class="toc-text">引入包后的情况：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%9B%9E%E5%88%B0%E5%8C%85%E7%BA%A7%E7%A7%81%E6%9C%89"><span class="toc-number">15.2.</span> <span class="toc-text">4 回到包级私有</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%B1%BB%E7%9A%84%E4%B8%A4%E7%A7%8D%E8%AE%BF%E9%97%AE%E6%9D%83%E9%99%90%EF%BC%9A%E5%8C%85%E7%BA%A7%E7%A7%81%E6%9C%89%E4%B8%8Epublic"><span class="toc-number">16.</span> <span class="toc-text">类的两种访问权限：包级私有与public</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B7%A8%E5%8C%85%E8%B0%83%E7%94%A8%E7%9A%84%E9%99%90%E5%88%B6"><span class="toc-number">16.1.</span> <span class="toc-text">跨包调用的限制</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JAVA%E7%9A%84IO%E5%87%BD%E6%95%B0%E5%92%8C%E5%9F%BA%E7%A1%80%E7%B1%BB%E5%9E%8B"><span class="toc-number">17.</span> <span class="toc-text">JAVA的IO函数和基础类型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Out%E8%BE%93%E5%87%BA%E5%87%BD%E6%95%B0%E6%98%AF%E6%88%90%E5%91%98%E6%96%B9%E6%B3%95-System-out-println"><span class="toc-number">17.1.</span> <span class="toc-text">Out输出函数是成员方法 System.out.println()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#System-%E8%BF%99%E4%B8%80%E7%BA%A7%E5%B0%B1%E6%98%AF%E7%B1%BB%E5%90%8D"><span class="toc-number">17.2.</span> <span class="toc-text">System 这一级就是类名</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-1"><span class="toc-number">18.</span> <span class="toc-text">3</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B"><span class="toc-number">18.1.</span> <span class="toc-text">执行流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%BB%98%E8%AE%A4%E8%BE%93%E5%87%BA%E6%A0%BC%E5%BC%8F"><span class="toc-number">18.2.</span> <span class="toc-text">默认输出格式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#getClass-getName-%E8%A7%A3%E9%87%8A"><span class="toc-number">18.3.</span> <span class="toc-text">getClass().getName() 解释</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E2%80%94%E2%80%94-%E5%88%86%E9%9A%94%E7%AC%A6"><span class="toc-number">18.4.</span> <span class="toc-text">@ —— 分隔符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%93%88%E5%B8%8C%E7%A0%81%E8%A7%A3%E9%87%8A"><span class="toc-number">18.5.</span> <span class="toc-text">哈希码解释</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#In%E8%BE%93%E5%85%A5%E5%87%BD%E6%95%B0%E5%AF%B9%E5%BA%94%E5%A4%9A%E4%B8%AAScanner%E7%B1%BB%E4%B8%8B%E7%9A%84%E6%88%90%E5%91%98%E6%96%B9%E6%B3%95"><span class="toc-number">18.6.</span> <span class="toc-text">In输入函数对应多个Scanner类下的成员方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Scanner-%E7%B1%BB%E4%B8%8B%E7%9A%84%E4%B8%A4%E5%A5%97%E8%BE%93%E5%85%A5%E6%96%B9%E6%B3%95"><span class="toc-number">18.7.</span> <span class="toc-text">Scanner 类下的两套输入方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java%E7%9A%84%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-number">18.8.</span> <span class="toc-text">Java的基础数据类型</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E5%88%87%E7%9A%86%E5%BC%95%E7%94%A8%E9%80%A0%E6%88%90%E7%9A%84Java%E4%B8%8EC-%E7%9A%84%E5%B7%AE%E5%BC%82"><span class="toc-number">19.</span> <span class="toc-text">一切皆引用造成的Java与C++的差异</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Java-%E5%AF%B9%E8%B1%A1%E7%9A%84-%E6%98%AF%E5%BC%95%E7%94%A8%E5%A4%8D%E5%88%B6"><span class="toc-number">19.1.</span> <span class="toc-text">Java 对象的 &#x3D; 是引用复制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9-b-%E7%9A%84%E5%86%85%E5%AE%B9%EF%BC%8Ca-%E4%B9%9F%E4%BC%9A%E6%94%B9%E5%8F%98"><span class="toc-number">19.2.</span> <span class="toc-text">修改 b 的内容，a 也会改变</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java-%E5%AF%B9%E8%B1%A1%E7%9A%84-%E6%98%AF%E5%BC%95%E7%94%A8%E6%AF%94%E8%BE%83"><span class="toc-number">19.3.</span> <span class="toc-text">Java 对象的 &#x3D;&#x3D; 是引用比较</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java%E6%95%B0%E7%BB%84%E7%9A%84%E5%A3%B0%E6%98%8E%E8%AF%AD%E6%B3%95"><span class="toc-number">19.4.</span> <span class="toc-text">Java数组的声明语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#a-%E6%98%AF%E4%B8%80%E4%B8%AA%E6%8C%87%E9%92%88"><span class="toc-number">19.5.</span> <span class="toc-text">a 是一个指针</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%AD%E6%B3%95%E6%98%8E%E7%A1%AE%E6%9A%B4%E9%9C%B2%E4%BA%86%E2%80%9C%E6%8C%87%E9%92%88%E2%80%9D%E6%A6%82%E5%BF%B5"><span class="toc-number">19.6.</span> <span class="toc-text">语法明确暴露了“指针”概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java-%E7%9A%84%E5%AF%B9%E5%BA%94%E5%86%99%E6%B3%95"><span class="toc-number">19.7.</span> <span class="toc-text">Java 的对应写法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#a-%E5%B0%B1%E6%98%AF%E8%BF%99%E4%B8%AA%E6%8C%87%E9%92%88%E7%9A%84%E5%90%8D%E5%AD%97"><span class="toc-number">19.8.</span> <span class="toc-text">a 就是这个指针的名字</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JAVA%E7%9A%84%E5%85%B3%E9%94%AE%E5%AD%97super"><span class="toc-number">20.</span> <span class="toc-text">JAVA的关键字super</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Java%E9%87%8C%E6%B2%A1%E6%9C%89-%E6%80%8E%E4%B9%88%E5%8A%9E%EF%BC%9F"><span class="toc-number">21.</span> <span class="toc-text">Java里没有 :: 怎么办？</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9E%E5%BF%86-C-%E4%B8%AD-%E7%9A%84%E4%B8%89%E7%A7%8D%E7%94%A8%E9%80%94"><span class="toc-number">21.1.</span> <span class="toc-text">回忆 C++ 中 :: 的三种用途</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%B9%E5%BA%94%E4%B8%89%E7%A7%8D%E7%94%A8%E9%80%94%EF%BC%8CJava-%E6%B2%A1%E6%9C%89-%E6%80%8E%E4%B9%88%E5%A4%84%E7%90%86"><span class="toc-number">21.2.</span> <span class="toc-text">对应三种用途，Java 没有 ::怎么处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E8%AE%BF%E9%97%AE%E7%88%B6%E7%B1%BB%E4%B8%AD%E8%A2%AB%E9%9A%90%E8%97%8F-%E9%87%8D%E5%86%99%E7%9A%84%E6%88%90%E5%91%98"><span class="toc-number">21.3.</span> <span class="toc-text">1访问父类中被隐藏&#x2F;重写的成员</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E8%B0%83%E7%94%A8%E7%88%B6%E7%B1%BB%E7%9A%84%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95"><span class="toc-number">21.4.</span> <span class="toc-text">2调用父类的构造方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E8%AF%91%E5%99%A8%E9%BB%98%E8%AE%A4%E6%B7%BB%E5%8A%A0%E6%97%A0%E5%8F%82-super"><span class="toc-number">21.5.</span> <span class="toc-text">编译器默认添加无参 super()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B2%A1%E5%95%A5%E5%A5%BD%E8%AE%B2%E7%9A%84"><span class="toc-number">21.6.</span> <span class="toc-text">没啥好讲的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%98%AF%E5%89%8D%E7%BC%80"><span class="toc-number">21.7.</span> <span class="toc-text">是前缀</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E5%AD%97-final"><span class="toc-number">22.</span> <span class="toc-text">关键字 final</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E5%AD%97-abstract"><span class="toc-number">23.</span> <span class="toc-text">关键字 abstract</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%AE%E9%A5%B0%E6%96%B9%E6%B3%95%E6%97%B6"><span class="toc-number">23.1.</span> <span class="toc-text">修饰方法时</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%90%E7%B1%BB%E5%BF%85%E9%A1%BB%E9%87%8D%E5%86%99%E8%BF%99%E4%B8%AA%E6%96%B9%E6%B3%95%EF%BC%8C%E5%90%A6%E5%88%99%E5%AD%90%E7%B1%BB%E4%B9%9F%E6%98%AF%E6%8A%BD%E8%B1%A1%E7%B1%BB"><span class="toc-number">23.2.</span> <span class="toc-text">子类必须重写这个方法，否则子类也是抽象类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%AE%E9%A5%B0%E7%B1%BB%E6%97%B6"><span class="toc-number">23.3.</span> <span class="toc-text">修饰类时</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E5%AD%97-interface-%E5%92%8C-implements"><span class="toc-number">24.</span> <span class="toc-text">关键字 interface 和 implements</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E4%BB%80%E4%B9%88%E6%98%AF%E6%8E%A5%E5%8F%A3%EF%BC%9F"><span class="toc-number">24.1.</span> <span class="toc-text">一、什么是接口？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81interface-%E5%85%B3%E9%94%AE%E5%AD%97%E7%9A%84%E5%BC%BA%E5%88%B6%E4%BD%9C%E7%94%A8"><span class="toc-number">24.2.</span> <span class="toc-text">二、interface 关键字的强制作用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E6%8E%A5%E5%8F%A3-vs-%E5%86%85%E9%83%A8%E6%89%80%E6%9C%89%E6%96%B9%E6%B3%95%E9%83%BD%E6%98%AF%E7%BA%AF%E8%99%9A%E5%87%BD%E6%95%B0%E7%9A%84%E6%8A%BD%E8%B1%A1%E7%B1%BB"><span class="toc-number">24.3.</span> <span class="toc-text">三、接口 vs 内部所有方法都是纯虚函数的抽象类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81implements-%E4%B8%8E-extends-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">24.4.</span> <span class="toc-text">四、implements 与 extends 的区别</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Java-%E5%A4%9A%E6%80%81%E7%9A%84%E5%AE%9E%E7%8E%B0%E4%B8%8E%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86"><span class="toc-number">25.</span> <span class="toc-text">Java 多态的实现与底层原理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%9B%9E%E9%A1%BE-C-%E7%9A%84%E5%A4%9A%E6%80%81%E6%9C%BA%E5%88%B6"><span class="toc-number">25.1.</span> <span class="toc-text">一、回顾 C++ 的多态机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%9A%E8%BF%87%E6%8C%87%E9%92%88%E6%88%96%E5%BC%95%E7%94%A8%E8%B0%83%E7%94%A8"><span class="toc-number">25.2.</span> <span class="toc-text">通过指针或引用调用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81Java%E6%96%B9%E6%B3%95%E5%A4%A9%E7%84%B6%E6%94%AF%E6%8C%81%E5%8A%A8%E6%80%81%E7%BB%91%E5%AE%9A"><span class="toc-number">25.3.</span> <span class="toc-text">二、Java方法天然支持动态绑定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%9A%E8%BF%87%E5%AF%B9%E7%85%A7C-%E7%9A%84%E5%A4%9A%E6%80%81%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%E6%B5%81%E7%A8%8B%E5%9B%BE"><span class="toc-number">25.4.</span> <span class="toc-text">通过对照C++的多态底层原理流程图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E5%90%91%E4%B8%8A%E8%BD%AC%E5%9E%8B2%E5%90%8C%E5%90%8D%E5%87%BD%E6%95%B0%E9%87%8D%E5%86%993%E8%87%AA%E5%8A%A8%E5%8A%A8%E6%80%81%E7%BB%91%E5%AE%9A"><span class="toc-number">25.5.</span> <span class="toc-text">1向上转型2同名函数重写3自动动态绑定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%92%8C%E6%B5%81%E7%A8%8B%E5%9B%BE%E7%9B%B8%E6%AF%94%E8%BF%98%E5%B7%AE%E4%B8%80%E4%B8%AA4%E8%99%9A%E5%87%BD%E6%95%B0%E8%A1%A8%E6%9B%BF%E6%8D%A2%E6%9C%BA%E5%88%B6"><span class="toc-number">25.6.</span> <span class="toc-text">和流程图相比还差一个4虚函数表替换机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E9%AA%8C%E8%AF%81%EF%BC%9A%E9%87%8D%E5%86%99%E5%90%8E%E4%B9%9F%E6%98%AF%E4%B8%89%E4%BB%BD%E5%9C%B0%E5%9D%80%E5%90%97%EF%BC%9F"><span class="toc-number">25.7.</span> <span class="toc-text">三、验证：重写后也是三份地址吗？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%88%B6%E7%B1%BB%E8%87%AA%E5%B7%B1%E7%9A%84%E5%87%BD%E6%95%B0%E5%9C%B0%E5%9D%80"><span class="toc-number">25.8.</span> <span class="toc-text">父类自己的函数地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%90%E7%B1%BB%E8%87%AA%E5%B7%B1%E7%9A%84%E5%87%BD%E6%95%B0%E5%9C%B0%E5%9D%80"><span class="toc-number">25.9.</span> <span class="toc-text">子类自己的函数地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%88%B6%E7%B1%BB%E8%99%9A%E6%96%B9%E6%B3%95%E8%A1%A8%E4%B8%AD%E5%AD%98%E6%9C%89%E7%88%B6%E7%B1%BB%E6%96%B9%E6%B3%95%E7%9A%84%E5%9C%B0%E5%9D%80"><span class="toc-number">25.10.</span> <span class="toc-text">父类虚方法表中存有父类方法的地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%90%E7%B1%BB%E8%99%9A%E6%96%B9%E6%B3%95%E8%A1%A8%E4%B8%80%E5%BC%80%E5%A7%8B%E5%A4%8D%E5%88%B6%E7%88%B6%E7%B1%BB%E7%9A%84%E8%99%9A%E6%96%B9%E6%B3%95%E8%A1%A8"><span class="toc-number">25.11.</span> <span class="toc-text">子类虚方法表一开始复制父类的虚方法表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%88%B6%E7%B1%BB%E8%87%AA%E5%B7%B1%E7%9A%84%E8%99%9A%E6%96%B9%E6%B3%95%E8%A1%A8%E4%B8%8D%E5%8F%97%E5%BD%B1%E5%93%8D"><span class="toc-number">25.12.</span> <span class="toc-text">父类自己的虚方法表不受影响</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA%EF%BC%9AJava-%E5%92%8C-C-%E7%9A%84%E5%BA%95%E5%B1%82%E9%80%BB%E8%BE%91%E6%98%AF%E4%B8%80%E8%87%B4%E7%9A%84%EF%BC%8C%E6%89%80%E4%BB%A5-Java-%E5%A4%9A%E6%80%81%E7%9A%84%E5%BA%95%E5%B1%82%E9%80%BB%E8%BE%91%E4%B8%8E-C-%E5%AE%8C%E5%85%A8%E4%B8%80%E8%87%B4%E2%80%94%E2%80%94%E4%BA%8B%E5%AE%9E%E4%B8%8A%EF%BC%8CJava-%E6%AD%A3%E6%98%AF%E5%A5%97%E7%94%A8%E4%BA%86-C-%E8%99%9A%E5%87%BD%E6%95%B0%E8%A1%A8%E6%9B%BF%E6%8D%A2%E6%9C%BA%E5%88%B6%E7%9A%84%E6%A0%B8%E5%BF%83%E6%80%9D%E6%83%B3%E6%9D%A5%E5%AE%9E%E7%8E%B0%E7%9A%84%E3%80%82"><span class="toc-number">26.</span> <span class="toc-text">结论：Java 和 C++ 的底层逻辑是一致的，所以 Java 多态的底层逻辑与 C++ 完全一致——事实上，Java 正是套用了 C++ 虚函数表替换机制的核心思想来实现的。</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81Java-%E5%A4%9A%E6%80%81%E4%B8%AD%E7%9A%84%E5%BA%95%E5%B1%82%E7%9A%84%E6%9B%BF%E6%8D%A2%E6%9C%BA%E7%90%86%EF%BC%9A%E8%99%9A%E6%96%B9%E6%B3%95%E8%A1%A8%EF%BC%88vtable%EF%BC%89"><span class="toc-number">26.1.</span> <span class="toc-text">四、Java 多态中的底层的替换机理：虚方法表（vtable）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81JAVA%E8%87%AA%E5%8A%A8%E5%8A%A8%E6%80%81%E7%BB%91%E5%AE%9A%E6%9C%BA%E7%90%86%E9%80%A0%E6%88%90%E7%9A%84%E5%A4%9A%E6%80%81%E4%BD%BF%E7%94%A8%E8%A1%A8%E7%8E%B0"><span class="toc-number">26.2.</span> <span class="toc-text">五、JAVA自动动态绑定机理造成的多态使用表现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%90%E7%B1%BB%E9%87%8D%E5%86%99%E7%88%B6%E7%B1%BB%E7%9A%84%E5%90%8C%E5%90%8D%E6%96%B9%E6%B3%95"><span class="toc-number">26.3.</span> <span class="toc-text">子类重写父类的同名方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%9A%E8%BF%87%E5%90%91%E4%B8%8A%E8%BD%AC%E5%9E%8B%EF%BC%88%E7%88%B6%E7%B1%BB%E5%BC%95%E7%94%A8%E6%8C%87%E5%90%91%E5%AD%90%E7%B1%BB%E5%AF%B9%E8%B1%A1%EF%BC%89%E8%B0%83%E7%94%A8%E8%AF%A5%E6%96%B9%E6%B3%95"><span class="toc-number">26.4.</span> <span class="toc-text">通过向上转型（父类引用指向子类对象）调用该方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E6%9C%AC%E5%8F%AA%E6%98%AF%E6%99%AE%E9%80%9A%E6%96%B9%E6%B3%95"><span class="toc-number">26.5.</span> <span class="toc-text">原本只是普通方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E6%97%A6%E8%A2%AB%E5%AD%90%E7%B1%BB%E9%87%8D%E5%86%99%EF%BC%8C%E5%B9%B6%E4%B8%94%E9%80%9A%E8%BF%87%E5%90%91%E4%B8%8A%E8%BD%AC%E5%9E%8B%E8%B0%83%E7%94%A8"><span class="toc-number">26.6.</span> <span class="toc-text">一旦被子类重写，并且通过向上转型调用</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8C%BF%E5%90%8D%E7%B1%BB"><span class="toc-number">27.</span> <span class="toc-text">匿名类</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">28.</span> <span class="toc-text"></span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#C-%E5%92%8C-Java-%E7%9A%84%E2%80%9C%E5%8C%BF%E5%90%8D%E7%B1%BB%E2%80%9D%E4%B8%8D%E6%98%AF%E4%B8%80%E5%9B%9E%E4%BA%8B"><span class="toc-number">28.1.</span> <span class="toc-text">C++ 和 Java 的“匿名类”不是一回事</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%8F%AF%E4%BB%A5%E8%AF%B4%E6%98%AF%E2%80%9C"><span class="toc-number">29.</span> <span class="toc-text">为什么可以说是“</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%82%A3%E4%B8%BA%E4%BB%80%E4%B9%88%E5%8C%BF%E5%90%8D%E7%B1%BB%E5%9C%A8%E6%95%99%E7%A7%91%E4%B9%A6%E4%B8%8A%E5%B8%B8%E8%A2%AB%E7%A7%B0%E4%B8%BA%E2%80%9C%E5%8C%BF%E5%90%8D%E5%AD%90%E7%B1%BB%E2%80%9D%E5%91%A2%EF%BC%9F"><span class="toc-number">29.1.</span> <span class="toc-text">那为什么匿名类在教科书上常被称为“匿名子类”呢？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BC%82%E5%B8%B8%E7%B1%BB%E4%B8%8E%E6%8A%9B%E5%87%BA%E6%8E%A5%E4%BD%8F%E6%9C%BA%E7%90%86"><span class="toc-number">30.</span> <span class="toc-text">异常类与抛出接住机理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E4%BB%80%E4%B9%88%E6%98%AF%E5%BC%82%E5%B8%B8%E7%B1%BB%EF%BC%9F"><span class="toc-number">30.1.</span> <span class="toc-text">一、什么是异常类？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E6%8A%9B%E5%87%BA%E7%9A%84%E4%BF%A1%E6%81%AF%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">30.2.</span> <span class="toc-text">二、抛出的信息是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E6%8A%9B%E5%87%BA%E5%90%8E%E8%B0%81%E6%8E%A5%E6%94%B6%EF%BC%9F%E2%80%94%E2%80%94%E4%B8%A4%E7%A7%8D%E6%83%85%E5%86%B5"><span class="toc-number">30.3.</span> <span class="toc-text">三、抛出后谁接收？——两种情况</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%83%85%E5%86%B5%E4%B8%80%EF%BC%9A%E8%A2%AB-try-catch-%E6%8E%A5%E4%BD%8F"><span class="toc-number">30.4.</span> <span class="toc-text">情况一：被 try-catch 接住</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%83%85%E5%86%B5%E4%BA%8C%EF%BC%9A%E6%B2%A1%E8%A2%AB%E6%8E%A5%E4%BD%8F"><span class="toc-number">30.5.</span> <span class="toc-text">情况二：没被接住</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E6%8E%A5%E4%BD%8F%E5%90%8E%E5%A6%82%E4%BD%95%E5%8F%91%E5%87%BA%E8%AD%A6%E6%8A%A5%EF%BC%9F"><span class="toc-number">30.6.</span> <span class="toc-text">四、接住后如何发出警报？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B0%83%E7%94%A8-exit-%E6%96%B9%E6%B3%95%EF%BC%8C%E7%BB%93%E6%9D%9F%E7%A8%8B%E5%BA%8F%E8%BF%90%E8%A1%8C"><span class="toc-number">30.7.</span> <span class="toc-text">调用 exit() 方法，结束程序运行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E5%8A%A8%E8%B0%83%E7%94%A8-System-exit-%E7%BB%93%E6%9D%9F%E7%A8%8B%E5%BA%8F"><span class="toc-number">30.8.</span> <span class="toc-text">主动调用 System.exit() 结束程序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%99%E5%BC%82%E5%B8%B8%E4%BF%AE%E6%AD%A3%E9%80%BB%E8%BE%91%EF%BC%8C%E4%B8%8D%E8%BE%93%E5%87%BA%E3%80%81%E4%B8%8D%E9%80%80%E5%87%BA%EF%BC%8C%E8%AE%A9%E7%A8%8B%E5%BA%8F%E7%BB%A7%E7%BB%AD%E8%BF%90%E8%A1%8C"><span class="toc-number">30.9.</span> <span class="toc-text">写异常修正逻辑，不输出、不退出，让程序继续运行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%88%96%E8%80%85%E4%BB%80%E4%B9%88%E9%83%BD%E4%B8%8D%E5%81%9A"><span class="toc-number">30.10.</span> <span class="toc-text">或者什么都不做</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E8%B0%81%E8%A7%A6%E5%8F%91%E6%8A%9B%E5%87%BA%EF%BC%9F%E8%B0%81%E5%AE%9E%E7%8E%B0%E6%8A%9B%E5%87%BA%E5%8A%A8%E4%BD%9C%EF%BC%9F"><span class="toc-number">30.11.</span> <span class="toc-text">五、谁触发抛出？谁实现抛出动作？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E5%BC%8F%E4%B8%80%EF%BC%9A%E6%89%8B%E5%8A%A8%E8%A7%A6%E5%8F%91-%E6%89%8B%E5%8A%A8%E6%8A%9B%E5%87%BA"><span class="toc-number">30.12.</span> <span class="toc-text">方式一：手动触发 + 手动抛出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A6%E5%8F%91%EF%BC%9A%E4%BD%A0%E7%9A%84%E6%A3%80%E6%B5%8B%E9%80%BB%E8%BE%91"><span class="toc-number">30.13.</span> <span class="toc-text">触发：你的检测逻辑</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%9B%E5%87%BA%E5%8A%A8%E4%BD%9C%EF%BC%9Athrow-%E5%85%B3%E9%94%AE%E5%AD%97"><span class="toc-number">30.14.</span> <span class="toc-text">抛出动作：throw 关键字</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E5%BC%8F%E4%BA%8C%EF%BC%9AJVM-%E8%87%AA%E5%8A%A8%E8%A7%A6%E5%8F%91-%E8%87%AA%E5%8A%A8%E6%8A%9B%E5%87%BA"><span class="toc-number">30.15.</span> <span class="toc-text">方式二：JVM 自动触发 + 自动抛出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E6%A3%80%E6%B5%8B%E5%88%B0%E9%94%99%E8%AF%AF"><span class="toc-number">30.16.</span> <span class="toc-text">自动检测到错误</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E6%89%A7%E8%A1%8C-throw-%E5%B0%86%E8%AF%A5%E5%BC%82%E5%B8%B8%E5%AF%B9%E8%B1%A1%E6%8A%9B%E5%87%BA"><span class="toc-number">30.17.</span> <span class="toc-text">自动执行 throw 将该异常对象抛出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E5%8F%97%E6%A3%80%E5%BC%82%E5%B8%B8%E4%B8%8Ethrows"><span class="toc-number">30.18.</span> <span class="toc-text">六、受检异常与throws</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#throw-%E4%B8%8E-throws-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">30.19.</span> <span class="toc-text">throw 与 throws 的区别</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%8F%97%E6%A3%80%E5%BC%82%E5%B8%B8%E5%BF%85%E9%A1%BB%E8%A2%AB%E5%A4%84%E7%90%86%EF%BC%88try-catch-%E6%88%96-throws%EF%BC%89%EF%BC%9F"><span class="toc-number">31.</span> <span class="toc-text">为什么受检异常必须被处理（try-catch 或 throws）？</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#throws-%E7%9A%84%E5%90%91%E4%B8%8A%E7%BA%A7%E4%B8%A2%E9%94%85%EF%BC%8C%E6%9C%80%E7%BB%88%E5%88%B0JVM"><span class="toc-number">31.1.</span> <span class="toc-text">throws 的向上级丢锅，最终到JVM</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A6%81%E4%B9%88%E7%94%A8-try-catch-%E6%8E%A5%E4%BD%8F"><span class="toc-number">31.2.</span> <span class="toc-text">要么用 try-catch 接住</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A6%81%E4%B9%88%E7%BB%A7%E7%BB%AD%E5%86%99-throws%EF%BC%8C%E5%86%8D%E5%BE%80%E4%B8%8A%E6%8A%9B"><span class="toc-number">31.3.</span> <span class="toc-text">要么继续写 throws，再往上抛</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Class%E7%B1%BB%E4%B8%8Eclass%E5%AF%B9%E8%B1%A1"><span class="toc-number">32.</span> <span class="toc-text">Class类与class对象</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%A0%E5%8F%AF%E4%BB%A5%E6%8A%8A%E5%AE%83%E7%90%86%E8%A7%A3%E4%B8%BA%E4%B8%80%E4%B8%AA%E7%94%A8%E6%9D%A5%E6%8F%8F%E8%BF%B0%E2%80%9C%E7%B1%BB%E2%80%9D%E7%9A%84%E7%B1%BB"><span class="toc-number">32.1.</span> <span class="toc-text">你可以把它理解为一个用来描述“类”的类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8E-C-%E7%9A%84%E5%AF%B9%E6%AF%94"><span class="toc-number">32.2.</span> <span class="toc-text">与 C++ 的对比</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#class-%E8%BF%99%E4%B8%AA%E5%AF%B9%E8%B1%A1%E7%9A%84%E4%B8%A4%E5%A4%A7%E6%A0%B8%E5%BF%83%E5%8A%9F%E8%83%BD"><span class="toc-number">33.</span> <span class="toc-text">class 这个对象的两大核心功能</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80-%E5%8F%8D%E5%B0%84-%E9%80%9A%E8%BF%87class%E8%8E%B7%E5%8F%96%E7%B1%BB%E4%BF%A1%E6%81%AF"><span class="toc-number">33.1.</span> <span class="toc-text">一 反射(通过class获取类信息)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%BC%E5%8C%85%E8%AF%B4%E6%98%8E"><span class="toc-number">33.2.</span> <span class="toc-text">导包说明</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95%E3%80%81%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E3%80%81%E6%99%AE%E9%80%9A%E6%96%B9%E6%B3%95%E7%9A%84%E8%BF%94%E5%9B%9E%E5%80%BC%E5%A4%84%E7%90%86"><span class="toc-number">34.</span> <span class="toc-text">获取构造方法、成员变量、普通方法的返回值处理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E6%9E%9C%E4%BD%A0%E8%83%BD%E7%A1%AE%E5%AE%9A%E8%BF%99%E4%B8%AA%E7%B1%BB%E5%8F%AA%E6%9C%89%E4%B8%80%E4%B8%AA%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95%EF%BC%8C%E5%8F%AF%E4%BB%A5%E8%BF%99%E6%A0%B7%E6%8E%A5"><span class="toc-number">34.1.</span> <span class="toc-text">如果你能确定这个类只有一个构造方法，可以这样接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E6%9E%9C%E4%B8%8D%E7%A1%AE%E5%AE%9A%E6%9C%89%E5%87%A0%E4%B8%AA%EF%BC%8C%E5%BB%BA%E8%AE%AE%E7%94%A8%E6%95%B0%E7%BB%84%E6%8E%A5"><span class="toc-number">34.2.</span> <span class="toc-text">如果不确定有几个，建议用数组接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E6%9E%9C%E4%B8%8D%E7%A1%AE%E5%AE%9A%EF%BC%8C%E7%94%A8%E6%95%B0%E7%BB%84%E6%8E%A5%E6%9B%B4%E7%A8%B3%E5%A6%A5"><span class="toc-number">34.3.</span> <span class="toc-text">如果不确定，用数组接更稳妥</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C-%E6%A0%B9%E6%8D%AE%E7%B1%BB%E5%90%8D%E5%8A%A8%E6%80%81%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1%EF%BC%88%E5%AE%9E%E4%BE%8B%E5%8C%96%EF%BC%89"><span class="toc-number">34.4.</span> <span class="toc-text">二 根据类名动态创建对象（实例化）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5%EF%BC%9A%E6%A0%B9%E6%8D%AE%E5%85%A8%E9%99%90%E5%AE%9A%E5%90%8D%E8%8E%B7%E5%8F%96-Class-%E5%AF%B9%E8%B1%A1"><span class="toc-number">34.5.</span> <span class="toc-text">第一步：根据全限定名获取 Class 对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%9A%E4%BB%8E-Class-%E5%AF%B9%E8%B1%A1%E4%B8%AD%E8%8E%B7%E5%8F%96%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95%E5%AF%B9%E8%B1%A1"><span class="toc-number">34.6.</span> <span class="toc-text">第二步：从 Class 对象中获取构造方法对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E6%AD%A5%EF%BC%9A%E9%80%9A%E8%BF%87%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95%E5%AF%B9%E8%B1%A1%E7%9C%9F%E6%AD%A3%E5%88%9B%E5%BB%BA%E5%87%BA%E5%AE%9E%E4%BE%8B"><span class="toc-number">34.7.</span> <span class="toc-text">第三步：通过构造方法对象真正创建出实例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E7%94%A8-Class-forName-%E8%80%8C%E4%B8%8D%E6%98%AF-%E5%AF%B9%E8%B1%A1-getClass-%EF%BC%9F"><span class="toc-number">34.8.</span> <span class="toc-text">为什么用 Class.forName() 而不是 对象.getClass()？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E5%BC%8F%E4%B8%80%EF%BC%9A%E9%80%9A%E8%BF%87-%E5%AF%B9%E8%B1%A1-getClass-%E8%8E%B7%E5%8F%96"><span class="toc-number">34.9.</span> <span class="toc-text">方式一：通过 对象.getClass() 获取</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E5%BC%8F%E4%BA%8C%EF%BC%9A%E9%80%9A%E8%BF%87-%E7%B1%BB%E5%90%8D-class-%E8%8E%B7%E5%8F%96"><span class="toc-number">34.10.</span> <span class="toc-text">方式二：通过 类名.class 获取</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/hexo-blog/2026/09/09/2JAVA%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1%E8%AF%AD%E6%B3%95/" title="无标题">无标题</a><time datetime="2026-09-09T10:55:36.857Z" title="发表于 2026-09-09 18:55:36">2026-09-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/hexo-blog/2026/09/09/1%E8%AF%AD%E8%A8%80%E7%89%B9%E6%80%A7%E4%B8%8E%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" title="无标题">无标题</a><time datetime="2026-09-09T10:55:32.903Z" title="发表于 2026-09-09 18:55:32">2026-09-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/hexo-blog/2026/09/08/2SDK%E7%9A%84%E5%BB%BA%E7%AB%8B%E4%B8%8E%E5%BC%95%E7%94%A8/" title="0P02 SDK的建立与引用">0P02 SDK的建立与引用</a><time datetime="2026-09-08T00:53:44.957Z" title="发表于 2026-09-08 08:53:44">2026-09-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/hexo-blog/2026/09/08/1%E5%A4%9A%E6%96%87%E4%BB%B6%E9%A1%B9%E7%9B%AE%E5%AE%9E%E7%8E%B0/" title="0P01 多文件项目实现">0P01 多文件项目实现</a><time datetime="2026-09-08T00:53:44.374Z" title="发表于 2026-09-08 08:53:44">2026-09-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/hexo-blog/2026/09/08/5%E6%8C%87%E4%BB%A4%E5%91%A8%E6%9C%9F%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%97%B6%E9%92%9F/" title="0T05 指令周期计算机时钟">0T05 指令周期计算机时钟</a><time datetime="2026-09-08T00:53:43.636Z" title="发表于 2026-09-08 08:53:43">2026-09-08</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 酸酸米老鼠</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.2</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.7.0</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/hexo-blog/js/utils.js?v=5.7.0"></script><script src="/hexo-blog/js/main.js?v=5.7.0"></script><div class="js-pjax"></div><script>function sortPostsByCode(o){var c=document.querySelector("#recent-posts .recent-post-items");if(!c)return;var a=Array.prototype.slice.call(c.querySelectorAll(".recent-post-item[data-code]"));a.sort(function(x,y){var dx=x.getAttribute("data-code"),dy=y.getAttribute("data-code");if(dx===dy)return 0;return o==="earliest"?(dx<dy?-1:1):(dx<dy?1:-1)});a.forEach(function(t){c.appendChild(t)})}</script><script>function filterPostsByCat(cat,btn){var c=document.querySelector("#recent-posts .recent-post-items");if(!c)return;var n=0;c.querySelectorAll(".recent-post-item[data-cat]").forEach(function(it){var show=cat==="all"||it.getAttribute("data-cat")===cat;it.style.display=show?"":"none";if(show)n++});document.querySelectorAll(".cat-filter-btn").forEach(function(b){b.classList.remove("active")});if(btn)btn.classList.add("active");var cnt=document.getElementById("recent-posts-count");if(cnt)cnt.textContent="共"+n+"篇"}</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/hexo-blog/js/search/local-search.js?v=5.7.0"></script></div></div></body></html>
