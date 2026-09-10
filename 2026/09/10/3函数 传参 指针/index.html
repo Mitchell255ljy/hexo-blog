@@ -1,0 +1,337 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>1P03 函数 传参 指针 | 酸酸米老鼠的记忆库</title><meta name="author" content="酸酸米老鼠"><meta name="copyright" content="酸酸米老鼠"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="函数的构成cpp 返回类型 函数名(形参列表) {    &#x2F;&#x2F; 函数体    return 返回对象;} 返回类型 由你设计函数时决定，取决于你要返回什么类型的值。 形参与实参函数声明与调用C++ 编译器从上往下编译，函数在被调用之前必须先声明或定义。 因此，被调用的函数通常写在调用它的函数前面。  函数传参函数传参：按值、按引用、按指针一、如何从代码形态上区分 二、三种传递方">
+<meta property="og:type" content="article">
+<meta property="og:title" content="1P03 函数 传参 指针">
+<meta property="og:url" content="https://mitchell255ljy.github.io/hexo-blog/2026/09/10/3%E5%87%BD%E6%95%B0%20%E4%BC%A0%E5%8F%82%20%E6%8C%87%E9%92%88/index.html">
+<meta property="og:site_name" content="酸酸米老鼠的记忆库">
+<meta property="og:description" content="函数的构成cpp 返回类型 函数名(形参列表) {    &#x2F;&#x2F; 函数体    return 返回对象;} 返回类型 由你设计函数时决定，取决于你要返回什么类型的值。 形参与实参函数声明与调用C++ 编译器从上往下编译，函数在被调用之前必须先声明或定义。 因此，被调用的函数通常写在调用它的函数前面。  函数传参函数传参：按值、按引用、按指针一、如何从代码形态上区分 二、三种传递方">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://mitchell255ljy.github.io/hexo-blog/img/butterfly-icon.png">
+<meta property="article:published_time" content="2026-09-10T06:09:02.382Z">
+<meta property="article:modified_time" content="2026-09-10T06:09:02.383Z">
+<meta property="article:author" content="酸酸米老鼠">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://mitchell255ljy.github.io/hexo-blog/img/butterfly-icon.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "1P03 函数 传参 指针",
+  "url": "https://mitchell255ljy.github.io/hexo-blog/2026/09/10/3%E5%87%BD%E6%95%B0%20%E4%BC%A0%E5%8F%82%20%E6%8C%87%E9%92%88/",
+  "image": "https://mitchell255ljy.github.io/hexo-blog/img/butterfly-icon.png",
+  "datePublished": "2026-09-10T06:09:02.382Z",
+  "dateModified": "2026-09-10T06:09:02.383Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "酸酸米老鼠",
+      "url": "https://mitchell255ljy.github.io/hexo-blog"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/hexo-blog/img/favicon.png"><link rel="canonical" href="https://mitchell255ljy.github.io/hexo-blog/2026/09/10/3%E5%87%BD%E6%95%B0%20%E4%BC%A0%E5%8F%82%20%E6%8C%87%E9%92%88/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/hexo-blog/css/index.css?v=5.7.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.3.1/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        const data = { value }
+
+        if (ttl != null) {
+          data.expiry = Date.now() + ttl * 86400000
+        }
+
+        localStorage.setItem(key, JSON.stringify(data))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return
+
+        try {
+          const data = JSON.parse(itemStr)
+
+          if (data.expiry && Date.now() > data.expiry) {
+            localStorage.removeItem(key)
+            return
+          }
+
+          return data.value
+        } catch {
+          localStorage.removeItem(key)
+        }
+      }
+    }
+
+    const scriptCache = new Map()
+    const cssCache = new Map()
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => {
+        if (scriptCache.has(url)) {
+          return scriptCache.get(url)
+        }
+
+        const promise = new Promise((resolve, reject) => {
+          const script = document.createElement('script')
+
+          script.src = url
+          script.async = true
+
+          for (const key in attr) {
+            script.setAttribute(key, attr[key])
+          }
+
+          script.onload = resolve
+          script.onerror = reject
+
+          document.head.appendChild(script)
+        })
+
+        scriptCache.set(url, promise)
+
+        return promise
+      },
+      getCSS: (url, id) => {
+        if (cssCache.has(url)) {
+          return cssCache.get(url)
+        }
+
+        const promise = new Promise((resolve, reject) => {
+          const link = document.createElement('link')
+
+          link.rel = 'stylesheet'
+          link.href = url
+
+          if (id) {
+            link.id = id
+          }
+
+          link.onload = resolve
+          link.onerror = reject
+
+          document.head.appendChild(link)
+        })
+
+        cssCache.set(url, promise)
+
+        return promise
+      },
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const metaThemeColor = document.querySelector('meta[name="theme-color"]')
+      const activateDarkMode = () => {
+        document.documentElement.dataset.theme = 'dark'
+        if (metaThemeColor !== null) {
+          metaThemeColor.setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.dataset.theme = 'light'
+        if (metaThemeColor !== null) {
+          metaThemeColor.setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/hexo-blog/',
+  algolia: undefined,
+  localSearch: {"path":"/hexo-blog/search.json","preload":false,"top_n_per_article":1,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '1P03 函数 传参 指针',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><style>.recent-posts-search{margin-bottom:1rem}.search-entry{display:flex;align-items:center;justify-content:space-between;width:100%;padding:.65rem 1rem;border:1px solid #e3e8f7;border-radius:12px;background:var(--card-bg,#fff);color:var(--font-color,#4c4948);cursor:pointer;transition:all .3s}.search-entry:hover{border-color:#49b1f5;box-shadow:0 0 8px rgba(73,177,245,.35)}.search-entry-text{opacity:.8}.search-entry-icon{color:#49b1f5}.recent-posts-btns{display:flex;gap:.5rem;margin-bottom:1rem}.recent-posts-btn{display:flex;align-items:center;justify-content:center;gap:.4rem;flex:1;padding:.6rem 1rem;border:1px solid #e3e8f7;border-radius:12px;background:var(--card-bg,#fff);color:var(--font-color,#4c4948);cursor:pointer;transition:all .3s;font-size:.95rem}.recent-posts-btn:hover{border-color:#49b1f5;box-shadow:0 0 8px rgba(73,177,245,.35);color:#49b1f5}.recent-posts-btn i{color:#49b1f5}.recent-posts-count{display:flex;align-items:center;padding:.6rem .9rem;border:1px solid #e3e8f7;border-radius:12px;background:var(--card-bg,#fff);color:var(--font-color,#4c4948);font-size:.95rem;white-space:nowrap;cursor:default}.cat-filter-btns{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:1rem;margin-bottom:1.6rem}.cat-filter-btn{display:inline-flex;align-items:center;gap:.5rem;padding:.55rem 1.25rem;border-radius:999px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#fff;font-size:1rem;cursor:pointer;transition:background .3s,color .3s,box-shadow .3s;text-decoration:none;user-select:none}.cat-filter-btn:hover{background:rgba(255,255,255,.34)}.cat-filter-btn.active{background:#fff;color:#49b1f5;border-color:#fff;box-shadow:0 6px 16px rgba(0,0,0,.18)}.cat-filter-btn i{font-size:.95em}.cat-filter-btn:nth-child(1){transform:rotate(-1.5deg)}.cat-filter-btn:nth-child(2){transform:translateY(-7px)}.cat-filter-btn:nth-child(3){transform:rotate(1.5deg)}.cat-filter-btn:nth-child(4){transform:translateY(-7px)}</style><meta name="generator" content="Hexo 8.1.2"></head><body><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/hexo-blog/"><span class="site-name">酸酸米老鼠的记忆库</span></a><a class="nav-page-title" href="/hexo-blog/"><span class="site-name">1P03 函数 传参 指针</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div></div></nav><div id="post-info"><h1 class="post-title">1P03 函数 传参 指针</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-09-10T06:09:02.382Z" title="发表于 2026-09-10 14:09:02">2026-09-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-09-10T06:09:02.383Z" title="更新于 2026-09-10 14:09:02">2026-09-10</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="函数的构成"><a href="#函数的构成" class="headerlink" title="函数的构成"></a>函数的构成</h1><p>cpp</p>
+<p>返回类型 函数名(形参列表) {    <em>&#x2F;&#x2F; 函数体</em>    return 返回对象;}</p>
+<p><strong>返回类型</strong> 由你设计函数时决定，取决于你要返回什么类型的值。</p>
+<h1 id="形参与实参"><a href="#形参与实参" class="headerlink" title="形参与实参"></a>形参与实参</h1><h1 id="函数声明与调用"><a href="#函数声明与调用" class="headerlink" title="函数声明与调用"></a>函数声明与调用</h1><p>C++ 编译器从上往下编译，<strong>函数在被调用之前必须先声明或定义</strong>。 因此，被调用的函数通常写在调用它的函数<strong>前面</strong>。</p>
+<p><img src="/hexo-blog/media_tx/img-2b1ffd31bb9b1d02.png"></p>
+<h1 id="函数传参"><a href="#函数传参" class="headerlink" title="函数传参"></a>函数传参</h1><h1 id="函数传参：按值、按引用、按指针"><a href="#函数传参：按值、按引用、按指针" class="headerlink" title="函数传参：按值、按引用、按指针"></a>函数传参：按值、按引用、按指针</h1><h2 id="一、如何从代码形态上区分"><a href="#一、如何从代码形态上区分" class="headerlink" title="一、如何从代码形态上区分"></a>一、如何从代码形态上区分</h2><p><img src="/hexo-blog/media_tx/img-8201f3e0e75ca750.png"></p>
+<h2 id="二、三种传递方式的本质区别"><a href="#二、三种传递方式的本质区别" class="headerlink" title="二、三种传递方式的本质区别"></a>二、三种传递方式的本质区别</h2><h2 id="1-按值传递"><a href="#1-按值传递" class="headerlink" title="1. 按值传递"></a>1. 按值传递</h2><h2 id="传过去一个副本"><a href="#传过去一个副本" class="headerlink" title="传过去一个副本"></a>传过去一个副本</h2><h2 id="函数内怎么修改，都不影响原对象"><a href="#函数内怎么修改，都不影响原对象" class="headerlink" title="函数内怎么修改，都不影响原对象"></a>函数内怎么修改，都不影响原对象</h2><h2 id="代价：需要新建副本，占用额外时间和空间"><a href="#代价：需要新建副本，占用额外时间和空间" class="headerlink" title="代价：需要新建副本，占用额外时间和空间"></a>代价：需要新建副本，占用额外时间和空间</h2><h2 id="2-按引用传递"><a href="#2-按引用传递" class="headerlink" title="2. 按引用传递"></a>2. 按引用传递</h2><p>传过去的是<strong>原对象的别名</strong>（底层通过地址实现）</p>
+<h2 id="函数内直接操作原对象"><a href="#函数内直接操作原对象" class="headerlink" title="函数内直接操作原对象"></a>函数内直接操作原对象</h2><h2 id="代价：不新建副本，但可能意外修改原对象"><a href="#代价：不新建副本，但可能意外修改原对象" class="headerlink" title="代价：不新建副本，但可能意外修改原对象"></a>代价：不新建副本，但可能意外修改原对象</h2><h2 id="3-按指针传递"><a href="#3-按指针传递" class="headerlink" title="3. 按指针传递"></a>3. 按指针传递</h2><h2 id="传过去的是原对象的地址"><a href="#传过去的是原对象的地址" class="headerlink" title="传过去的是原对象的地址"></a>传过去的是原对象的地址</h2><h2 id="函数内需要先解引用（-biao），才能操作原对象"><a href="#函数内需要先解引用（-biao），才能操作原对象" class="headerlink" title="函数内需要先解引用（*biao），才能操作原对象"></a>函数内需要先解引用（*biao），才能操作原对象</h2><h2 id="效果和引用一样：操作的是原对象"><a href="#效果和引用一样：操作的是原对象" class="headerlink" title="效果和引用一样：操作的是原对象"></a>效果和引用一样：操作的是原对象</h2><p><strong>后两者都是操作原对象，只不过方式不同：引用直接操作，指针需要先解引用。</strong></p>
+<h2 id="三、按值传递-vs-按引用传递：什么时候用引用"><a href="#三、按值传递-vs-按引用传递：什么时候用引用" class="headerlink" title="三、按值传递 vs 按引用传递：什么时候用引用"></a>三、按值传递 vs 按引用传递：什么时候用引用</h2><p>当参数很大时（如一个大容器），按值传递会新建一个副本，浪费时间和空间。 此时应该用<strong>引用传递</strong>（不建副本），但如果又怕函数内意外修改原对象，就用：</p>
+<p>cpp</p>
+<p>const vector<int>&amp; biao   <em>&#x2F;&#x2F; 常量引用传递</em></p>
+<p>只读，不建副本，安全高效。</p>
+<h2 id="四、引用传递-vs-指针传递：从返回类型的角度看区别"><a href="#四、引用传递-vs-指针传递：从返回类型的角度看区别" class="headerlink" title="四、引用传递 vs 指针传递：从返回类型的角度看区别"></a>四、引用传递 vs 指针传递：从返回类型的角度看区别</h2><h2 id="链式调用示例"><a href="#链式调用示例" class="headerlink" title="链式调用示例"></a>链式调用示例</h2><p>返回指针：*(func()).method() 或 func()-&gt;method()（麻烦）</p>
+<p>返回引用：func().method().method2()（流畅）</p>
+<p>引用返回更适合链式调用，因为它返回的是对象本身，不是地址。</p>
+<h1 id="现阶段理解这些还为时过早，初学者只需掌握函数传参时传引用和传指针的区别即可，返回类型的不同可以先不做深究"><a href="#现阶段理解这些还为时过早，初学者只需掌握函数传参时传引用和传指针的区别即可，返回类型的不同可以先不做深究" class="headerlink" title="现阶段理解这些还为时过早，初学者只需掌握函数传参时传引用和传指针的区别即可，返回类型的不同可以先不做深究"></a>现阶段理解这些还为时过早，初学者只需掌握函数传参时传引用和传指针的区别即可，返回类型的不同可以先不做深究</h1><p>**。但等你学到运算符重载的时候，涉及到返回引用这种不常见的返回类型时，要想起来这里讲过。 不要问“为什么不返回指针”——因为虽然返回指针在原理上和返回引用类似，也能实现运算符重载，但返回指针会破坏链式调用的自然写法（比如 a.add(b).add(c) 用引用可以直接点，用指针就得写成 a.add(b)-&gt;add(c) 或 <em>(a.add(b)).add(c)，不自然）。 所以运算符重载里通常返回引用，而不是指针。</em>*</p>
+<h1 id="常量引用传递"><a href="#常量引用传递" class="headerlink" title="常量引用传递"></a>常量引用传递</h1><h2 id="为什么需要常量引用？"><a href="#为什么需要常量引用？" class="headerlink" title="为什么需要常量引用？"></a>为什么需要常量引用？</h2><p>当一个参数很大时（比如一个巨大的 vector）：</p>
+<h2 id="按值传递：会新建一个副本，浪费时间和空间"><a href="#按值传递：会新建一个副本，浪费时间和空间" class="headerlink" title="按值传递：会新建一个副本，浪费时间和空间"></a>按值传递：会新建一个副本，浪费时间和空间</h2><p><strong>按引用传递</strong>：不建副本，但函数体内可能意外修改原对象</p>
+<p>我们想要的是：<strong>不建副本 + 只读，不能修改原对象</strong>。</p>
+<p>这就是 <strong>常量引用传递</strong> 的作用。</p>
+<h2 id="写法"><a href="#写法" class="headerlink" title="写法"></a>写法</h2><p>cpp</p>
+<p>void func(const vector<int>&amp; biao)   <em>&#x2F;&#x2F; 形参列表里加 const</em></p>
+<h1 id="函数重载"><a href="#函数重载" class="headerlink" title="函数重载"></a>函数重载</h1><p><strong>重载</strong>是指在<strong>同一个作用域</strong>内，允许<strong>多个函数</strong>或<strong>运算符</strong>拥有<strong>相同的名称</strong>，但<strong>参数列表不同</strong>（参数的类型、个数或顺序不同）的一种机制。编译器根据调用时提供的<strong>参数</strong>来决定调用哪个版本，这样就能<strong>实现同一函数名但不同函数的区分</strong>。</p>
+<h2 id="值得注意的是"><a href="#值得注意的是" class="headerlink" title="值得注意的是"></a>值得注意的是</h2><h2 id="函数重载不能由返回类型区分"><a href="#函数重载不能由返回类型区分" class="headerlink" title="函数重载不能由返回类型区分"></a>函数重载不能由返回类型区分</h2><h2 id="也就是函数名前的类型无法区分同名函数"><a href="#也就是函数名前的类型无法区分同名函数" class="headerlink" title="也就是函数名前的类型无法区分同名函数"></a>也就是函数名前的类型无法区分同名函数</h2><h1 id="因为函数调用时-编译器不考虑返回类型-故函数名前的类型不同不能实现函数重载"><a href="#因为函数调用时-编译器不考虑返回类型-故函数名前的类型不同不能实现函数重载" class="headerlink" title="因为函数调用时 编译器不考虑返回类型 故函数名前的类型不同不能实现函数重载"></a>因为函数调用时 编译器不考虑返回类型 故函数名前的类型不同不能实现函数重载</h1><p>#include&lt;bits&#x2F;stdc++.h&gt;</p>
+<p>using namespace std;</p>
+<p>void hanshu() {</p>
+<p>cout &lt;&lt; 114 &lt;&lt; endl;</p>
+<p>}</p>
+<p>void hanshu(string str) {&#x2F;&#x2F;如果去掉string str 导致两个函数同名 会导致运行时错误</p>
+<p>cout &lt;&lt; 514 &lt;&lt; endl;</p>
+<p>}</p>
+<p>&#x2F;* int hanshu() {                    &#x2F;&#x2F;取消注释就报错    int hanshu() 和void hanshu()被编译器识别为一个函数</p>
+<p>cout &lt;&lt; 1919810 &lt;&lt; endl;</p>
+<p>}*&#x2F;</p>
+<p>int main() {</p>
+<p>hanshu();</p>
+<p>hanshu(“青岛理工大学”);&#x2F;&#x2F;调用第二个hanshu() “青岛理工大学” 仅用来做函数区分</p>
+<p>}</p>
+<h2 id="这个就是所谓的函数重载"><a href="#这个就是所谓的函数重载" class="headerlink" title="这个就是所谓的函数重载"></a>这个就是所谓的函数重载</h2><h1 id="指针"><a href="#指针" class="headerlink" title="指针"></a>指针</h1><h2 id="指针内容为地址-地址指向内容-实现内容绑定"><a href="#指针内容为地址-地址指向内容-实现内容绑定" class="headerlink" title="指针内容为地址,地址指向内容 实现内容绑定"></a>指针内容为地址,地址指向内容 实现内容绑定</h2><h2 id="指针是这样一个结构"><a href="#指针是这样一个结构" class="headerlink" title="指针是这样一个结构"></a>指针是这样一个结构</h2><p>1指针本身有自己的地址    &amp;q</p>
+<p>2指针储存内容是指向的地址   int*q&#x3D;&amp;a</p>
+<p>3解指针的解是顺着指针储存的地址把目标找出来一个过程 解开并不代表指针储存目标值 只是 * 顺着指针提供的路线跑过去打开了   *q</p>
+<p>#include&lt;bits&#x2F;stdc++.h&gt;</p>
+<p>using namespace std;</p>
+<p>int main() {</p>
+<p>int a&#x3D;100;&#x2F;&#x2F;声明了a&#x3D;100</p>
+<p>int* q;&#x2F;&#x2F;类型 星号 变量名 是指针的声明格式  注意和 星号 变量名解指针区分开</p>
+<p>q&#x3D;&a;&#x2F;&#x2F; &amp;是取地址运算符   &amp;a就把a的地址拿过来了 让指针q等于了一串地址</p>
+<h2 id="cout"><a href="#cout" class="headerlink" title="cout&lt;&lt;q&lt;&lt;endl;&#x2F;&#x2F;输出q包含的指针"></a>cout&lt;&lt;q&lt;&lt;endl;&#x2F;&#x2F;输出q包含的指针</h2><p>cout&lt;&lt;&amp;q&lt;&lt;endl;&#x2F;&#x2F;输出q自己的地址 不是输出包含的地址</p>
+<p>cout &lt;&lt; (<em>q);&#x2F;&#x2F;这个</em>q 不是声明指针q的意思 而是解指针地址对应的内容</p>
+<p>}</p>
+<p>输出结果 一行随机变的数 另一行随机变的数 一行100</p>
+<p><img src="/hexo-blog/media_tx/img-3ca877dbca7cc7d1.png"></p>
+<h2 id="数组的名称-会隐式转化为对数组取指针"><a href="#数组的名称-会隐式转化为对数组取指针" class="headerlink" title="数组的名称 会隐式转化为对数组取指针"></a>数组的名称 会隐式转化为对数组取指针</h2><p>char table[256];</p>
+<p>scanf(“%s”, table);&#x2F;&#x2F;不用写取地址符&amp;   table名称就是取table这个数组的指针了</p>
+<p>scanf(“%c”, &amp;table[0]);&#x2F;&#x2F;取数组的第一个字符的地址 &amp;</p>
+<h1 id="函数按引用传参和指针传参的关系"><a href="#函数按引用传参和指针传参的关系" class="headerlink" title="函数按引用传参和指针传参的关系"></a>函数按引用传参和指针传参的关系</h1><h2 id="函数按指针传参实现修改a的值"><a href="#函数按指针传参实现修改a的值" class="headerlink" title="函数按指针传参实现修改a的值"></a>函数按指针传参实现修改a的值</h2><p>#include&lt;bits&#x2F;stdc++.h&gt;</p>
+<p>using namespace std;</p>
+<p>void work(int* q) {&#x2F;&#x2F;现在就是int*q&#x3D;&amp;a了</p>
+<p>cout &lt;&lt; q &lt;&lt; endl;&#x2F;&#x2F;输出的是&amp;a 即随机的地址</p>
+<p>cout &lt;&lt; (*q)&lt;&lt;endl;&#x2F;&#x2F;输出100</p>
+<p>*q &#x3D; 200;&#x2F;&#x2F;指针q需要解引用(*q) 操作获取到地址对应具体内容后 才能 &#x3D; 200 修改值</p>
+<p>}</p>
+<p>int main() {</p>
+<p>int a &#x3D; 100;&#x2F;&#x2F;声明了a&#x3D;100</p>
+<p>work(&amp;a);&#x2F;&#x2F;对work 取a的地址传过去作为参数</p>
+<p>cout &lt;&lt; a;&#x2F;&#x2F;a的值在work里被修改了</p>
+<p>}输出结果 一行随机变的数 一行100 一行200</p>
+<p><img src="/hexo-blog/media_tx/img-bafd003a3b404388.png"></p>
+<h2 id="函数按引用传参实现修改a的值"><a href="#函数按引用传参实现修改a的值" class="headerlink" title="函数按引用传参实现修改a的值"></a>函数按引用传参实现修改a的值</h2><p>#include&lt;bits&#x2F;stdc++.h&gt;</p>
+<p>using namespace std;</p>
+<p>void work(int &amp;q) {&#x2F;&#x2F;相当于 按指针传过来的q直接是解引用完毕的int类型值 和a共享一个地址</p>
+<p>cout &lt;&lt; q &lt;&lt; endl;&#x2F;&#x2F;输出的是a的值</p>
+<p>q &#x3D; 200;&#x2F;&#x2F;共享一个地址 q修改a也会修改  形参列表int改成int &amp; 就实现了按值传递变为按引用传递</p>
+<p>}</p>
+<p>int main() {</p>
+<p>int a &#x3D; 100;&#x2F;&#x2F;声明了a&#x3D;100</p>
+<p>work(a);</p>
+<p>cout &lt;&lt; a;&#x2F;&#x2F;a的值在work里被修改了</p>
+<p>}</p>
+<p><img src="/hexo-blog/media_tx/img-e3de3ab7e63d4a52.png"></p>
+<h2 id="实际上-按引用传参-是基于按指针传参封装的"><a href="#实际上-按引用传参-是基于按指针传参封装的" class="headerlink" title="实际上 按引用传参 是基于按指针传参封装的"></a>实际上 按引用传参 是基于按指针传参封装的</h2><h1 id="栈指针与堆指针"><a href="#栈指针与堆指针" class="headerlink" title="栈指针与堆指针"></a>栈指针与堆指针</h1><h2 id="如上-上面指针一栏涉及的都是栈指针"><a href="#如上-上面指针一栏涉及的都是栈指针" class="headerlink" title="如上 上面指针一栏涉及的都是栈指针"></a>如上 上面指针一栏涉及的都是栈指针</h2><h2 id="栈指针的生命周期-仅在当前作用域存在"><a href="#栈指针的生命周期-仅在当前作用域存在" class="headerlink" title="栈指针的生命周期 仅在当前作用域存在"></a>栈指针的生命周期 仅在当前作用域存在</h2><h2 id="只有指针才有深拷贝浅拷贝的概念-详见5类与实例"><a href="#只有指针才有深拷贝浅拷贝的概念-详见5类与实例" class="headerlink" title="只有指针才有深拷贝浅拷贝的概念 详见5类与实例"></a>只有指针才有深拷贝浅拷贝的概念 详见5类与实例</h2><p>#include&lt;bits&#x2F;stdc++.h&gt;</p>
+<p>using namespace std;</p>
+<p>int* badFunc() {</p>
+<p>int a &#x3D; 100;     &#x2F;&#x2F; a出生（栈上）</p>
+<p>int* p &#x3D; &a;     &#x2F;&#x2F; p出生（栈上），指向a</p>
+<p>cout &lt;&lt; “函数内 *p指向: “ &lt;&lt; *p &lt;&lt; endl;  &#x2F;&#x2F; 100</p>
+<h2 id="return-p-返回p存的地址"><a href="#return-p-返回p存的地址" class="headerlink" title="return p; &#x2F;&#x2F; 返回p存的地址"></a>return p; &#x2F;&#x2F; 返回p存的地址</h2><h2 id="a和p都死亡！返回的地址失效"><a href="#a和p都死亡！返回的地址失效" class="headerlink" title="} &#x2F;&#x2F; a和p都死亡！返回的地址失效"></a>} &#x2F;&#x2F; a和p都死亡！返回的地址失效</h2><p>int main() {</p>
+<p>int x &#x3D; 10;</p>
+<p>int* p1 &#x3D; &x;    &#x2F;&#x2F; p1出生，指向x</p>
+<p>cout &lt;&lt; “p1指向: “ &lt;&lt; *p1 &lt;&lt; endl;  &#x2F;&#x2F; 可以正常顺着p1储存的地址找到x的值10并输出</p>
+<p>if(1)</p>
+<p>{</p>
+<p>int y &#x3D; 20;</p>
+<p>p1 &#x3D; &y;         &#x2F;&#x2F; p1改指向y</p>
+<p>cout &lt;&lt; “作用域内 p1指向: “ &lt;&lt; *p1 &lt;&lt; endl;  &#x2F;&#x2F; 20</p>
+<h2 id="y死亡！p1变成野指针"><a href="#y死亡！p1变成野指针" class="headerlink" title="} &#x2F;&#x2F; y死亡！p1变成野指针"></a>} &#x2F;&#x2F; y死亡！p1变成野指针</h2><p>cout &lt;&lt;  “p1指向旧地址: “&lt;&lt; <em>p1&lt;&lt;endl;  &#x2F;&#x2F; 这时候p1 还没被销毁 依旧储存着y的路径  但是y已经死亡 它的储存随时会被覆盖  但是大概率</em>p1等于原来的y值</p>
+<p>p1 &#x3D; &x;  &#x2F;&#x2F; 重新指向x</p>
+<p>cout &lt;&lt; “重新指向后: “ &lt;&lt; *p1 &lt;&lt; endl;  &#x2F;&#x2F; 10</p>
+<p>int* p2 &#x3D; badFunc();  &#x2F;&#x2F; p2拿到失效的返回p的地址</p>
+<p>cout &lt;&lt;  “p2指向旧地址: “ &lt;&lt; <em>p2;  &#x2F;&#x2F; 这时候p2 还没被销毁 依旧储存着a的路径  但是y已经死亡 它的储存随时会被覆盖  但是大概率</em>p1等于原来的a值</p>
+<p>return 0;</p>
+<h2 id="x和p1和p2死亡"><a href="#x和p1和p2死亡" class="headerlink" title="} &#x2F;&#x2F; x和p1和p2死亡"></a>} &#x2F;&#x2F; x和p1和p2死亡</h2><h2 id="堆指针实现长期保存内存值"><a href="#堆指针实现长期保存内存值" class="headerlink" title="堆指针实现长期保存内存值"></a>堆指针实现长期保存内存值</h2><h2 id="new-int-x-是在堆上建立一个int-类型的对象其值为x-并返回x的地址"><a href="#new-int-x-是在堆上建立一个int-类型的对象其值为x-并返回x的地址" class="headerlink" title="new int(x) 是在堆上建立一个int 类型的对象其值为x 并返回x的地址"></a>new int(x) 是在堆上建立一个int 类型的对象其值为x 并返回x的地址</h2><p>#include&lt;bits&#x2F;stdc++.h&gt;</p>
+<p>using namespace std;</p>
+<h2 id="修改1：badFunc-改成堆版本"><a href="#修改1：badFunc-改成堆版本" class="headerlink" title="&#x2F;&#x2F; 修改1：badFunc 改成堆版本"></a>&#x2F;&#x2F; 修改1：badFunc 改成堆版本</h2><p>int* goodFunc() {</p>
+<p>int* p &#x3D; new int(100);  &#x2F;&#x2F; 堆上建立一个新对象 int 100 并返回其地址给指针p</p>
+<p>cout &lt;&lt; “函数内 *p指向: “ &lt;&lt; *p &lt;&lt; endl;</p>
+<p>return p;  &#x2F;&#x2F; 返回堆地址（安全）</p>
+<h2 id="p死亡，但堆上的100还在"><a href="#p死亡，但堆上的100还在" class="headerlink" title="} &#x2F;&#x2F; p死亡，但堆上的100还在"></a>} &#x2F;&#x2F; p死亡，但堆上的100还在</h2><p>int main() {</p>
+<p>int x &#x3D; 10;</p>
+<p>int* p1 &#x3D; new int(x);  &#x2F;&#x2F; 修改2：p1直接指向堆内存，拷贝x的值</p>
+<p>cout &lt;&lt; “p1指向: “ &lt;&lt; *p1 &lt;&lt; endl;  &#x2F;&#x2F; 10</p>
+<p>&#x2F;&#x2F; 修改3：在堆上创建y</p>
+<p>int* y &#x3D; new int(20);</p>
+<p>delete p1;&#x2F;&#x2F; 先释放原来的堆内存(10)</p>
+<p>p1 &#x3D; y;  &#x2F;&#x2F; p1指向&#x3D;指针y</p>
+<p>cout &lt;&lt; “作用域内 p1指向: “ &lt;&lt; *p1 &lt;&lt; endl;  &#x2F;&#x2F; 20</p>
+<p>&#x2F;&#x2F; 注意：这里没有if作用域了，y是堆上的，不会自动销毁</p>
+<p>cout &lt;&lt; “p1指向堆地址: “ &lt;&lt; *p1 &lt;&lt; endl;  &#x2F;&#x2F; 20（永远安全）</p>
+<p>&#x2F;&#x2F; 修改4：重新指向堆上的x</p>
+<p>delete p1;  &#x2F;&#x2F; 先释放原来的堆内存（20）</p>
+<p>p1 &#x3D; new int(x);  &#x2F;&#x2F; 重新分配堆内存，存10</p>
+<p>cout &lt;&lt; “重新指向后: “ &lt;&lt; *p1 &lt;&lt; endl;  &#x2F;&#x2F; 10</p>
+<p>&#x2F;&#x2F; 修改5：使用goodFunc</p>
+<p>int* p2 &#x3D; goodFunc();  &#x2F;&#x2F; p2拿到堆地址</p>
+<p>cout &lt;&lt; “p2指向堆地址: “ &lt;&lt; *p2 &lt;&lt; endl;  &#x2F;&#x2F; 100（安全）</p>
+<h2 id="修改6：修改堆上的值"><a href="#修改6：修改堆上的值" class="headerlink" title="&#x2F;&#x2F; 修改6：修改堆上的值"></a>&#x2F;&#x2F; 修改6：修改堆上的值</h2><p>*p2 &#x3D; 999;</p>
+<p>cout &lt;&lt; “修改后p2: “ &lt;&lt; *p2 &lt;&lt; endl;  &#x2F;&#x2F; 999</p>
+<h2 id="最后记得释放所有堆内存"><a href="#最后记得释放所有堆内存" class="headerlink" title="&#x2F;&#x2F; 最后记得释放所有堆内存"></a>&#x2F;&#x2F; 最后记得释放所有堆内存</h2><p>delete p1;</p>
+<p>delete p2;</p>
+<p>return 0;</p>
+<p>}  &#x2F;&#x2F; 所有堆内存都已释放，安全！</p>
+<p>堆版本特点：所有指针指向堆内存，数据长期保存，手动释放才消失！</p>
+<p>用堆指针保证内存安全不被覆盖  就比普通的指针多了一个创建时的new</p>
+<p>以及想要更换指向需要释放内存再new</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://mitchell255ljy.github.io/hexo-blog">酸酸米老鼠</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://mitchell255ljy.github.io/hexo-blog/2026/09/10/3%E5%87%BD%E6%95%B0%20%E4%BC%A0%E5%8F%82%20%E6%8C%87%E9%92%88/">https://mitchell255ljy.github.io/hexo-blog/2026/09/10/3%E5%87%BD%E6%95%B0%20%E4%BC%A0%E5%8F%82%20%E6%8C%87%E9%92%88/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://mitchell255ljy.github.io/hexo-blog" target="_blank">酸酸米老鼠的记忆库</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/hexo-blog/img/butterfly-icon.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/hexo-blog/2026/09/10/4%E8%A7%A3%E5%BC%95%E7%94%A8%E5%92%8C%E8%AE%BF%E9%97%AE%E6%88%90%E5%91%98/" title="1P04 解引用和访问成员"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">1P04 解引用和访问成员</div></div><div class="info-2"><div class="info-item-1">需要解引用的情况 STL库有关容器的算法返回值可能返回迭代器例如max_element()  这时候最大值max_it是被包装的 我们需要解引用(*max_it)来打开包装从而得到具体的值 解引用并访问其成员biao.begin()是一个叫biao容器通过算法返回的迭代器 那么解引用这个迭代器(*biao.begin()) 得到的这个元素 可以是int值 也可以是结构体 也可以是一个数组如果 需要解引用的对象是结构体那么可以对解出来的迭代器值(*biao.begin()) 继续访问子对象 (biao.begin()).first   如果用-&gt;的组合代替(). 的形式就成了 biao.begin()-&gt;first 当然结构体未被封存在迭代器里 那么直接 jiegouti.first 就能得到成员值 访问成员再解引用*a.指针成员 这个顺序是先访问a的指针成员再解引用 得到成员指针的值a在这里一般是类 请到 5类与实例 再去详细了解访问成员函数很多容器带有成员函数string类型容器里封存了很多子函数  比如说对于一个叫str的string类型变量 string str...</div></div></div></a><a class="pagination-related" href="/hexo-blog/2026/09/10/2using%20define%20namespace/" title="1P02 using define namespace"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">1P02 using define namespace</div></div><div class="info-2"><div class="info-item-1">作用域空间作用域空间：不需要 if&#x2F;else 也能存在很多人以为 { } 必须跟 if、while、函数之类的关键字，其实不是。 { }** 可以独立存在**，它就是一块“作用域空间”。  作用域空间利用“退出即销毁”的特性，用来限制变量的生命周期，避免资源占用和命名冲突命名空间和namespace关键字 命名空间的内容永久存在、跨文件可见、需要用前缀访问std 是 C++ 标准库中的命名空间，封装了大部分的标准库实现C++ 标准库中的大多数名称（如 cout、vector、sort）定义在 std 命名空间中。 在默认情况下，使用它们时需要加上 std:: 前缀 更换命名空间调用前缀namespace fs&#x3D;std::filesystem 原本需要用std::filesystem::调用的简化成成了 fs::调用#include &#x2F;&#x2F;这个库的所有内容都是标准库下的 并且自身也有一套命名空间 所以你想要调内部的功能需要 std::filesystem::这样调用 namespace fs &#x3D; std::filesystem;&#x...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/hexo-blog/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/hexo-blog/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">酸酸米老鼠</div><div class="author-info-description"></div><div class="site-data"><a href="/hexo-blog/archives/"><div class="headline">文章</div><div class="length-num">18</div></a><a href="/hexo-blog/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/hexo-blog/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Mitchell255ljy"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">免费文章 禁止商用</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E7%9A%84%E6%9E%84%E6%88%90"><span class="toc-number">1.</span> <span class="toc-text">函数的构成</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BD%A2%E5%8F%82%E4%B8%8E%E5%AE%9E%E5%8F%82"><span class="toc-number">2.</span> <span class="toc-text">形参与实参</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E5%A3%B0%E6%98%8E%E4%B8%8E%E8%B0%83%E7%94%A8"><span class="toc-number">3.</span> <span class="toc-text">函数声明与调用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E4%BC%A0%E5%8F%82"><span class="toc-number">4.</span> <span class="toc-text">函数传参</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E4%BC%A0%E5%8F%82%EF%BC%9A%E6%8C%89%E5%80%BC%E3%80%81%E6%8C%89%E5%BC%95%E7%94%A8%E3%80%81%E6%8C%89%E6%8C%87%E9%92%88"><span class="toc-number">5.</span> <span class="toc-text">函数传参：按值、按引用、按指针</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%A6%82%E4%BD%95%E4%BB%8E%E4%BB%A3%E7%A0%81%E5%BD%A2%E6%80%81%E4%B8%8A%E5%8C%BA%E5%88%86"><span class="toc-number">5.1.</span> <span class="toc-text">一、如何从代码形态上区分</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E4%B8%89%E7%A7%8D%E4%BC%A0%E9%80%92%E6%96%B9%E5%BC%8F%E7%9A%84%E6%9C%AC%E8%B4%A8%E5%8C%BA%E5%88%AB"><span class="toc-number">5.2.</span> <span class="toc-text">二、三种传递方式的本质区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%8C%89%E5%80%BC%E4%BC%A0%E9%80%92"><span class="toc-number">5.3.</span> <span class="toc-text">1. 按值传递</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%A0%E8%BF%87%E5%8E%BB%E4%B8%80%E4%B8%AA%E5%89%AF%E6%9C%AC"><span class="toc-number">5.4.</span> <span class="toc-text">传过去一个副本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E5%86%85%E6%80%8E%E4%B9%88%E4%BF%AE%E6%94%B9%EF%BC%8C%E9%83%BD%E4%B8%8D%E5%BD%B1%E5%93%8D%E5%8E%9F%E5%AF%B9%E8%B1%A1"><span class="toc-number">5.5.</span> <span class="toc-text">函数内怎么修改，都不影响原对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E4%BB%B7%EF%BC%9A%E9%9C%80%E8%A6%81%E6%96%B0%E5%BB%BA%E5%89%AF%E6%9C%AC%EF%BC%8C%E5%8D%A0%E7%94%A8%E9%A2%9D%E5%A4%96%E6%97%B6%E9%97%B4%E5%92%8C%E7%A9%BA%E9%97%B4"><span class="toc-number">5.6.</span> <span class="toc-text">代价：需要新建副本，占用额外时间和空间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%8C%89%E5%BC%95%E7%94%A8%E4%BC%A0%E9%80%92"><span class="toc-number">5.7.</span> <span class="toc-text">2. 按引用传递</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E5%86%85%E7%9B%B4%E6%8E%A5%E6%93%8D%E4%BD%9C%E5%8E%9F%E5%AF%B9%E8%B1%A1"><span class="toc-number">5.8.</span> <span class="toc-text">函数内直接操作原对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E4%BB%B7%EF%BC%9A%E4%B8%8D%E6%96%B0%E5%BB%BA%E5%89%AF%E6%9C%AC%EF%BC%8C%E4%BD%86%E5%8F%AF%E8%83%BD%E6%84%8F%E5%A4%96%E4%BF%AE%E6%94%B9%E5%8E%9F%E5%AF%B9%E8%B1%A1"><span class="toc-number">5.9.</span> <span class="toc-text">代价：不新建副本，但可能意外修改原对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%8C%89%E6%8C%87%E9%92%88%E4%BC%A0%E9%80%92"><span class="toc-number">5.10.</span> <span class="toc-text">3. 按指针传递</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%A0%E8%BF%87%E5%8E%BB%E7%9A%84%E6%98%AF%E5%8E%9F%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%9C%B0%E5%9D%80"><span class="toc-number">5.11.</span> <span class="toc-text">传过去的是原对象的地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E5%86%85%E9%9C%80%E8%A6%81%E5%85%88%E8%A7%A3%E5%BC%95%E7%94%A8%EF%BC%88-biao%EF%BC%89%EF%BC%8C%E6%89%8D%E8%83%BD%E6%93%8D%E4%BD%9C%E5%8E%9F%E5%AF%B9%E8%B1%A1"><span class="toc-number">5.12.</span> <span class="toc-text">函数内需要先解引用（*biao），才能操作原对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%88%E6%9E%9C%E5%92%8C%E5%BC%95%E7%94%A8%E4%B8%80%E6%A0%B7%EF%BC%9A%E6%93%8D%E4%BD%9C%E7%9A%84%E6%98%AF%E5%8E%9F%E5%AF%B9%E8%B1%A1"><span class="toc-number">5.13.</span> <span class="toc-text">效果和引用一样：操作的是原对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E6%8C%89%E5%80%BC%E4%BC%A0%E9%80%92-vs-%E6%8C%89%E5%BC%95%E7%94%A8%E4%BC%A0%E9%80%92%EF%BC%9A%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E7%94%A8%E5%BC%95%E7%94%A8"><span class="toc-number">5.14.</span> <span class="toc-text">三、按值传递 vs 按引用传递：什么时候用引用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E5%BC%95%E7%94%A8%E4%BC%A0%E9%80%92-vs-%E6%8C%87%E9%92%88%E4%BC%A0%E9%80%92%EF%BC%9A%E4%BB%8E%E8%BF%94%E5%9B%9E%E7%B1%BB%E5%9E%8B%E7%9A%84%E8%A7%92%E5%BA%A6%E7%9C%8B%E5%8C%BA%E5%88%AB"><span class="toc-number">5.15.</span> <span class="toc-text">四、引用传递 vs 指针传递：从返回类型的角度看区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%93%BE%E5%BC%8F%E8%B0%83%E7%94%A8%E7%A4%BA%E4%BE%8B"><span class="toc-number">5.16.</span> <span class="toc-text">链式调用示例</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%8E%B0%E9%98%B6%E6%AE%B5%E7%90%86%E8%A7%A3%E8%BF%99%E4%BA%9B%E8%BF%98%E4%B8%BA%E6%97%B6%E8%BF%87%E6%97%A9%EF%BC%8C%E5%88%9D%E5%AD%A6%E8%80%85%E5%8F%AA%E9%9C%80%E6%8E%8C%E6%8F%A1%E5%87%BD%E6%95%B0%E4%BC%A0%E5%8F%82%E6%97%B6%E4%BC%A0%E5%BC%95%E7%94%A8%E5%92%8C%E4%BC%A0%E6%8C%87%E9%92%88%E7%9A%84%E5%8C%BA%E5%88%AB%E5%8D%B3%E5%8F%AF%EF%BC%8C%E8%BF%94%E5%9B%9E%E7%B1%BB%E5%9E%8B%E7%9A%84%E4%B8%8D%E5%90%8C%E5%8F%AF%E4%BB%A5%E5%85%88%E4%B8%8D%E5%81%9A%E6%B7%B1%E7%A9%B6"><span class="toc-number">6.</span> <span class="toc-text">现阶段理解这些还为时过早，初学者只需掌握函数传参时传引用和传指针的区别即可，返回类型的不同可以先不做深究</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B8%B8%E9%87%8F%E5%BC%95%E7%94%A8%E4%BC%A0%E9%80%92"><span class="toc-number">7.</span> <span class="toc-text">常量引用传递</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E5%B8%B8%E9%87%8F%E5%BC%95%E7%94%A8%EF%BC%9F"><span class="toc-number">7.1.</span> <span class="toc-text">为什么需要常量引用？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%89%E5%80%BC%E4%BC%A0%E9%80%92%EF%BC%9A%E4%BC%9A%E6%96%B0%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%89%AF%E6%9C%AC%EF%BC%8C%E6%B5%AA%E8%B4%B9%E6%97%B6%E9%97%B4%E5%92%8C%E7%A9%BA%E9%97%B4"><span class="toc-number">7.2.</span> <span class="toc-text">按值传递：会新建一个副本，浪费时间和空间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%99%E6%B3%95"><span class="toc-number">7.3.</span> <span class="toc-text">写法</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E9%87%8D%E8%BD%BD"><span class="toc-number">8.</span> <span class="toc-text">函数重载</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%80%BC%E5%BE%97%E6%B3%A8%E6%84%8F%E7%9A%84%E6%98%AF"><span class="toc-number">8.1.</span> <span class="toc-text">值得注意的是</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E9%87%8D%E8%BD%BD%E4%B8%8D%E8%83%BD%E7%94%B1%E8%BF%94%E5%9B%9E%E7%B1%BB%E5%9E%8B%E5%8C%BA%E5%88%86"><span class="toc-number">8.2.</span> <span class="toc-text">函数重载不能由返回类型区分</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B9%9F%E5%B0%B1%E6%98%AF%E5%87%BD%E6%95%B0%E5%90%8D%E5%89%8D%E7%9A%84%E7%B1%BB%E5%9E%8B%E6%97%A0%E6%B3%95%E5%8C%BA%E5%88%86%E5%90%8C%E5%90%8D%E5%87%BD%E6%95%B0"><span class="toc-number">8.3.</span> <span class="toc-text">也就是函数名前的类型无法区分同名函数</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%A0%E4%B8%BA%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E6%97%B6-%E7%BC%96%E8%AF%91%E5%99%A8%E4%B8%8D%E8%80%83%E8%99%91%E8%BF%94%E5%9B%9E%E7%B1%BB%E5%9E%8B-%E6%95%85%E5%87%BD%E6%95%B0%E5%90%8D%E5%89%8D%E7%9A%84%E7%B1%BB%E5%9E%8B%E4%B8%8D%E5%90%8C%E4%B8%8D%E8%83%BD%E5%AE%9E%E7%8E%B0%E5%87%BD%E6%95%B0%E9%87%8D%E8%BD%BD"><span class="toc-number">9.</span> <span class="toc-text">因为函数调用时 编译器不考虑返回类型 故函数名前的类型不同不能实现函数重载</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%99%E4%B8%AA%E5%B0%B1%E6%98%AF%E6%89%80%E8%B0%93%E7%9A%84%E5%87%BD%E6%95%B0%E9%87%8D%E8%BD%BD"><span class="toc-number">9.1.</span> <span class="toc-text">这个就是所谓的函数重载</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8C%87%E9%92%88"><span class="toc-number">10.</span> <span class="toc-text">指针</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%87%E9%92%88%E5%86%85%E5%AE%B9%E4%B8%BA%E5%9C%B0%E5%9D%80-%E5%9C%B0%E5%9D%80%E6%8C%87%E5%90%91%E5%86%85%E5%AE%B9-%E5%AE%9E%E7%8E%B0%E5%86%85%E5%AE%B9%E7%BB%91%E5%AE%9A"><span class="toc-number">10.1.</span> <span class="toc-text">指针内容为地址,地址指向内容 实现内容绑定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%87%E9%92%88%E6%98%AF%E8%BF%99%E6%A0%B7%E4%B8%80%E4%B8%AA%E7%BB%93%E6%9E%84"><span class="toc-number">10.2.</span> <span class="toc-text">指针是这样一个结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cout"><span class="toc-number">10.3.</span> <span class="toc-text">cout&lt;&lt;q&lt;&lt;endl;&#x2F;&#x2F;输出q包含的指针</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E7%9A%84%E5%90%8D%E7%A7%B0-%E4%BC%9A%E9%9A%90%E5%BC%8F%E8%BD%AC%E5%8C%96%E4%B8%BA%E5%AF%B9%E6%95%B0%E7%BB%84%E5%8F%96%E6%8C%87%E9%92%88"><span class="toc-number">10.4.</span> <span class="toc-text">数组的名称 会隐式转化为对数组取指针</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E6%8C%89%E5%BC%95%E7%94%A8%E4%BC%A0%E5%8F%82%E5%92%8C%E6%8C%87%E9%92%88%E4%BC%A0%E5%8F%82%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="toc-number">11.</span> <span class="toc-text">函数按引用传参和指针传参的关系</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E6%8C%89%E6%8C%87%E9%92%88%E4%BC%A0%E5%8F%82%E5%AE%9E%E7%8E%B0%E4%BF%AE%E6%94%B9a%E7%9A%84%E5%80%BC"><span class="toc-number">11.1.</span> <span class="toc-text">函数按指针传参实现修改a的值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E6%8C%89%E5%BC%95%E7%94%A8%E4%BC%A0%E5%8F%82%E5%AE%9E%E7%8E%B0%E4%BF%AE%E6%94%B9a%E7%9A%84%E5%80%BC"><span class="toc-number">11.2.</span> <span class="toc-text">函数按引用传参实现修改a的值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%99%85%E4%B8%8A-%E6%8C%89%E5%BC%95%E7%94%A8%E4%BC%A0%E5%8F%82-%E6%98%AF%E5%9F%BA%E4%BA%8E%E6%8C%89%E6%8C%87%E9%92%88%E4%BC%A0%E5%8F%82%E5%B0%81%E8%A3%85%E7%9A%84"><span class="toc-number">11.3.</span> <span class="toc-text">实际上 按引用传参 是基于按指针传参封装的</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A0%88%E6%8C%87%E9%92%88%E4%B8%8E%E5%A0%86%E6%8C%87%E9%92%88"><span class="toc-number">12.</span> <span class="toc-text">栈指针与堆指针</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%B8%8A-%E4%B8%8A%E9%9D%A2%E6%8C%87%E9%92%88%E4%B8%80%E6%A0%8F%E6%B6%89%E5%8F%8A%E7%9A%84%E9%83%BD%E6%98%AF%E6%A0%88%E6%8C%87%E9%92%88"><span class="toc-number">12.1.</span> <span class="toc-text">如上 上面指针一栏涉及的都是栈指针</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%88%E6%8C%87%E9%92%88%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F-%E4%BB%85%E5%9C%A8%E5%BD%93%E5%89%8D%E4%BD%9C%E7%94%A8%E5%9F%9F%E5%AD%98%E5%9C%A8"><span class="toc-number">12.2.</span> <span class="toc-text">栈指针的生命周期 仅在当前作用域存在</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%AA%E6%9C%89%E6%8C%87%E9%92%88%E6%89%8D%E6%9C%89%E6%B7%B1%E6%8B%B7%E8%B4%9D%E6%B5%85%E6%8B%B7%E8%B4%9D%E7%9A%84%E6%A6%82%E5%BF%B5-%E8%AF%A6%E8%A7%815%E7%B1%BB%E4%B8%8E%E5%AE%9E%E4%BE%8B"><span class="toc-number">12.3.</span> <span class="toc-text">只有指针才有深拷贝浅拷贝的概念 详见5类与实例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#return-p-%E8%BF%94%E5%9B%9Ep%E5%AD%98%E7%9A%84%E5%9C%B0%E5%9D%80"><span class="toc-number">12.4.</span> <span class="toc-text">return p; &#x2F;&#x2F; 返回p存的地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#a%E5%92%8Cp%E9%83%BD%E6%AD%BB%E4%BA%A1%EF%BC%81%E8%BF%94%E5%9B%9E%E7%9A%84%E5%9C%B0%E5%9D%80%E5%A4%B1%E6%95%88"><span class="toc-number">12.5.</span> <span class="toc-text">} &#x2F;&#x2F; a和p都死亡！返回的地址失效</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#y%E6%AD%BB%E4%BA%A1%EF%BC%81p1%E5%8F%98%E6%88%90%E9%87%8E%E6%8C%87%E9%92%88"><span class="toc-number">12.6.</span> <span class="toc-text">} &#x2F;&#x2F; y死亡！p1变成野指针</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#x%E5%92%8Cp1%E5%92%8Cp2%E6%AD%BB%E4%BA%A1"><span class="toc-number">12.7.</span> <span class="toc-text">} &#x2F;&#x2F; x和p1和p2死亡</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A0%86%E6%8C%87%E9%92%88%E5%AE%9E%E7%8E%B0%E9%95%BF%E6%9C%9F%E4%BF%9D%E5%AD%98%E5%86%85%E5%AD%98%E5%80%BC"><span class="toc-number">12.8.</span> <span class="toc-text">堆指针实现长期保存内存值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#new-int-x-%E6%98%AF%E5%9C%A8%E5%A0%86%E4%B8%8A%E5%BB%BA%E7%AB%8B%E4%B8%80%E4%B8%AAint-%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%AF%B9%E8%B1%A1%E5%85%B6%E5%80%BC%E4%B8%BAx-%E5%B9%B6%E8%BF%94%E5%9B%9Ex%E7%9A%84%E5%9C%B0%E5%9D%80"><span class="toc-number">12.9.</span> <span class="toc-text">new int(x) 是在堆上建立一个int 类型的对象其值为x 并返回x的地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%AE%E6%94%B91%EF%BC%9AbadFunc-%E6%94%B9%E6%88%90%E5%A0%86%E7%89%88%E6%9C%AC"><span class="toc-number">12.10.</span> <span class="toc-text">&#x2F;&#x2F; 修改1：badFunc 改成堆版本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#p%E6%AD%BB%E4%BA%A1%EF%BC%8C%E4%BD%86%E5%A0%86%E4%B8%8A%E7%9A%84100%E8%BF%98%E5%9C%A8"><span class="toc-number">12.11.</span> <span class="toc-text">} &#x2F;&#x2F; p死亡，但堆上的100还在</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%AE%E6%94%B96%EF%BC%9A%E4%BF%AE%E6%94%B9%E5%A0%86%E4%B8%8A%E7%9A%84%E5%80%BC"><span class="toc-number">12.12.</span> <span class="toc-text">&#x2F;&#x2F; 修改6：修改堆上的值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E5%90%8E%E8%AE%B0%E5%BE%97%E9%87%8A%E6%94%BE%E6%89%80%E6%9C%89%E5%A0%86%E5%86%85%E5%AD%98"><span class="toc-number">12.13.</span> <span class="toc-text">&#x2F;&#x2F; 最后记得释放所有堆内存</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/hexo-blog/2026/09/10/8%E6%9B%B4%E5%B7%A5%E7%A8%8B%E5%8C%96%E7%9A%84%E7%B1%BB%E4%BD%BF%E7%94%A8/" title="1P08 更工程化的类使用">1P08 更工程化的类使用</a><time datetime="2026-09-10T06:09:02.395Z" title="发表于 2026-09-10 14:09:02">2026-09-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/hexo-blog/2026/09/10/7%E7%BB%A7%E6%89%BF(%E6%B4%BE%E7%94%9F)%E4%B8%8E%E5%A4%9A%E6%80%81/" title="1P07 继承(派生)与多态">1P07 继承(派生)与多态</a><time datetime="2026-09-10T06:09:02.392Z" title="发表于 2026-09-10 14:09:02">2026-09-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/hexo-blog/2026/09/10/6%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD/" title="1P06 运算符重载">1P06 运算符重载</a><time datetime="2026-09-10T06:09:02.389Z" title="发表于 2026-09-10 14:09:02">2026-09-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/hexo-blog/2026/09/10/5%E7%B1%BB%E4%B8%8E%E5%AE%9E%E4%BE%8B/" title="1P05 类与实例">1P05 类与实例</a><time datetime="2026-09-10T06:09:02.387Z" title="发表于 2026-09-10 14:09:02">2026-09-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/hexo-blog/2026/09/10/4%E8%A7%A3%E5%BC%95%E7%94%A8%E5%92%8C%E8%AE%BF%E9%97%AE%E6%88%90%E5%91%98/" title="1P04 解引用和访问成员">1P04 解引用和访问成员</a><time datetime="2026-09-10T06:09:02.385Z" title="发表于 2026-09-10 14:09:02">2026-09-10</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 酸酸米老鼠</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.2</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.7.0</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/hexo-blog/js/utils.js?v=5.7.0"></script><script src="/hexo-blog/js/main.js?v=5.7.0"></script><div class="js-pjax"></div><script>function sortPostsByCode(o){var c=document.querySelector("#recent-posts .recent-post-items");if(!c)return;var a=Array.prototype.slice.call(c.querySelectorAll(".recent-post-item[data-code]"));a.sort(function(x,y){var dx=x.getAttribute("data-code"),dy=y.getAttribute("data-code");if(dx===dy)return 0;return o==="earliest"?(dx<dy?-1:1):(dx<dy?1:-1)});a.forEach(function(t){c.appendChild(t)})}</script><script>function filterPostsByCat(cat,btn){var c=document.querySelector("#recent-posts .recent-post-items");if(!c)return;var n=0;c.querySelectorAll(".recent-post-item[data-cat]").forEach(function(it){var show=cat==="all"||it.getAttribute("data-cat")===cat;it.style.display=show?"":"none";if(show)n++});document.querySelectorAll(".cat-filter-btn").forEach(function(b){b.classList.remove("active")});if(btn)btn.classList.add("active");var cnt=document.getElementById("recent-posts-count");if(cnt)cnt.textContent="共"+n+"篇"}</script><script>(function(){function rotateCover(){document.querySelectorAll(".rotate-cover[data-imgs]").forEach(function(c){var imgs=c.querySelectorAll(".rotate-cover-img");if(imgs.length<2)return;var bg=c.querySelector(".rotate-cover-bg");var i=0;setInterval(function(){imgs[i].classList.remove("active");i=(i+1)%imgs.length;imgs[i].classList.add("active");if(bg)bg.style.backgroundImage="url("+imgs[i].getAttribute("src")+")"},5000)})}function rotateHeader(){var h=document.getElementById("page-header");if(!h||!h.hasAttribute("data-cover-imgs"))return;var list;try{list=JSON.parse(h.getAttribute("data-cover-imgs"))}catch(e){return}if(!Array.isArray(list)||list.length<2)return;var i=0;setInterval(function(){i=(i+1)%list.length;h.style.backgroundImage="url("+list[i]+")"},5000)}rotateCover();rotateHeader()})();</script><style>#recent-posts .recent-post-item .post_cover.rotate-cover{position:relative;overflow:hidden}#recent-posts .recent-post-item .post_cover.rotate-cover>a{display:block;position:relative;width:100%;height:100%}#recent-posts .recent-post-item .post_cover.rotate-cover .rotate-cover-bg{position:absolute;top:0;left:0;width:100%;height:100%;background-size:cover;background-position:center;filter:blur(18px);transform:scale(1.15);opacity:.85;z-index:0}#recent-posts .recent-post-item .post_cover.rotate-cover>a>img.rotate-cover-img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;opacity:0;transition:opacity .8s ease;z-index:1}#recent-posts .recent-post-item .post_cover.rotate-cover>a>img.rotate-cover-img.active{opacity:1}</style><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/hexo-blog/js/search/local-search.js?v=5.7.0"></script></div></div></body></html>

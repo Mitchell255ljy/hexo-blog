@@ -1,0 +1,250 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>1P01 工作流模型与文件处理指令 | 酸酸米老鼠的记忆库</title><meta name="author" content="酸酸米老鼠"><meta name="copyright" content="酸酸米老鼠"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="源文件的概念打开编译器呈现源代码的文件对于c++来说就是后缀名为.cpp的文件编译阶段与运行阶段编译过程就是编译器翻译源代码的过程运行阶段就是编译完成后机器开始根据翻译后的源代码执行命令的阶段编译 &#x3D; 将源代码（人类可读的文本）翻译成机器码（计算机可执行的指令）的过程。 编译器就是起到翻译的作用 把你的源代码翻译给机器看 为后续的机器运行阶段做准备 编译阶段分为预处理(纯文本处理)和正式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="1P01 工作流模型与文件处理指令">
+<meta property="og:url" content="https://mitchell255ljy.github.io/hexo-blog/2026/09/10/1%E5%B7%A5%E4%BD%9C%E6%B5%81%E6%A8%A1%E5%9E%8B%E4%B8%8E%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86%E6%8C%87%E4%BB%A4/index.html">
+<meta property="og:site_name" content="酸酸米老鼠的记忆库">
+<meta property="og:description" content="源文件的概念打开编译器呈现源代码的文件对于c++来说就是后缀名为.cpp的文件编译阶段与运行阶段编译过程就是编译器翻译源代码的过程运行阶段就是编译完成后机器开始根据翻译后的源代码执行命令的阶段编译 &#x3D; 将源代码（人类可读的文本）翻译成机器码（计算机可执行的指令）的过程。 编译器就是起到翻译的作用 把你的源代码翻译给机器看 为后续的机器运行阶段做准备 编译阶段分为预处理(纯文本处理)和正式">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://mitchell255ljy.github.io/hexo-blog/img/butterfly-icon.png">
+<meta property="article:published_time" content="2026-09-10T06:09:02.339Z">
+<meta property="article:modified_time" content="2026-09-10T06:09:02.340Z">
+<meta property="article:author" content="酸酸米老鼠">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://mitchell255ljy.github.io/hexo-blog/img/butterfly-icon.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "1P01 工作流模型与文件处理指令",
+  "url": "https://mitchell255ljy.github.io/hexo-blog/2026/09/10/1%E5%B7%A5%E4%BD%9C%E6%B5%81%E6%A8%A1%E5%9E%8B%E4%B8%8E%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86%E6%8C%87%E4%BB%A4/",
+  "image": "https://mitchell255ljy.github.io/hexo-blog/img/butterfly-icon.png",
+  "datePublished": "2026-09-10T06:09:02.339Z",
+  "dateModified": "2026-09-10T06:09:02.340Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "酸酸米老鼠",
+      "url": "https://mitchell255ljy.github.io/hexo-blog"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/hexo-blog/img/favicon.png"><link rel="canonical" href="https://mitchell255ljy.github.io/hexo-blog/2026/09/10/1%E5%B7%A5%E4%BD%9C%E6%B5%81%E6%A8%A1%E5%9E%8B%E4%B8%8E%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86%E6%8C%87%E4%BB%A4/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/hexo-blog/css/index.css?v=5.7.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.3.1/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        const data = { value }
+
+        if (ttl != null) {
+          data.expiry = Date.now() + ttl * 86400000
+        }
+
+        localStorage.setItem(key, JSON.stringify(data))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return
+
+        try {
+          const data = JSON.parse(itemStr)
+
+          if (data.expiry && Date.now() > data.expiry) {
+            localStorage.removeItem(key)
+            return
+          }
+
+          return data.value
+        } catch {
+          localStorage.removeItem(key)
+        }
+      }
+    }
+
+    const scriptCache = new Map()
+    const cssCache = new Map()
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => {
+        if (scriptCache.has(url)) {
+          return scriptCache.get(url)
+        }
+
+        const promise = new Promise((resolve, reject) => {
+          const script = document.createElement('script')
+
+          script.src = url
+          script.async = true
+
+          for (const key in attr) {
+            script.setAttribute(key, attr[key])
+          }
+
+          script.onload = resolve
+          script.onerror = reject
+
+          document.head.appendChild(script)
+        })
+
+        scriptCache.set(url, promise)
+
+        return promise
+      },
+      getCSS: (url, id) => {
+        if (cssCache.has(url)) {
+          return cssCache.get(url)
+        }
+
+        const promise = new Promise((resolve, reject) => {
+          const link = document.createElement('link')
+
+          link.rel = 'stylesheet'
+          link.href = url
+
+          if (id) {
+            link.id = id
+          }
+
+          link.onload = resolve
+          link.onerror = reject
+
+          document.head.appendChild(link)
+        })
+
+        cssCache.set(url, promise)
+
+        return promise
+      },
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const metaThemeColor = document.querySelector('meta[name="theme-color"]')
+      const activateDarkMode = () => {
+        document.documentElement.dataset.theme = 'dark'
+        if (metaThemeColor !== null) {
+          metaThemeColor.setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.dataset.theme = 'light'
+        if (metaThemeColor !== null) {
+          metaThemeColor.setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/hexo-blog/',
+  algolia: undefined,
+  localSearch: {"path":"/hexo-blog/search.json","preload":false,"top_n_per_article":1,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '1P01 工作流模型与文件处理指令',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><style>.recent-posts-search{margin-bottom:1rem}.search-entry{display:flex;align-items:center;justify-content:space-between;width:100%;padding:.65rem 1rem;border:1px solid #e3e8f7;border-radius:12px;background:var(--card-bg,#fff);color:var(--font-color,#4c4948);cursor:pointer;transition:all .3s}.search-entry:hover{border-color:#49b1f5;box-shadow:0 0 8px rgba(73,177,245,.35)}.search-entry-text{opacity:.8}.search-entry-icon{color:#49b1f5}.recent-posts-btns{display:flex;gap:.5rem;margin-bottom:1rem}.recent-posts-btn{display:flex;align-items:center;justify-content:center;gap:.4rem;flex:1;padding:.6rem 1rem;border:1px solid #e3e8f7;border-radius:12px;background:var(--card-bg,#fff);color:var(--font-color,#4c4948);cursor:pointer;transition:all .3s;font-size:.95rem}.recent-posts-btn:hover{border-color:#49b1f5;box-shadow:0 0 8px rgba(73,177,245,.35);color:#49b1f5}.recent-posts-btn i{color:#49b1f5}.recent-posts-count{display:flex;align-items:center;padding:.6rem .9rem;border:1px solid #e3e8f7;border-radius:12px;background:var(--card-bg,#fff);color:var(--font-color,#4c4948);font-size:.95rem;white-space:nowrap;cursor:default}.cat-filter-btns{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:1rem;margin-bottom:1.6rem}.cat-filter-btn{display:inline-flex;align-items:center;gap:.5rem;padding:.55rem 1.25rem;border-radius:999px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#fff;font-size:1rem;cursor:pointer;transition:background .3s,color .3s,box-shadow .3s;text-decoration:none;user-select:none}.cat-filter-btn:hover{background:rgba(255,255,255,.34)}.cat-filter-btn.active{background:#fff;color:#49b1f5;border-color:#fff;box-shadow:0 6px 16px rgba(0,0,0,.18)}.cat-filter-btn i{font-size:.95em}.cat-filter-btn:nth-child(1){transform:rotate(-1.5deg)}.cat-filter-btn:nth-child(2){transform:translateY(-7px)}.cat-filter-btn:nth-child(3){transform:rotate(1.5deg)}.cat-filter-btn:nth-child(4){transform:translateY(-7px)}</style><meta name="generator" content="Hexo 8.1.2"></head><body><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/hexo-blog/"><span class="site-name">酸酸米老鼠的记忆库</span></a><a class="nav-page-title" href="/hexo-blog/"><span class="site-name">1P01 工作流模型与文件处理指令</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div></div></nav><div id="post-info"><h1 class="post-title">1P01 工作流模型与文件处理指令</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-09-10T06:09:02.339Z" title="发表于 2026-09-10 14:09:02">2026-09-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-09-10T06:09:02.340Z" title="更新于 2026-09-10 14:09:02">2026-09-10</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="源文件的概念"><a href="#源文件的概念" class="headerlink" title="源文件的概念"></a>源文件的概念</h1><h2 id="打开编译器呈现源代码的文件"><a href="#打开编译器呈现源代码的文件" class="headerlink" title="打开编译器呈现源代码的文件"></a>打开编译器呈现源代码的文件</h2><h2 id="对于c-来说就是后缀名为-cpp的文件"><a href="#对于c-来说就是后缀名为-cpp的文件" class="headerlink" title="对于c++来说就是后缀名为.cpp的文件"></a>对于c++来说就是后缀名为.cpp的文件</h2><h1 id="编译阶段与运行阶段"><a href="#编译阶段与运行阶段" class="headerlink" title="编译阶段与运行阶段"></a>编译阶段与运行阶段</h1><h2 id="编译过程就是编译器翻译源代码的过程"><a href="#编译过程就是编译器翻译源代码的过程" class="headerlink" title="编译过程就是编译器翻译源代码的过程"></a>编译过程就是编译器翻译源代码的过程</h2><h2 id="运行阶段就是编译完成后机器开始根据翻译后的源代码执行命令的阶段"><a href="#运行阶段就是编译完成后机器开始根据翻译后的源代码执行命令的阶段" class="headerlink" title="运行阶段就是编译完成后机器开始根据翻译后的源代码执行命令的阶段"></a>运行阶段就是编译完成后机器开始根据翻译后的源代码执行命令的阶段</h2><p><strong>编译</strong> &#x3D; 将<strong>源代码</strong>（人类可读的文本）翻译成<strong>机器码</strong>（计算机可执行的指令）的过程。 <strong>编译器就是起到翻译的作用</strong> 把你的源代码翻译给机器看 为后续的机器运行阶段做准备</p>
+<h2 id="编译阶段分为预处理-纯文本处理-和正式编译阶段"><a href="#编译阶段分为预处理-纯文本处理-和正式编译阶段" class="headerlink" title="编译阶段分为预处理(纯文本处理)和正式编译阶段"></a>编译阶段分为预处理(纯文本处理)和正式编译阶段</h2><h2 id="写源文件→-预处理→-正式编译→-链接阶段-→诵薪锥�"><a href="#写源文件→-预处理→-正式编译→-链接阶段-→诵薪锥�" class="headerlink" title="写源文件→ 预处理→ 正式编译→ 链接阶段 →诵薪锥�"></a>写源文件→ 预处理→ 正式编译→ 链接阶段 →诵薪锥�</h2><p>该流程称为<strong>工作流模型</strong>，表示代码从编写到运行的基本过程。</p>
+<p>其中，<strong>链接阶段</strong>仅在多文件程序中涉及，此处仅作概念性了解，不作详细展开。</p>
+<h1 id="预处理指令"><a href="#预处理指令" class="headerlink" title="预处理指令"></a>预处理指令</h1><p>以 # 开头的指令称为<strong>预处理指令</strong>（或源文件文本处理指令）。</p>
+<h2 id="include-的作用"><a href="#include-的作用" class="headerlink" title="#include 的作用"></a>#include 的作用</h2><p>#include <text> 或 #include “text” 的作用是： 将指定文件（text）的内容复制到当前文件中，并替换掉该 #include 指令本身，从而实现外部文件的插入。</p>
+<p><strong>#include &lt;&gt; 与 #include “” 的区别</strong></p>
+<p><img src="/hexo-blog/media_tx/img-b6c2bfd6ce33502a.png"></p>
+<p>此外，#include “” 也可以通过编译器设置添加额外的搜索路径。</p>
+<h1 id="什么是头文件-预处理文件"><a href="#什么是头文件-预处理文件" class="headerlink" title="什么是头文件&#x2F;预处理文件?"></a>什么是头文件&#x2F;预处理文件?</h1><p>以#include&lt;&gt;指令给源文件在预处理阶段做补充的文件叫做头文件</p>
+<p>在处于预处理阶段时 #include&lt;头文件&gt;这个文本处理指令就是为了把头文件复制粘贴过来</p>
+<p>比如#include&lt;stdio.h&gt;这个形式 就是把stdio.h这个头文件调用过来</p>
+<p>#include是C&#x2F;C++语言中的‌ご碇噶�‌糜谠诒嘁肭敖付ㄎ募ㄍǔＪ峭肺募┑哪谌莶迦氲降鼻霸创胛募校允迪执敫从煤湍？榛�</p>
+<h2 id="下面是常见的头文件-以及包含功能"><a href="#下面是常见的头文件-以及包含功能" class="headerlink" title="下面是常见的头文件 以及包含功能"></a>下面是常见的头文件 以及包含功能</h2><p>#include <iostream></p>
+<p>#include <cmath></p>
+<p>#include<algorithm></p>
+<p>#include&lt;stdio.h&gt;</p>
+<p>&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</p>
+<p>‌<iostream>‌</p>
+<p>提供输入输出流功能，包含核心对象如：</p>
+<p>cin：标准输入流（键盘输入）</p>
+<p>cout：标准输出流（控制台输出）</p>
+<h2 id="cerr-clog：错误和日志流"><a href="#cerr-clog：错误和日志流" class="headerlink" title="cerr&#x2F;clog：错误和日志流"></a>cerr&#x2F;clog：错误和日志流</h2><h2 id="支持运算符进行格式化I-O操作"><a href="#支持运算符进行格式化I-O操作" class="headerlink" title="支持运算符&lt;&lt;和&gt;&gt;进行格式化I&#x2F;O操作"></a>支持运算符&lt;&lt;和&gt;&gt;进行格式化I&#x2F;O操作</h2><p>&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</p>
+<p>‌<cmath>‌</p>
+<p>提供数学函数库，包含：</p>
+<p>基本运算：sqrt()、pow()、abs()</p>
+<p>三角函数：sin()、cos()、tan()</p>
+<p>对数&#x2F;指数：log()、exp()</p>
+<h2 id="所有函数均支持浮点数运算"><a href="#所有函数均支持浮点数运算" class="headerlink" title="所有函数均支持浮点数运算"></a>所有函数均支持浮点数运算</h2><p>&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</p>
+<p>‌<algorithm>‌</p>
+<p>包含常用算法操作：</p>
+<p>排序：sort()、stable_sort()</p>
+<p>查找：find()、binary_search()</p>
+<p>数值处理：max()、min()、accumulate()</p>
+<h2 id="适用于容器（如数组、vector）的泛型算法"><a href="#适用于容器（如数组、vector）的泛型算法" class="headerlink" title="适用于容器（如数组、vector）的泛型算法"></a>适用于容器（如数组、vector）的泛型算法</h2><p>&lt;stdio.h&gt;</p>
+<p>C语言标准I&#x2F;O库，提供：</p>
+<h2 id="printf-scanf-：格式化输入输出"><a href="#printf-scanf-：格式化输入输出" class="headerlink" title="printf()&#x2F;scanf()：格式化输入输出"></a>printf()&#x2F;scanf()：格式化输入输出</h2><p>文件操作：fopen()、fread()</p>
+<p>在C++中通常用<cstdio>替代以符合命名空间规范</p>
+<p>#include&lt;windows.h&gt;</p>
+<p>long long a&#x3D;GetTickCount();  &#x2F;&#x2F;get 获取tick 音译滴答的时钟声count 计数</p>
+<p>功能是是获取一个毫秒级当前时间 只能用long long长度储存</p>
+<h2 id="可以写一个代码运行时常计时器"><a href="#可以写一个代码运行时常计时器" class="headerlink" title="可以写一个代码运行时常计时器"></a>可以写一个代码运行时常计时器</h2><h1 id="常用万能头"><a href="#常用万能头" class="headerlink" title="常用万能头"></a>常用万能头</h1><h2 id="万能头文件就是包含很多-include的头文件"><a href="#万能头文件就是包含很多-include的头文件" class="headerlink" title="万能头文件就是包含很多#include&lt;头文件&gt;的头文件"></a>万能头文件就是包含很多#include&lt;头文件&gt;的头文件</h2><p>我们来推演一下 万能头文件a.h写了#include&lt;b.h&gt; #include&lt;c.h&gt; #include&lt;d.h&gt;</p>
+<p>那么源文件中执行#include&lt;a.h&gt; 就是把#include&lt;b.h&gt; #include&lt;c.h&gt; #include&lt;d.h&gt;</p>
+<p>插入到这个位置 然后再处理三个#include指令 那么就把b.h c.h d.h的内容都给给插入进来了</p>
+<p>#include &lt;bits&#x2F;stdc++.h&gt;           &#x2F;&#x2F;C和C++的万能头</p>
+<p>#include‌&lt;stdio.h&gt;‌               &#x2F;&#x2F;C的万能头</p>
+<p>在不做大型项目时 我们一般直接调用万能头(包含对应的很多头文件 相当于整合工具箱的工具箱) 来避免用到的头都include一遍 来节省时间</p>
+<p>但是大型项目尽可能用啥include啥不要乱用万能头  不然你会发现声明一个变量y3 结果会报错 因为y1 y2 y3 是<strong>保留标识符 他们是一个功能函数的名字</strong></p>
+<h1 id="常见的预处理指令"><a href="#常见的预处理指令" class="headerlink" title="常见的预处理指令"></a>常见的预处理指令</h1><h2 id="define-定义宏"><a href="#define-定义宏" class="headerlink" title="#define &#x2F;&#x2F; 定义宏"></a>#define &#x2F;&#x2F; 定义宏</h2><h2 id="ifndef-如果未定义"><a href="#ifndef-如果未定义" class="headerlink" title="#ifndef &#x2F;&#x2F; 如果未定义"></a>#ifndef &#x2F;&#x2F; 如果未定义</h2><h2 id="endif-结束条件编译"><a href="#endif-结束条件编译" class="headerlink" title="#endif &#x2F;&#x2F; 结束条件编译"></a>#endif &#x2F;&#x2F; 结束条件编译</h2><h2 id="undef-取消宏定义"><a href="#undef-取消宏定义" class="headerlink" title="#undef &#x2F;&#x2F; 取消宏定义"></a>#undef &#x2F;&#x2F; 取消宏定义</h2><h2 id="ifdef-如果已定义"><a href="#ifdef-如果已定义" class="headerlink" title="#ifdef &#x2F;&#x2F; 如果已定义"></a>#ifdef &#x2F;&#x2F; 如果已定义</h2><h2 id="if-如果条件为真"><a href="#if-如果条件为真" class="headerlink" title="#if &#x2F;&#x2F; 如果条件为真"></a>#if &#x2F;&#x2F; 如果条件为真</h2><h2 id="else-否则"><a href="#else-否则" class="headerlink" title="#else &#x2F;&#x2F; 否则"></a>#else &#x2F;&#x2F; 否则</h2><h2 id="elif-否则如果"><a href="#elif-否则如果" class="headerlink" title="#elif &#x2F;&#x2F; 否则如果"></a>#elif &#x2F;&#x2F; 否则如果</h2><h2 id="include-包含文件"><a href="#include-包含文件" class="headerlink" title="#include &#x2F;&#x2F; 包含文件"></a>#include &#x2F;&#x2F; 包含文件</h2><h2 id="pragma-编译器指令"><a href="#pragma-编译器指令" class="headerlink" title="#pragma &#x2F;&#x2F; 编译器指令"></a>#pragma &#x2F;&#x2F; 编译器指令</h2><h2 id="error-产生错误信息"><a href="#error-产生错误信息" class="headerlink" title="#error &#x2F;&#x2F; 产生错误信息"></a>#error &#x2F;&#x2F; 产生错误信息</h2><h2 id="line-设置行号"><a href="#line-设置行号" class="headerlink" title="#line &#x2F;&#x2F; 设置行号"></a>#line &#x2F;&#x2F; 设置行号</h2></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://mitchell255ljy.github.io/hexo-blog">酸酸米老鼠</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://mitchell255ljy.github.io/hexo-blog/2026/09/10/1%E5%B7%A5%E4%BD%9C%E6%B5%81%E6%A8%A1%E5%9E%8B%E4%B8%8E%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86%E6%8C%87%E4%BB%A4/">https://mitchell255ljy.github.io/hexo-blog/2026/09/10/1%E5%B7%A5%E4%BD%9C%E6%B5%81%E6%A8%A1%E5%9E%8B%E4%B8%8E%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86%E6%8C%87%E4%BB%A4/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://mitchell255ljy.github.io/hexo-blog" target="_blank">酸酸米老鼠的记忆库</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/hexo-blog/img/butterfly-icon.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/hexo-blog/2026/09/10/2using%20define%20namespace/" title="1P02 using define namespace"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">1P02 using define namespace</div></div><div class="info-2"><div class="info-item-1">作用域空间作用域空间：不需要 if&#x2F;else 也能存在很多人以为 { } 必须跟 if、while、函数之类的关键字，其实不是。 { }** 可以独立存在**，它就是一块“作用域空间”。  作用域空间利用“退出即销毁”的特性，用来限制变量的生命周期，避免资源占用和命名冲突命名空间和namespace关键字 命名空间的内容永久存在、跨文件可见、需要用前缀访问std 是 C++ 标准库中的命名空间，封装了大部分的标准库实现C++ 标准库中的大多数名称（如 cout、vector、sort）定义在 std 命名空间中。 在默认情况下，使用它们时需要加上 std:: 前缀 更换命名空间调用前缀namespace fs&#x3D;std::filesystem 原本需要用std::filesystem::调用的简化成成了 fs::调用#include &#x2F;&#x2F;这个库的所有内容都是标准库下的 并且自身也有一套命名空间 所以你想要调内部的功能需要 std::filesystem::这样调用 namespace fs &#x3D; std::filesystem;&#x...</div></div></div></a><a class="pagination-related" href="/hexo-blog/2026/09/10/2SDK%E7%9A%84%E5%BB%BA%E7%AB%8B%E4%B8%8E%E5%BC%95%E7%94%A8/" title="0P02 SDK的建立与引用"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">0P02 SDK的建立与引用</div></div><div class="info-2"><div class="info-item-1">软件开发工具包SDKSDK库的组成部分声明和实现的表现形式为,一套写好声明的.h,一套放实现的.lib&#x2F;.dllSDK 到底封装了什么普通库：封装数据结构 + 算法所谓的普通库就是：头文件库、模板库、传统分离模式SDK：封装带系统资源的复杂活对象（平台SDK&#x2F;部分扩展SDK），或封装复杂逻辑&#x2F;算法&#x2F;状态机（扩展SDK） 平台 SDK与扩展sdk平台 SDK，最初就是配合操作系统内核资源（文件、网络、进程）功能实现的 SDK。早期的平台 SDK，绝大部分就是面向系统资源的实现。所以后来它也叫做内核 SDK——操作系统层的功能实现，都是说“去调用内核 SDK”。 扩展 SDK则不同。它有的涉及内核扩展，有的是纯逻辑，有的调用系统内核资源，有的不调用。但即使它涉及内核资源，也不叫内核 SDK。 为什么？ 因为内核资源只能由官方的 SDK 调用。扩展 SDK 要去调内核资源，实际上必须经过内核 SDK ,这是因为操作系统内核在设计时，就明确规定了只有自己提供的特定DLL(平台sdk)（如ntdll.dll、kernel32.dll）内部的那个sys...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/hexo-blog/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/hexo-blog/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">酸酸米老鼠</div><div class="author-info-description"></div><div class="site-data"><a href="/hexo-blog/archives/"><div class="headline">文章</div><div class="length-num">18</div></a><a href="/hexo-blog/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/hexo-blog/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Mitchell255ljy"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">免费文章 禁止商用</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%BA%90%E6%96%87%E4%BB%B6%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="toc-number">1.</span> <span class="toc-text">源文件的概念</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%93%E5%BC%80%E7%BC%96%E8%AF%91%E5%99%A8%E5%91%88%E7%8E%B0%E6%BA%90%E4%BB%A3%E7%A0%81%E7%9A%84%E6%96%87%E4%BB%B6"><span class="toc-number">1.1.</span> <span class="toc-text">打开编译器呈现源代码的文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%B9%E4%BA%8Ec-%E6%9D%A5%E8%AF%B4%E5%B0%B1%E6%98%AF%E5%90%8E%E7%BC%80%E5%90%8D%E4%B8%BA-cpp%E7%9A%84%E6%96%87%E4%BB%B6"><span class="toc-number">1.2.</span> <span class="toc-text">对于c++来说就是后缀名为.cpp的文件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BC%96%E8%AF%91%E9%98%B6%E6%AE%B5%E4%B8%8E%E8%BF%90%E8%A1%8C%E9%98%B6%E6%AE%B5"><span class="toc-number">2.</span> <span class="toc-text">编译阶段与运行阶段</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E5%B0%B1%E6%98%AF%E7%BC%96%E8%AF%91%E5%99%A8%E7%BF%BB%E8%AF%91%E6%BA%90%E4%BB%A3%E7%A0%81%E7%9A%84%E8%BF%87%E7%A8%8B"><span class="toc-number">2.1.</span> <span class="toc-text">编译过程就是编译器翻译源代码的过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E9%98%B6%E6%AE%B5%E5%B0%B1%E6%98%AF%E7%BC%96%E8%AF%91%E5%AE%8C%E6%88%90%E5%90%8E%E6%9C%BA%E5%99%A8%E5%BC%80%E5%A7%8B%E6%A0%B9%E6%8D%AE%E7%BF%BB%E8%AF%91%E5%90%8E%E7%9A%84%E6%BA%90%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E5%91%BD%E4%BB%A4%E7%9A%84%E9%98%B6%E6%AE%B5"><span class="toc-number">2.2.</span> <span class="toc-text">运行阶段就是编译完成后机器开始根据翻译后的源代码执行命令的阶段</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E8%AF%91%E9%98%B6%E6%AE%B5%E5%88%86%E4%B8%BA%E9%A2%84%E5%A4%84%E7%90%86-%E7%BA%AF%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86-%E5%92%8C%E6%AD%A3%E5%BC%8F%E7%BC%96%E8%AF%91%E9%98%B6%E6%AE%B5"><span class="toc-number">2.3.</span> <span class="toc-text">编译阶段分为预处理(纯文本处理)和正式编译阶段</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%99%E6%BA%90%E6%96%87%E4%BB%B6%E2%86%92-%E9%A2%84%E5%A4%84%E7%90%86%E2%86%92-%E6%AD%A3%E5%BC%8F%E7%BC%96%E8%AF%91%E2%86%92-%E9%93%BE%E6%8E%A5%E9%98%B6%E6%AE%B5-%E2%86%92%E8%AF%B5%E8%96%AA%E9%94%A5%EF%BF%BD"><span class="toc-number">2.4.</span> <span class="toc-text">写源文件→ 预处理→ 正式编译→ 链接阶段 →诵薪锥�</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A2%84%E5%A4%84%E7%90%86%E6%8C%87%E4%BB%A4"><span class="toc-number">3.</span> <span class="toc-text">预处理指令</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#include-%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-number">3.1.</span> <span class="toc-text">#include 的作用</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%A4%B4%E6%96%87%E4%BB%B6-%E9%A2%84%E5%A4%84%E7%90%86%E6%96%87%E4%BB%B6"><span class="toc-number">4.</span> <span class="toc-text">什么是头文件&#x2F;预处理文件?</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8B%E9%9D%A2%E6%98%AF%E5%B8%B8%E8%A7%81%E7%9A%84%E5%A4%B4%E6%96%87%E4%BB%B6-%E4%BB%A5%E5%8F%8A%E5%8C%85%E5%90%AB%E5%8A%9F%E8%83%BD"><span class="toc-number">4.1.</span> <span class="toc-text">下面是常见的头文件 以及包含功能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cerr-clog%EF%BC%9A%E9%94%99%E8%AF%AF%E5%92%8C%E6%97%A5%E5%BF%97%E6%B5%81"><span class="toc-number">4.2.</span> <span class="toc-text">cerr&#x2F;clog：错误和日志流</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%94%AF%E6%8C%81%E8%BF%90%E7%AE%97%E7%AC%A6%E8%BF%9B%E8%A1%8C%E6%A0%BC%E5%BC%8F%E5%8C%96I-O%E6%93%8D%E4%BD%9C"><span class="toc-number">4.3.</span> <span class="toc-text">支持运算符&lt;&lt;和&gt;&gt;进行格式化I&#x2F;O操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%80%E6%9C%89%E5%87%BD%E6%95%B0%E5%9D%87%E6%94%AF%E6%8C%81%E6%B5%AE%E7%82%B9%E6%95%B0%E8%BF%90%E7%AE%97"><span class="toc-number">4.4.</span> <span class="toc-text">所有函数均支持浮点数运算</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%82%E7%94%A8%E4%BA%8E%E5%AE%B9%E5%99%A8%EF%BC%88%E5%A6%82%E6%95%B0%E7%BB%84%E3%80%81vector%EF%BC%89%E7%9A%84%E6%B3%9B%E5%9E%8B%E7%AE%97%E6%B3%95"><span class="toc-number">4.5.</span> <span class="toc-text">适用于容器（如数组、vector）的泛型算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#printf-scanf-%EF%BC%9A%E6%A0%BC%E5%BC%8F%E5%8C%96%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA"><span class="toc-number">4.6.</span> <span class="toc-text">printf()&#x2F;scanf()：格式化输入输出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%AF%E4%BB%A5%E5%86%99%E4%B8%80%E4%B8%AA%E4%BB%A3%E7%A0%81%E8%BF%90%E8%A1%8C%E6%97%B6%E5%B8%B8%E8%AE%A1%E6%97%B6%E5%99%A8"><span class="toc-number">4.7.</span> <span class="toc-text">可以写一个代码运行时常计时器</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E4%B8%87%E8%83%BD%E5%A4%B4"><span class="toc-number">5.</span> <span class="toc-text">常用万能头</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%87%E8%83%BD%E5%A4%B4%E6%96%87%E4%BB%B6%E5%B0%B1%E6%98%AF%E5%8C%85%E5%90%AB%E5%BE%88%E5%A4%9A-include%E7%9A%84%E5%A4%B4%E6%96%87%E4%BB%B6"><span class="toc-number">5.1.</span> <span class="toc-text">万能头文件就是包含很多#include&lt;头文件&gt;的头文件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E9%A2%84%E5%A4%84%E7%90%86%E6%8C%87%E4%BB%A4"><span class="toc-number">6.</span> <span class="toc-text">常见的预处理指令</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#define-%E5%AE%9A%E4%B9%89%E5%AE%8F"><span class="toc-number">6.1.</span> <span class="toc-text">#define &#x2F;&#x2F; 定义宏</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ifndef-%E5%A6%82%E6%9E%9C%E6%9C%AA%E5%AE%9A%E4%B9%89"><span class="toc-number">6.2.</span> <span class="toc-text">#ifndef &#x2F;&#x2F; 如果未定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#endif-%E7%BB%93%E6%9D%9F%E6%9D%A1%E4%BB%B6%E7%BC%96%E8%AF%91"><span class="toc-number">6.3.</span> <span class="toc-text">#endif &#x2F;&#x2F; 结束条件编译</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undef-%E5%8F%96%E6%B6%88%E5%AE%8F%E5%AE%9A%E4%B9%89"><span class="toc-number">6.4.</span> <span class="toc-text">#undef &#x2F;&#x2F; 取消宏定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ifdef-%E5%A6%82%E6%9E%9C%E5%B7%B2%E5%AE%9A%E4%B9%89"><span class="toc-number">6.5.</span> <span class="toc-text">#ifdef &#x2F;&#x2F; 如果已定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#if-%E5%A6%82%E6%9E%9C%E6%9D%A1%E4%BB%B6%E4%B8%BA%E7%9C%9F"><span class="toc-number">6.6.</span> <span class="toc-text">#if &#x2F;&#x2F; 如果条件为真</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#else-%E5%90%A6%E5%88%99"><span class="toc-number">6.7.</span> <span class="toc-text">#else &#x2F;&#x2F; 否则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#elif-%E5%90%A6%E5%88%99%E5%A6%82%E6%9E%9C"><span class="toc-number">6.8.</span> <span class="toc-text">#elif &#x2F;&#x2F; 否则如果</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#include-%E5%8C%85%E5%90%AB%E6%96%87%E4%BB%B6"><span class="toc-number">6.9.</span> <span class="toc-text">#include &#x2F;&#x2F; 包含文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pragma-%E7%BC%96%E8%AF%91%E5%99%A8%E6%8C%87%E4%BB%A4"><span class="toc-number">6.10.</span> <span class="toc-text">#pragma &#x2F;&#x2F; 编译器指令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#error-%E4%BA%A7%E7%94%9F%E9%94%99%E8%AF%AF%E4%BF%A1%E6%81%AF"><span class="toc-number">6.11.</span> <span class="toc-text">#error &#x2F;&#x2F; 产生错误信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#line-%E8%AE%BE%E7%BD%AE%E8%A1%8C%E5%8F%B7"><span class="toc-number">6.12.</span> <span class="toc-text">#line &#x2F;&#x2F; 设置行号</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/hexo-blog/2026/09/10/8%E6%9B%B4%E5%B7%A5%E7%A8%8B%E5%8C%96%E7%9A%84%E7%B1%BB%E4%BD%BF%E7%94%A8/" title="1P08 更工程化的类使用">1P08 更工程化的类使用</a><time datetime="2026-09-10T06:09:02.395Z" title="发表于 2026-09-10 14:09:02">2026-09-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/hexo-blog/2026/09/10/7%E7%BB%A7%E6%89%BF(%E6%B4%BE%E7%94%9F)%E4%B8%8E%E5%A4%9A%E6%80%81/" title="1P07 继承(派生)与多态">1P07 继承(派生)与多态</a><time datetime="2026-09-10T06:09:02.392Z" title="发表于 2026-09-10 14:09:02">2026-09-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/hexo-blog/2026/09/10/6%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD/" title="1P06 运算符重载">1P06 运算符重载</a><time datetime="2026-09-10T06:09:02.389Z" title="发表于 2026-09-10 14:09:02">2026-09-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/hexo-blog/2026/09/10/5%E7%B1%BB%E4%B8%8E%E5%AE%9E%E4%BE%8B/" title="1P05 类与实例">1P05 类与实例</a><time datetime="2026-09-10T06:09:02.387Z" title="发表于 2026-09-10 14:09:02">2026-09-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/hexo-blog/2026/09/10/4%E8%A7%A3%E5%BC%95%E7%94%A8%E5%92%8C%E8%AE%BF%E9%97%AE%E6%88%90%E5%91%98/" title="1P04 解引用和访问成员">1P04 解引用和访问成员</a><time datetime="2026-09-10T06:09:02.385Z" title="发表于 2026-09-10 14:09:02">2026-09-10</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 酸酸米老鼠</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.2</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.7.0</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/hexo-blog/js/utils.js?v=5.7.0"></script><script src="/hexo-blog/js/main.js?v=5.7.0"></script><div class="js-pjax"></div><script>function sortPostsByCode(o){var c=document.querySelector("#recent-posts .recent-post-items");if(!c)return;var a=Array.prototype.slice.call(c.querySelectorAll(".recent-post-item[data-code]"));a.sort(function(x,y){var dx=x.getAttribute("data-code"),dy=y.getAttribute("data-code");if(dx===dy)return 0;return o==="earliest"?(dx<dy?-1:1):(dx<dy?1:-1)});a.forEach(function(t){c.appendChild(t)})}</script><script>function filterPostsByCat(cat,btn){var c=document.querySelector("#recent-posts .recent-post-items");if(!c)return;var n=0;c.querySelectorAll(".recent-post-item[data-cat]").forEach(function(it){var show=cat==="all"||it.getAttribute("data-cat")===cat;it.style.display=show?"":"none";if(show)n++});document.querySelectorAll(".cat-filter-btn").forEach(function(b){b.classList.remove("active")});if(btn)btn.classList.add("active");var cnt=document.getElementById("recent-posts-count");if(cnt)cnt.textContent="共"+n+"篇"}</script><script>(function(){function rotateCover(){document.querySelectorAll(".rotate-cover[data-imgs]").forEach(function(c){var imgs=c.querySelectorAll(".rotate-cover-img");if(imgs.length<2)return;var bg=c.querySelector(".rotate-cover-bg");var i=0;setInterval(function(){imgs[i].classList.remove("active");i=(i+1)%imgs.length;imgs[i].classList.add("active");if(bg)bg.style.backgroundImage="url("+imgs[i].getAttribute("src")+")"},5000)})}function rotateHeader(){var h=document.getElementById("page-header");if(!h||!h.hasAttribute("data-cover-imgs"))return;var list;try{list=JSON.parse(h.getAttribute("data-cover-imgs"))}catch(e){return}if(!Array.isArray(list)||list.length<2)return;var i=0;setInterval(function(){i=(i+1)%list.length;h.style.backgroundImage="url("+list[i]+")"},5000)}rotateCover();rotateHeader()})();</script><style>#recent-posts .recent-post-item .post_cover.rotate-cover{position:relative;overflow:hidden}#recent-posts .recent-post-item .post_cover.rotate-cover>a{display:block;position:relative;width:100%;height:100%}#recent-posts .recent-post-item .post_cover.rotate-cover .rotate-cover-bg{position:absolute;top:0;left:0;width:100%;height:100%;background-size:cover;background-position:center;filter:blur(18px);transform:scale(1.15);opacity:.85;z-index:0}#recent-posts .recent-post-item .post_cover.rotate-cover>a>img.rotate-cover-img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;opacity:0;transition:opacity .8s ease;z-index:1}#recent-posts .recent-post-item .post_cover.rotate-cover>a>img.rotate-cover-img.active{opacity:1}</style><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/hexo-blog/js/search/local-search.js?v=5.7.0"></script></div></div></body></html>
