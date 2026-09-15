@@ -1,0 +1,252 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>4T01 程序与进程 | 酸酸米老鼠的记忆宝库</title><meta name="author" content="酸酸米老鼠"><meta name="copyright" content="酸酸米老鼠"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="计算机科学中一个常见问题是：我们如何称呼 CPU 执行的所有活动？ 很多人会认为是“程序”，但在计算机科学中，更准确的说法是“进程”。 在操作系统中，程序的一次执行过程被抽象为进程。进程具有一定的生命周期，通常包括创建、就绪、执行、阻塞和终止等状态。换言之，进程是正在运行中的程序。 程序则是为了完成特定任务而组织起来的一系列指令和数据的集合。它是静态的，没有生命周期，通常以二进制文件的形式存储在磁">
+<meta property="og:type" content="article">
+<meta property="og:title" content="4T01 程序与进程">
+<meta property="og:url" content="https://mitchell255ljy.github.io/hexo-blog/2026/09/15/1%E7%A8%8B%E5%BA%8F%E4%B8%8E%E8%BF%9B%E7%A8%8B/index.html">
+<meta property="og:site_name" content="酸酸米老鼠的记忆宝库">
+<meta property="og:description" content="计算机科学中一个常见问题是：我们如何称呼 CPU 执行的所有活动？ 很多人会认为是“程序”，但在计算机科学中，更准确的说法是“进程”。 在操作系统中，程序的一次执行过程被抽象为进程。进程具有一定的生命周期，通常包括创建、就绪、执行、阻塞和终止等状态。换言之，进程是正在运行中的程序。 程序则是为了完成特定任务而组织起来的一系列指令和数据的集合。它是静态的，没有生命周期，通常以二进制文件的形式存储在磁">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://mitchell255ljy.github.io/hexo-blog/img/butterfly-icon.png">
+<meta property="article:published_time" content="2026-09-15T01:45:45.678Z">
+<meta property="article:modified_time" content="2026-09-15T01:45:45.703Z">
+<meta property="article:author" content="酸酸米老鼠">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://mitchell255ljy.github.io/hexo-blog/img/butterfly-icon.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "4T01 程序与进程",
+  "url": "https://mitchell255ljy.github.io/hexo-blog/2026/09/15/1%E7%A8%8B%E5%BA%8F%E4%B8%8E%E8%BF%9B%E7%A8%8B/",
+  "image": "https://mitchell255ljy.github.io/hexo-blog/img/butterfly-icon.png",
+  "datePublished": "2026-09-15T01:45:45.678Z",
+  "dateModified": "2026-09-15T01:45:45.703Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "酸酸米老鼠",
+      "url": "https://mitchell255ljy.github.io/hexo-blog"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/hexo-blog/img/favicon.png"><link rel="canonical" href="https://mitchell255ljy.github.io/hexo-blog/2026/09/15/1%E7%A8%8B%E5%BA%8F%E4%B8%8E%E8%BF%9B%E7%A8%8B/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/hexo-blog/css/index.css?v=5.7.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.3.1/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        const data = { value }
+
+        if (ttl != null) {
+          data.expiry = Date.now() + ttl * 86400000
+        }
+
+        localStorage.setItem(key, JSON.stringify(data))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return
+
+        try {
+          const data = JSON.parse(itemStr)
+
+          if (data.expiry && Date.now() > data.expiry) {
+            localStorage.removeItem(key)
+            return
+          }
+
+          return data.value
+        } catch {
+          localStorage.removeItem(key)
+        }
+      }
+    }
+
+    const scriptCache = new Map()
+    const cssCache = new Map()
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => {
+        if (scriptCache.has(url)) {
+          return scriptCache.get(url)
+        }
+
+        const promise = new Promise((resolve, reject) => {
+          const script = document.createElement('script')
+
+          script.src = url
+          script.async = true
+
+          for (const key in attr) {
+            script.setAttribute(key, attr[key])
+          }
+
+          script.onload = resolve
+          script.onerror = reject
+
+          document.head.appendChild(script)
+        })
+
+        scriptCache.set(url, promise)
+
+        return promise
+      },
+      getCSS: (url, id) => {
+        if (cssCache.has(url)) {
+          return cssCache.get(url)
+        }
+
+        const promise = new Promise((resolve, reject) => {
+          const link = document.createElement('link')
+
+          link.rel = 'stylesheet'
+          link.href = url
+
+          if (id) {
+            link.id = id
+          }
+
+          link.onload = resolve
+          link.onerror = reject
+
+          document.head.appendChild(link)
+        })
+
+        cssCache.set(url, promise)
+
+        return promise
+      },
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const metaThemeColor = document.querySelector('meta[name="theme-color"]')
+      const activateDarkMode = () => {
+        document.documentElement.dataset.theme = 'dark'
+        if (metaThemeColor !== null) {
+          metaThemeColor.setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.dataset.theme = 'light'
+        if (metaThemeColor !== null) {
+          metaThemeColor.setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/hexo-blog/',
+  algolia: undefined,
+  localSearch: {"path":"/hexo-blog/search.json","preload":false,"top_n_per_article":1,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '4T01 程序与进程',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'post'
+}</script><style>.recent-posts-search{margin-bottom:1rem}.search-entry{display:flex;align-items:center;justify-content:space-between;width:100%;padding:.65rem 1rem;border:1px solid #e3e8f7;border-radius:12px;background:var(--card-bg,#fff);color:var(--font-color,#4c4948);cursor:pointer;transition:all .3s}.search-entry:hover{border-color:#49b1f5;box-shadow:0 0 8px rgba(73,177,245,.35)}.search-entry-text{opacity:.8}.search-entry-icon{color:#49b1f5}.recent-posts-btns{display:flex;gap:.5rem;margin-bottom:1rem}.recent-posts-btn{display:flex;align-items:center;justify-content:center;gap:.4rem;flex:1;padding:.6rem 1rem;border:1px solid #e3e8f7;border-radius:12px;background:var(--card-bg,#fff);color:var(--font-color,#4c4948);cursor:pointer;transition:all .3s;font-size:.95rem}.recent-posts-btn:hover{border-color:#49b1f5;box-shadow:0 0 8px rgba(73,177,245,.35);color:#49b1f5}.recent-posts-btn i{color:#49b1f5}.recent-posts-count{display:flex;align-items:center;padding:.6rem .9rem;border:1px solid #e3e8f7;border-radius:12px;background:var(--card-bg,#fff);color:var(--font-color,#4c4948);font-size:.95rem;white-space:nowrap;cursor:default}.cat-filter-btns{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:1rem;margin-bottom:1.6rem}.cat-filter-btn{display:inline-flex;align-items:center;gap:.5rem;padding:.55rem 1.25rem;border-radius:999px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#fff;font-size:1rem;cursor:pointer;transition:background .3s,color .3s,box-shadow .3s;text-decoration:none;user-select:none}.cat-filter-btn:hover{background:rgba(255,255,255,.34)}.cat-filter-btn.active{background:#fff;color:#49b1f5;border-color:#fff;box-shadow:0 6px 16px rgba(0,0,0,.18)}.cat-filter-btn i{font-size:.95em}.cat-filter-btn:nth-child(1){transform:rotate(-1.5deg)}.cat-filter-btn:nth-child(2){transform:translateY(-7px)}.cat-filter-btn:nth-child(3){transform:rotate(1.5deg)}.cat-filter-btn:nth-child(4){transform:translateY(-7px)}</style><meta name="generator" content="Hexo 8.1.2"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/hexo-blog/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/hexo-blog/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/hexo-blog/archives/"><div class="headline">文章</div><div class="length-num">21</div></a><a href="/hexo-blog/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/hexo-blog/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/hexo-blog/"><span> 🏠 Home/首页</span></a></div><div class="menus_item"><a class="site-page" href="/hexo-blog/archives/"><span> 📁 Archives/归档</span></a></div><div class="menus_item"><a class="site-page" href="/hexo-blog/links/"><span> 🔗 Links/友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/hexo-blog/about/"><span> ❤️ About/关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/hexo-blog/"><span class="site-name">酸酸米老鼠的记忆宝库</span></a><a class="nav-page-title" href="/hexo-blog/"><span class="site-name">4T01 程序与进程</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/hexo-blog/"><span> 🏠 Home/首页</span></a></div><div class="menus_item"><a class="site-page" href="/hexo-blog/archives/"><span> 📁 Archives/归档</span></a></div><div class="menus_item"><a class="site-page" href="/hexo-blog/links/"><span> 🔗 Links/友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/hexo-blog/about/"><span> ❤️ About/关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">4T01 程序与进程</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-09-15T01:45:45.678Z" title="发表于 2026-09-15 09:45:45">2026-09-15</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-09-15T01:45:45.703Z" title="更新于 2026-09-15 09:45:45">2026-09-15</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>计算机科学中一个常见问题是：<strong>我们如何称呼 CPU 执行的所有活动？</strong></p>
+<p>很多人会认为是“程序”，但在计算机科学中，更准确的说法是“<strong>进程</strong>”。</p>
+<p>在操作系统中，<strong>程序的一次执行过程被抽象为进程</strong>。进程具有一定的生命周期，通常包括<strong>创建、就绪、执行、阻塞和终止</strong>等状态。换言之，<strong>进程是正在运行中的程序</strong>。</p>
+<p><strong>程序</strong>则是为了完成特定任务而组织起来的<strong>一系列指令和数据的集合</strong>。它是<strong>静态的，没有生命周期</strong>，通常以<strong>二进制文件</strong>的形式存储在磁盘等外存设备上。如果仔细分析上述描述，会发现它同样可以用来描述一个<strong>可执行文件</strong>——这是因为程序基本上正是如此。</p>
+<p><img src="/hexo-blog/media_sys/img-df2b11d6a4ffcefe.png"></p>
+<p>理解了程序和进程的区别后，我们来看进程在内存中的表现。在计算机组成原理中，<strong>程序运行后产生的内存布局，实际上就是进程在地址空间中的表现</strong>。</p>
+<p><img src="/hexo-blog/media_sys/img-754c82263a5e3985.png"></p>
+<p><img src="/hexo-blog/media_sys/img-8343b9f10e8d9272.png"></p>
+<p>假设我们用同一个文本编辑器阅读两个文本文档。同时打开这两个文件时，<strong>操作系统会为该文本编辑器创建两个进程</strong>，于是产生两个独立的窗口，分别显示不同的文本文件。<strong>它们来自同一个程序，却是两个不同的进程。</strong></p>
+<p><img src="/hexo-blog/media_sys/img-87d48d083326c428.png"></p>
+<p>每个进程都拥有<strong>独立的虚拟地址空间</strong>。尽管两个进程中的<strong>代码段（TEXT）内容相同</strong>，因为它们来自同一个程序，但它们处理的<strong>数据段（data）、堆（heap）和栈（stack）是彼此独立的</strong>。图中第一个进程占用的<strong>地址空间更大</strong>，是因为它处理的文本文件更大，需要更多内存来管理相关数据。</p>
+<p><img src="/hexo-blog/media_sys/img-9ac0195ef9046c11.png"></p>
+<p>不过，以上讨论主要适用于编译型语言。使用 <strong>C 或 Rust</strong> 等语言时，编译结果通常是一个<strong>可执行文件</strong>，也就是<strong>程序本身</strong>。</p>
+<p><img src="/hexo-blog/media_sys/img-4aeaf0e90002d260.png"></p>
+<p><img src="/hexo-blog/media_sys/img-03d0b96bad8a6151.png"></p>
+<p><strong>解释型语言</strong>则不同。以 <strong>Python</strong> 为例，源代码通常<strong>不会编译成独立的机器码可执行文件</strong>，而是由<strong>解释器</strong>在运行时加载并执行。每次运行 Python 代码时，实际启动的是 <strong>Python 解释器进程</strong>，解释器再读取并执行我们的源代码。</p>
+<p><img src="/hexo-blog/media_sys/img-4101f91aca50ebf6.png"></p>
+<p>因此，这里涉及<strong>两个不同的对象</strong>：一个是 <strong>Python 解释器</strong>，它是一个<strong>程序</strong>；另一个是 <strong>Python 源代码文件</strong>，它本质上是一个<strong>文本文件</strong>。由于解释型语言通常不生成独立的可执行文件，运行时实际被启动的程序是<strong>解释器</strong>，而不是我们编写的 Python 源代码。</p>
+<p>解释器进程创建后，会拥有自己的<strong>进程地址空间</strong>，与其他进程一样。解释器会在自己的地址空间中构建<strong>运行时环境</strong>。具体来说，解释器加载的<strong>源代码或编译得到的字节码、运行时创建的对象和数据</strong>，通常分配在<strong>堆区</strong>；解释器自身的<strong>函数调用、局部变量和返回地址</strong>等，使用<strong>真实的栈区</strong>。<strong>代码区和全局区</strong>则分别存放解释器自身的<strong>机器指令和全局状态</strong>。</p>
+<p>在解释器内部，还会维护一套用于执行源代码的运行时结构。这些结构在逻辑上承担了类似代码区、全局区、堆区和栈区的职责，但它们并不是操作系统意义上的独立内存区，而是解释器在自身进程地址空间中维护的数据结构。</p>
+<p>具体来说：</p>
+<p><strong>模拟代码区</strong>由<strong>字节码和代码对象</strong>承担。字节码是解释器真正逐条读取的“指令”，代码对象则是对字节码的包装，里面还包含常量表、名字表、栈大小等信息。字节码和代码对象本身分配在堆区，但它们在逻辑上扮演“指令”的角色。<strong>模拟全局区</strong>由<strong>全局名字空间和内置名字空间</strong>承担。全局名字空间本质上是一个字典（键值对集合），用来存放模块级变量、函数名、类名等。它本身是堆区里的一个对象，可以增删键、可以扩容，但它始终承担“存放全局名字”的职责，所以全局区的稳定性来自<strong>逻辑职责的固定</strong>，而不是物理地址的不变。<strong>模拟堆区</strong>由<strong>动态对象、实例、容器以及对象分配器</strong>承担。这部分本来就是堆区自身的东西，所以堆区扮演堆区，属于<strong>本色出演</strong>，不需要额外模拟。<strong>模拟栈区</strong>由<strong>栈帧、求值栈和调用链</strong>承担。栈帧本身是分配在堆区里的对象，但它们按<strong>后进先出</strong>的规则使用：调用函数时压入新栈帧，函数返回时弹出栈帧。求值栈同样分配在堆区，用来存放字节码执行过程中的临时值。因此，栈区的“栈”不是物理上位于真实栈区，而是<strong>逻辑上按栈规则使用堆区里的对象</strong>。</p>
+<p>解释器真正的代码区中有一个主循环。这个主循环从模拟代码区中取出下一条字节码，跳转到对应的机器指令去执行。执行过程中，会根据字节码的需要，读写模拟全局区、模拟堆区和模拟栈区。因此，源代码能够运行，依靠的是解释器在自身进程地址空间中构建的这套运行时环境，而不是堆区本身变成了代码区。真正执行机器指令的是解释器的代码区，但被解释的“指令”来自解释器维护的字节码结构；解释器自身的函数调用使用真实栈区，而 Python 层面的函数调用由解释器维护的栈帧结构表示。二者分属不同层面，不应混为一谈。</p>
+<p>我们这里开始介绍批处理的概念，以便引出现代操作系统处理任务以及进程演化而出的过程。</p>
+<p>你可能接触过 .bat 文件。比如一个 bat 文件内写一行 start 链接，保存好双击运行，我们就能看到一个黑屏（cmd 窗口），然后它消失，你的链接指向的地方就被打开了。</p>
+<p>在 Windows 里的 .bat &#x2F; .cmd，叫 batch file，中文译作“批处理文件”。它的本质是把一堆命令写在一个文件里，由命令解释器（cmd.exe）一条接一条顺序执行，不需要你每条都手敲。也就是说，批处理文件就相当于帮你做了一个把 cmd 终端的命令保存下来、双击向 cmd 终端自动写入回车的一个文件。所以它叫“批处理”，是因为把一批命令集中起来处理。这一层只关乎“命令的批量执行”，跟操作系统怎么调度、有没有进程概念，基本无关。严格说，这更应该叫命令脚本或 shell 批处理。</p>
+<p>而我们要讲的批处理，是把一批命令集中起来去处理的概念，而不是仅仅是一个执行这个概念的 bat 文件。那么这种思想下，我们还会涉及两个东西：批处理系统和批处理进程。</p>
+<p><img src="/hexo-blog/media_sys/img-0c6043c78ef7e33a.png"></p>
+<p><img src="/hexo-blog/media_sys/img-39d18f45da227e0b.png"></p>
+<p>早期的计算机是批处理系统，它们执行被称为“作业”的工作单元。批处理操作系统确实是早期（大型机时代）的 OS 形态，那时还没有现代意义上的“进程”概念，调度单位是作业。它是操作系统的类型或运行模式：作业成批提交、脱机&#x2F;半脱机、无交互、以吞吐量为目标。但是这样用户不能干预作业运行。</p>
+<p>为了打破这种“提交后只能等”的限制，所以人们开发出了分时操作系统。</p>
+<p><img src="/hexo-blog/media_sys/img-d0efb656803ec043.png"></p>
+<p>分时操作系统允许多个用户通过终端同时连接到同一台计算机，并交互式地使用计算机资源。它的核心目标是公平、高效地服务多个交互式用户，让每个用户都感觉自己“独占”了计算机。这里的用户就是人。分时系统把 CPU 的时间划分成很短的时间片，轮流分配给各个用户的作业。由于切换速度极快，每个用户都感觉自己的请求得到了即时响应。这背后其实是两个独立的需求：</p>
+<p>一是多用户：多个用户的任务要同时在系统里存在，轮流上 CPU。这逼出了时间片轮转和并发调度。</p>
+<p>二是实时响应：用户敲下命令要立刻得到反馈，任务不能占着 CPU 傻等。这逼出了阻塞&#x2F;唤醒机制——任务在等输入时让出 CPU，输入到了再被唤醒。</p>
+<p>这两个需求共同要求一个可保存、可恢复、可隔离的执行流抽象。时间片轮转需要执行流能被中断、保存、恢复；实时响应需要执行流能被阻塞、唤醒、隔离。作业模型给不了这个抽象——作业是整体性的工作单元，只有整体状态，没有执行流状态。于是进程（process）这个概念被正式提出。进程是“程序在数据集上的一次执行活动”，是操作系统资源分配和调度的基本单位。用户通过终端启动的每个任务，对应一个进程。</p>
+<p>进程概念的核心意义，是把“程序本身”（静态代码）和“程序的执行过程”（动态活动）区分开，让执行过程可以被中断、切换、调度，从而适配分时系统快速切换和资源隔离的需求。它的思想萌芽在批处理系统中已经出现，但真正系统化是在分时系统阶段。1963 年，MIT 的 CTSS 分时系统开发中，Marvin Conway 正式提出进程概念，将其定义为“程序在数据集上的一次执行活动”。</p>
+<p><img src="/hexo-blog/media_sys/img-8c723097a6cf1474.png"></p>
+<p>分时系统的并发、时间片、阻塞&#x2F;唤醒，原本是为多用户共用一台机器设计的。随着硬件成本下降、计算机走向个人使用，这套机制也普及到个人计算机上，变成了单个用户也能同时运行多个程序、交互式处理各类任务的系统。</p>
+<p>现代操作系统的雏形就在这里出现了。而进程这个抽象一旦确立，就被用来统一承载所有任务，原来“成批、非交互、后台跑”的那类任务，在现代进程模型里归为批处理进程。换句话说，批处理进程不是“用户”，而是进程按行为特征划分出来的一类：非交互、后台、吞吐导向。它继承的是早期批处理系统的“作业”特征，但调度单位已经是“进程”。</p>
+<p>所以这条演化线是：</p>
+<p>批处理操作系统（作业级、系统级） → 分时系统为“多用户 + 实时响应”引入时间片、并发与阻塞&#x2F;唤醒 → 两者共同逼出进程抽象，进程成为统一的调度单位 → 现代 OS 用进程承载所有任务，其中非交互、后台、吞吐型的一类被称为“批处理进程”（进程级的一类）</p>
+<p>那么，进程作为统一调度单位，到底是怎么被操作系统调度起来、让多个任务看起来“同时推进”的？这就涉及一个核心概念：<strong>并发</strong>。</p>
+<p>并发指的是多个任务在时间上重叠推进。在单核 CPU 上，任意一个时刻真正在跑的只有一个任务。操作系统把 CPU 时间切成很短的时间片，轮流分配给各个任务：任务 A 跑一小段，切换到任务 B，再切换到任务 C，再切回任务 A。因为切换速度极快，从外部看，这些任务就像在同时推进。</p>
+<p>分时系统用的就是这种并发模式。它只有一颗 CPU，靠时间片轮转制造出“多个用户同时使用”的效果。每个用户的任务跑一小段就让出 CPU，下一个任务接着跑，如此循环。</p>
+<p>这里要先区分一个容易混淆的词：<strong>并行</strong>。并行指的是多个任务在同一时刻真正同时执行，这需要多个 CPU 核心或多个处理器。比如四核 CPU 同时跑四个计算任务，这是并行。<strong>并行可以看作并发在多核上的扩展</strong>：单核靠时间片轮转制造“同时推进”的观感，多核则可以让多个任务真正同时跑。不过并行涉及多核调度、缓存一致性、核间通信等更多问题，这里先把单核上的并发讲清楚，并行放到后面再展开。</p>
+<p>回到并发。任务 A 让出 CPU 之后，它跑到哪了？下次切回来，它怎么知道从哪继续？任务 B 会不会踩到任务 A 的内存？这些问题的答案，就是<strong>进程</strong>。并发调度要求每个任务都有自己独立的执行状态和资源边界，能被中断、保存、恢复、隔离——这正是进程要提供的东西。</p>
+<p>所以，并发是分时系统“多任务同时推进”的实现方式，进程是并发调度得以成立的基本单位。理解了并发，才能理解为什么操作系统需要进程。</p>
+<p>并发不是一句“轮流跑”就能说清的。它落到操作系统底层，要回答一连串具体问题：时间片是谁在切、切换时执行流的状态保存在哪、下一个任务由谁挑、等待中的任务又怎么被唤醒。下一章我们就从这些底层机制入手，看看操作系统究竟是怎么把“并发”这件事真正做出来的。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://mitchell255ljy.github.io/hexo-blog">酸酸米老鼠</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://mitchell255ljy.github.io/hexo-blog/2026/09/15/1%E7%A8%8B%E5%BA%8F%E4%B8%8E%E8%BF%9B%E7%A8%8B/">https://mitchell255ljy.github.io/hexo-blog/2026/09/15/1%E7%A8%8B%E5%BA%8F%E4%B8%8E%E8%BF%9B%E7%A8%8B/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://mitchell255ljy.github.io/hexo-blog" target="_blank">酸酸米老鼠的记忆宝库</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/hexo-blog/img/butterfly-icon.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/hexo-blog/2026/09/14/1C++%20%E8%B7%A8%E7%B3%BB%E7%BB%9F%E6%96%87%E6%9C%AC%E7%BC%96%E7%A0%81%E4%B8%8E%E8%BE%93%E5%87%BA%E4%B9%B1%E7%A0%81%E5%8E%9F%E7%90%86%E5%8F%8A%20UTF-16%20LE%20%E6%96%B9%E6%A1%88/" title="1T01 C++ 跨系统文本编码与输出乱码原理及 UTF-16 LE 方案"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">1T01 C++ 跨系统文本编码与输出乱码原理及 UTF-16 LE 方案</div></div><div class="info-2"><div class="info-item-1">文本编码与跨系统输出文件读取与输出的编码原则：跨编码必乱码文件读取：程序内部存储类型必须与文件的编码类型一致，否则会产生乱码。 输出不乱码：文件存储格式必须与输出格式的编码一致，才能正确显示。 编码规范分类1 ANSI 规范：不是一个固定的编码，而是一个“代号”，它具体代表什么编码，由当前 Windows 操作系统的区域设置（语言） 决定。每个语言&#x2F;地区对应一种编码格式，是一个“跟随操作系统”的动态设定。  我们在使用 cin、cout、printf、string、char[] 操作中文字符串时，默认是在 ANSI 规范下操作，但为什么在简体中文 Windows 中很少遇到乱码？ 编译器和运行时库究竟是如何准确识别本机操作系统当前 ANSI 规范所对应的具体编码（例如 GBK）的？ 在 Windows 中，每个语言版本的系统都有一个 当前系统 ANSI 代码页（System Default ANSI Code Page）： 简体中文 → 936（GBK） 繁体中文 → 950（Big5） 英文 → 1252（Windows-1252） VC++ 的运行时库（CRT）和 ...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/hexo-blog/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/hexo-blog/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">酸酸米老鼠</div><div class="author-info-description"></div><div class="site-data"><a href="/hexo-blog/archives/"><div class="headline">文章</div><div class="length-num">21</div></a><a href="/hexo-blog/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/hexo-blog/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Mitchell255ljy"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">免费文章 禁止商用</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/hexo-blog/2026/09/15/1%E7%A8%8B%E5%BA%8F%E4%B8%8E%E8%BF%9B%E7%A8%8B/" title="4T01 程序与进程">4T01 程序与进程</a><time datetime="2026-09-15T01:45:45.678Z" title="发表于 2026-09-15 09:45:45">2026-09-15</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/hexo-blog/2026/09/14/1C++%20%E8%B7%A8%E7%B3%BB%E7%BB%9F%E6%96%87%E6%9C%AC%E7%BC%96%E7%A0%81%E4%B8%8E%E8%BE%93%E5%87%BA%E4%B9%B1%E7%A0%81%E5%8E%9F%E7%90%86%E5%8F%8A%20UTF-16%20LE%20%E6%96%B9%E6%A1%88/" title="1T01 C++ 跨系统文本编码与输出乱码原理及 UTF-16 LE 方案">1T01 C++ 跨系统文本编码与输出乱码原理及 UTF-16 LE 方案</a><time datetime="2026-09-14T04:21:33.398Z" title="发表于 2026-09-14 12:21:33">2026-09-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/hexo-blog/2026/09/14/4if%E5%92%8Cwhile%E7%9A%84%E5%BA%95%E5%B1%82%E7%89%A9%E7%90%86%E5%AE%9E%E7%8E%B0/" title="0T04 if和while的底层物理实现">0T04 if和while的底层物理实现</a><time datetime="2026-09-14T02:14:36.442Z" title="发表于 2026-09-14 10:14:36">2026-09-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/hexo-blog/2026/09/14/3COM%E8%A7%84%E8%8C%83%E4%B8%8EWinRT%E8%A7%84%E8%8C%83/" title="0P03 COM规范与WinRT规范">0P03 COM规范与WinRT规范</a><time datetime="2026-09-13T16:12:33.211Z" title="发表于 2026-09-14 00:12:33">2026-09-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/hexo-blog/2026/09/10/8%E6%9B%B4%E5%B7%A5%E7%A8%8B%E5%8C%96%E7%9A%84%E7%B1%BB%E4%BD%BF%E7%94%A8/" title="1C08 更工程化的类使用">1C08 更工程化的类使用</a><time datetime="2026-09-10T06:21:47.881Z" title="发表于 2026-09-10 14:21:47">2026-09-10</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 酸酸米老鼠</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.2</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.7.0</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/hexo-blog/js/utils.js?v=5.7.0"></script><script src="/hexo-blog/js/main.js?v=5.7.0"></script><div class="js-pjax"></div><script>(function(){var IS_HOME=!!document.querySelector(".cat-filter-btns");var perPage=10;var curCat="all";var curPage=1;function allItems(){return Array.prototype.slice.call(document.querySelectorAll("#recent-posts .recent-post-items .recent-post-item[data-cat]"))}function visibleItems(){var a=allItems();if(curCat==="all")return a;return a.filter(function(it){return it.getAttribute("data-cat")===curCat})}function chevron(dir){var i=document.createElement("i");i.className="fas fa-chevron-"+dir+" fa-fw";return i}function pageBtn(cls,page,active,content){var el=document.createElement(active?"span":"a");el.className=cls;if(active)el.classList.add("current");if(typeof content==="string")el.textContent=content;else el.appendChild(content);if(!active){el.href="javascript:;";if(page===null){el.classList.add("disabled");el.style.pointerEvents="none";el.style.opacity=".5"}else{el.addEventListener("click",function(){curPage=page;render()})}}return el}function renderPager(pages){var nav=document.getElementById("pagination");if(!nav)return;var box=nav.querySelector(".pagination");if(!box)return;box.innerHTML="";if(!IS_HOME||pages<=1){nav.style.display="none";return}nav.style.display="";box.appendChild(pageBtn("extend prev",curPage>1?curPage-1:null,false,chevron("left")));for(var i=1;i<=pages;i++){box.appendChild(pageBtn("page-number",i,i===curPage,String(i)))}box.appendChild(pageBtn("extend next",curPage<pages?curPage+1:null,false,chevron("right")))}function render(){if(!IS_HOME)return;var list=visibleItems();var total=list.length;var pages=Math.max(1,Math.ceil(total/perPage));if(curPage>pages)curPage=pages;if(curPage<1)curPage=1;var start=(curPage-1)*perPage;var end=start+perPage;allItems().forEach(function(it){var idx=list.indexOf(it);it.style.display=(idx>=start&&idx<end)?"":"none"});var cnt=document.getElementById("recent-posts-count");if(cnt)cnt.textContent="共"+total+"篇";renderPager(pages)}window.filterPostsByCat=function(cat,btn){curCat=cat;curPage=1;document.querySelectorAll(".cat-filter-btn").forEach(function(b){b.classList.remove("active")});if(btn)btn.classList.add("active");render()};window.sortPostsByCode=function(order){var c=document.querySelector("#recent-posts .recent-post-items");if(!c)return;var a=Array.prototype.slice.call(c.querySelectorAll(".recent-post-item[data-code]"));a.sort(function(x,y){var dx=x.getAttribute("data-code"),dy=y.getAttribute("data-code");if(dx===dy)return 0;return order==="earliest"?(dx<dy?-1:1):(dx<dy?1:-1)});a.forEach(function(t){c.appendChild(t)});curPage=1;render()};render()})();</script><script>(function(){function rotateCover(){document.querySelectorAll(".rotate-cover[data-imgs]").forEach(function(c){var imgs=c.querySelectorAll(".rotate-cover-img");if(imgs.length<2)return;var bg=c.querySelector(".rotate-cover-bg");var i=0;setInterval(function(){imgs[i].classList.remove("active");i=(i+1)%imgs.length;imgs[i].classList.add("active");if(bg)bg.style.backgroundImage="url("+imgs[i].getAttribute("src")+")"},5000)})}function rotateHeader(){var h=document.getElementById("page-header");if(!h||!h.hasAttribute("data-cover-imgs"))return;var list;try{list=JSON.parse(h.getAttribute("data-cover-imgs"))}catch(e){return}if(!Array.isArray(list)||list.length<2)return;var i=0;setInterval(function(){i=(i+1)%list.length;h.style.backgroundImage="url("+list[i]+")"},5000)}rotateCover();rotateHeader()})();</script><style>#recent-posts .recent-post-item .post_cover.rotate-cover{position:relative;overflow:hidden}#recent-posts .recent-post-item .post_cover.rotate-cover>a{display:block;position:relative;width:100%;height:100%}#recent-posts .recent-post-item .post_cover.rotate-cover .rotate-cover-bg{position:absolute;top:0;left:0;width:100%;height:100%;background-size:cover;background-position:center;filter:blur(18px);transform:scale(1.15);opacity:.85;z-index:0}#recent-posts .recent-post-item .post_cover.rotate-cover>a>img.rotate-cover-img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;opacity:0;transition:opacity .8s ease;z-index:1}#recent-posts .recent-post-item .post_cover.rotate-cover>a>img.rotate-cover-img.active{opacity:1}</style><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/hexo-blog/js/search/local-search.js?v=5.7.0"></script></div></div></body></html>
