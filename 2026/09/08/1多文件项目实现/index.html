@@ -206,7 +206,7 @@
 <p><strong>编译器规定调用前必须有声明，因为编译器逐行从上到下读取。</strong></p>
 <p><strong>如果声明在调用后，就会导致出现“调用空气”的概念。</strong></p>
 <h2 id="函数于变量在单文件下的调用规则"><a href="#函数于变量在单文件下的调用规则" class="headerlink" title="函数于变量在单文件下的调用规则"></a>函数于变量在单文件下的调用规则</h2><p>一般的函数和变量不需要<strong>单独的声明语句</strong>。对于函数而言，如果<strong>定义写在调用之前</strong>，编译器视为<strong>定义即声明</strong>,而先调用后定义,则需要再调用之前写上声明;对于变量而言，在单文件内，定义即存在，不存在脱离定义的“前置声明需求”只有在跨文件引用外部变量时，才需要借助 extern 关键字将“声明”从“定义”中剥离出来。</p>
-<p>根本原因是函数可以通过函数名是否后接 **{<strong>具体实现内容</strong>} **(花括号和实现) 来区分定义和声明,</p>
+<p>根本原因是函数可以通过函数名是否后接 <strong>{</strong>具体实现内容<strong>} </strong>(花括号和实现) 来区分定义和声明,</p>
 <p>但是变量没有实现部分的构造 所以不支持定义和声明的区分</p>
 <p>注意 因为函数的定义大部分的内容是函数的实现 所以在语义上 <strong>“函数定义”</strong> 和 <strong>“函数实现”</strong> 几乎是可以互换的同义词</p>
 <p><img src="/hexo-blog/media2/img-1199e2b13971fe52.png"></p>
@@ -248,7 +248,7 @@
 <h2 id="2"><a href="#2" class="headerlink" title="2"></a>2</h2><p>头文件中写类不怕多次#include导致重定义,需要从两方面讨论：</p>
 <h2 id="第一方面：类本身及其成员变量的声明"><a href="#第一方面：类本身及其成员变量的声明" class="headerlink" title="第一方面：类本身及其成员变量的声明"></a>第一方面：类本身及其成员变量的声明</h2><p>类在编译后不会进入任何内存区（只是编译时的蓝图）</p>
 <p>因此多个 .cpp 包含同一份类定义时，链接器根本看不到它 → <strong>不会产生重定义问题</strong></p>
-<h2 id="第二方面：类内直接实现的成员函数"><a href="#第二方面：类内直接实现的成员函数" class="headerlink" title="第二方面：类内直接实现的成员函数"></a>第二方面：类内直接实现的成员函数</h2><h2 id="成员函数是真正的代码，会被写入代码段"><a href="#成员函数是真正的代码，会被写入代码段" class="headerlink" title="成员函数是真正的代码，会被写入代码段"></a>成员函数是真正的代码，会被写入代码段</h2><h2 id="按理说多个-cpp-包含会导致重复定义"><a href="#按理说多个-cpp-包含会导致重复定义" class="headerlink" title="按理说多个 .cpp 包含会导致重复定义"></a>按理说多个 .cpp 包含会导致重复定义</h2><p>但 C++ 规定：类内直接实现的成员函数<strong>隐式带有 <strong>inline</strong> 关键字</strong></p>
+<h2 id="第二方面：类内直接实现的成员函数"><a href="#第二方面：类内直接实现的成员函数" class="headerlink" title="第二方面：类内直接实现的成员函数"></a>第二方面：类内直接实现的成员函数</h2><h2 id="成员函数是真正的代码，会被写入代码段"><a href="#成员函数是真正的代码，会被写入代码段" class="headerlink" title="成员函数是真正的代码，会被写入代码段"></a>成员函数是真正的代码，会被写入代码段</h2><h2 id="按理说多个-cpp-包含会导致重复定义"><a href="#按理说多个-cpp-包含会导致重复定义" class="headerlink" title="按理说多个 .cpp 包含会导致重复定义"></a>按理说多个 .cpp 包含会导致重复定义</h2><p>但 C++ 规定：类内直接实现的成员函数<strong>隐式带有 </strong>inline<strong> 关键字</strong></p>
 <p>inline 告诉链接器：允许重复定义，你只取一份即可 → <strong>所以也不会重定义</strong></p>
 <p><img src="/hexo-blog/media2/img-8c5d7a39e7cf91bf.png"></p>
 <p><img src="/hexo-blog/media2/img-f30880fabccb4987.png"></p>
@@ -265,7 +265,7 @@
 <h2 id="头文件库-即Header-Only库-对应模板库-模式"><a href="#头文件库-即Header-Only库-对应模板库-模式" class="headerlink" title="头文件库(即Header-Only库,对应模板库)模式"></a>头文件库(即Header-Only库,对应模板库)模式</h2><p>如果非要把实现写在头文件里，还想让多个源文件安全包含不会发生链接时重定义，就需要写<strong>模板库</strong>——把函数写成函数模板，利用模板的”模糊链接”机制让<strong>链接器自动合并重复定义</strong>。</p>
 <p><strong>模板的构成</strong>：由 template <typename T> 修饰的<strong>类模板</strong>和<strong>函数模板</strong>组成（如 <algorithm> 所示）</p>
 <p><strong>工程替代方案（仿模板库&#x2F;也就是Header-Only库）</strong>：如果模板语法过于复杂，可以用 inline + class 封装，实现同样的“头文件内部写实现”效果。</p>
-<p>inline** 把函数从“强符号”变成“弱符号”。链接器遇到多个同名弱符号时，不报错，随便选一份保留，其余扔掉。这就是 <strong>inline</strong> 应对链接器的核心机制。**</p>
+<p>inline<strong> 把函数从“强符号”变成“弱符号”。链接器遇到多个同名弱符号时，不报错，随便选一份保留，其余扔掉。这就是 </strong>inline<strong> 应对链接器的核心机制。</strong></p>
 <h2 id="头文件库的实现原理"><a href="#头文件库的实现原理" class="headerlink" title="头文件库的实现原理"></a>头文件库的实现原理</h2><p><img src="/hexo-blog/media2/img-ffe968d73f800f08.png"></p>
 <p><img src="/hexo-blog/media2/img-41fb2b6908e25d84.png"></p>
 <h2 id="链接阶段就是处理编译阶段产生的机器码的阶段"><a href="#链接阶段就是处理编译阶段产生的机器码的阶段" class="headerlink" title="链接阶段就是处理编译阶段产生的机器码的阶段"></a>链接阶段就是处理编译阶段产生的机器码的阶段</h2><p><strong>因为类定义本身不产生机器码&#x2F;符号，所以链接器根本看不见它，自然不会因为它在多个文件里出现而报错。</strong></p>
@@ -274,7 +274,7 @@
 <p><strong>只有用类定义创建对象时,才产生机器码,链接器才能识别到这些对象。</strong></p>
 <p><strong>如果多个文件里创建了同名的全局对象,链接器就会因为重复定义而报错。</strong></p>
 <p><img src="/hexo-blog/media2/img-26b7ff79ba1f9426.png"></p>
-<p><strong>成员函数作为独立的机器码存放在代码区，为了防止定义在头文件时引发链接冲突，C++规定类内定义的成员函数自动成为 <strong>inline</strong> 函数，让链接器可以安全地合并重复的机器码。自动内联就是前面接inline</strong></p>
+<p><strong>成员函数作为独立的机器码存放在代码区，为了防止定义在头文件时引发链接冲突，C++规定类内定义的成员函数自动成为 </strong>inline<strong> 函数，让链接器可以安全地合并重复的机器码。自动内联就是前面接inline</strong></p>
 <p><img src="/hexo-blog/media2/img-31c94b191424a010.png"></p>
 <p><img src="/hexo-blog/media2/img-ec0351df728b7578.png"></p>
 <h2 id="下面就是一个传统分离模型"><a href="#下面就是一个传统分离模型" class="headerlink" title="下面就是一个传统分离模型"></a>下面就是一个传统分离模型</h2><h2 id="实现-cpp"><a href="#实现-cpp" class="headerlink" title="实现.cpp"></a>实现.cpp</h2><p>#include “Myjiaohu.h”</p>

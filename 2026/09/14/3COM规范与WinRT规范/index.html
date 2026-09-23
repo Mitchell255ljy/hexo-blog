@@ -212,7 +212,7 @@
 <p><strong>接口版本难以演化</strong>：C&#x2F;C++接口的任何变更（如增加函数参数、调整类成员顺序）都会破坏二进制兼容性，导致所有旧客户端崩溃，而头文件的重新分发和同步更新极其困难。</p>
 <p><strong>结果</strong>：如果微软只提供 C&#x2F;C++ 的头文件和库，那么只有 C&#x2F;C++ 能轻松调用。其他语言要么用不了，要么需要额外写封装层——这相当于为每种语言重新实现一遍接口逻辑。</p>
 <h1 id="二、COM-的解决方案"><a href="#二、COM-的解决方案" class="headerlink" title="二、COM 的解决方案"></a>二、COM 的解决方案</h1><p>COM 定义了一套<strong>语言无关的二进制标准 包含两个部分</strong>：</p>
-<p><strong>二（<strong>1</strong>） COM 组件（本体，.dll）</strong></p>
+<p><strong>二（</strong>1<strong>） COM 组件（本体，.dll）</strong></p>
 <p>COM 组件就是在“传统 DLL” 的基础上，对“导出表” 的内容和格式进行了一次彻底的“统一改造”和“标准化升级”。也就是说COM组件就是COM规范下的.dll</p>
 <p><img src="/hexo-blog/media2/img-66774a07dfa5885d.png"></p>
 <p><strong>COM组件的二进制接口是“自描述”的,二进制接口（不是指 API 接口，而是 DLL 内部供外部对接的实现部分——即导出表的等价物），其“自描述”是指：</strong> COM 组件在导出表（函数名→地址）的基础上，额外携带了类型信息（方法名、参数类型、返回值、调用约定等），让调用者能在运行时通过<strong>IUnknown::QueryInterface或</strong> <strong>IDispatch::GetTypeInfo</strong> 发现组件支持哪些接口和函数,从而不用写API接口声明文件了,减少了调用难度(<strong>C&#x2F;C++除外,因为它们不但没省略API接口声明文件,还要写配合COM规范写一份更复杂的</strong>.h)。</p>
@@ -232,7 +232,7 @@
 <h1 id="三、C-调用-COM-确实更麻烦，这是故意的取舍"><a href="#三、C-调用-COM-确实更麻烦，这是故意的取舍" class="headerlink" title="三、C++ 调用 COM 确实更麻烦，这是故意的取舍"></a>三、C++ 调用 COM 确实更麻烦，这是故意的取舍</h1><p><img src="/hexo-blog/media2/img-3d58be604770dccd.png"></p>
 <p>为什么微软不给 C++ 也弄个简单封装？因为 C++ 是系统级语言，COM 本身就是为 C++ 设计的底层接口。其他语言（C#、VB）对 COM 的友好封装，是建立在 .NET CLR 这个“大管家”之上的。如果微软给 C++ 也做一套类似的封装，那这套封装本身也会增加复杂性和编译依赖。</p>
 <p>后来微软确实做了这事：<strong>C++&#x2F;WinRT 就是那个“为 C++ 提供的现代化封装”</strong>。它用工具 (cppwinrt.exe) 读取 .winmd 元数据，动态生成 C++ 头文件，然后用标准 C++ 类包装底层的 COM 调用，让 C++ 开发者也能像 C# 一样自然地调用 WinRT 组件。代价是需要额外的工具链和项目配置。</p>
-<h1 id="为什么COM组件的承载不能是LIB"><a href="#为什么COM组件的承载不能是LIB" class="headerlink" title="为什么COM组件的承载不能是LIB"></a>为什么COM组件的承载不能是LIB</h1><p><strong>COM 组件以 DLL 为载体（没有静态库形式），配套的 <strong>.lib</strong> 文件是一种专为 COM 设计的导入库</strong>，用于在<strong>运行时</strong>（通过 CoCreateInstance 等机制）动态连接该 DLL。那么，为什么不能像写静态库那样，把 COM 组件直接写进 .lib 文件呢？</p>
+<h1 id="为什么COM组件的承载不能是LIB"><a href="#为什么COM组件的承载不能是LIB" class="headerlink" title="为什么COM组件的承载不能是LIB"></a>为什么COM组件的承载不能是LIB</h1><p><strong>COM 组件以 DLL 为载体（没有静态库形式），配套的 </strong>.lib<strong> 文件是一种专为 COM 设计的导入库</strong>，用于在<strong>运行时</strong>（通过 CoCreateInstance 等机制）动态连接该 DLL。那么，为什么不能像写静态库那样，把 COM 组件直接写进 .lib 文件呢？</p>
 <p><strong>根本原因在于：其他编程语言的运行环境本身就没有“链接静态库”这个阶段。</strong></p>
 <p><strong>静态库 (.lib)</strong> 是 C&#x2F;C++ 编译器&#x2F;链接器专用的产物。它里面包含的函数名修饰、二进制代码布局等，都严重依赖于特定的 C++ 编译器和链接器实现。</p>
 <p>像 C#、VB、Python 等其他语言的运行时（如 .NET CLR、Python 解释器）并不包含一个能理解 C++ 静态库格式的“链接器”。它们无法直接解析和调用 .lib 文件中的代码。</p>
@@ -243,8 +243,8 @@
 <p>基于我们刚刚提到的 COM 组件内二进制接口的自描述能力，C&#x2F;C++ 的调用机制是这样的：</p>
 <p>我们在 .h 文件中声明<strong>一个纯虚类（API接口）</strong>，其中写满了要调用的虚函数。这个纯虚类只是一个编译时的“占位符”，告诉编译器对象“长什么样”。</p>
 <p>在运行时，我们调用 CoCreateInstance 命令。这个命令会进入 COM 组件（DLL）内部，读取它已经自描述好的二进制接口信息（虚函数表布局、方法地址等）。</p>
-<p>CoCreateInstance 根据读取到的信息，<strong>创建一个子类对象</strong>。这个子类对象内部<strong>根据二进制接口信息重写（填充）</strong> <strong>了我们在</strong> .h** 里定义的那个纯虚类里的所有虚函数，让每个虚函数都指向 DLL 中真正的函数实现地址。**</p>
-<p>最后，CoCreateInstance 将这个创建好的对象的地址返回，并由一个**COM规范下的”智能指针”(实际上是个类 我们称其为智能指针(类))**CComPtr管理(管理是指把地址传给了智能指针类中的一个指针变量进行储存)。我们通过这个”智能指针”(内的指针变量)解引用，并以访问类成员的方式（pInterface-&gt;Method()），就可以直接调用 DLL 内部那个真正实现该方法的对象了。</p>
+<p>CoCreateInstance 根据读取到的信息，<strong>创建一个子类对象</strong>。这个子类对象内部<strong>根据二进制接口信息重写（填充）</strong> <strong>了我们在</strong> .h<strong> 里定义的那个纯虚类里的所有虚函数，让每个虚函数都指向 DLL 中真正的函数实现地址。</strong></p>
+<p>最后，CoCreateInstance 将这个创建好的对象的地址返回，并由一个<strong>COM规范下的”智能指针”(实际上是个类 我们称其为智能指针(类))</strong>CComPtr管理(管理是指把地址传给了智能指针类中的一个指针变量进行储存)。我们通过这个”智能指针”(内的指针变量)解引用，并以访问类成员的方式（pInterface-&gt;Method()），就可以直接调用 DLL 内部那个真正实现该方法的对象了。</p>
 <h1 id="COM-环境与-COM-资源的承载关系"><a href="#COM-环境与-COM-资源的承载关系" class="headerlink" title="COM 环境与 COM 资源的承载关系"></a>COM 环境与 COM 资源的承载关系</h1><p><strong>核心模型：</strong></p>
 <p><strong>COM 资源（COM 对象）</strong> 比作 <strong>“人”</strong></p>
 <p><strong>COM 环境（COM 初始化后的运行时状态）</strong> 比作 <strong>“房子”</strong></p>
@@ -275,7 +275,7 @@
 <p>将这个对象的<strong>接口指针</strong>，写入智能指针对象内部的指针成员,让其值从nullptr（不指向任何有效对象）变为重写对象地址,从而指向重写对象内存的情况。</p>
 <h2 id="重写对象地址是如何传递给智能指针类的指针成员的？"><a href="#重写对象地址是如何传递给智能指针类的指针成员的？" class="headerlink" title="重写对象地址是如何传递给智能指针类的指针成员的？"></a>重写对象地址是如何传递给智能指针类的指针成员的？</h2><p>智能指针类里重载了取地址符T** operator&amp;() { return &p; }</p>
 <p>智能指针类重载了 operator&amp;。</p>
-<p>当你对智能指针对象取地址（&amp;obj）时，重载后的 operator&amp; <strong>返回的不是智能指针对象本身的地址</strong>，而是<strong>返回其内部指针成员 <strong>p</strong> 的地址</strong>（即 &amp;p）。</p>
+<p>当你对智能指针对象取地址（&amp;obj）时，重载后的 operator&amp; <strong>返回的不是智能指针对象本身的地址</strong>，而是<strong>返回其内部指针成员 </strong>p<strong> 的地址</strong>（即 &amp;p）。</p>
 <p>CoCreateInstance 的参数中要求传入 &amp;obj：</p>
 <p>实际拿到的是 &amp;p</p>
 <p>它是一个<strong>二级指针</strong>（类型为 T**）即指针p的所在地址</p>
@@ -284,17 +284,17 @@
 <p>在<strong>构造、拷贝构造、赋值</strong>中自动调用 AddRef</p>
 <p>在<strong>析构、赋值覆盖</strong>中自动调用 Release</p>
 <p>这一点和普通类里手写指针管理类似，但不同的是：</p>
-<p><strong>它没有使用深拷贝，而是通过引用计数 + 自动调用 <strong>AddRef</strong>&#x2F;<strong>Release</strong> 的方式，避免了双重释放问题。</strong></p>
+<p><strong>它没有使用深拷贝，而是通过引用计数 + 自动调用 </strong>AddRef<strong>&#x2F;</strong>Release<strong> 的方式，避免了双重释放问题。</strong></p>
 <p>这确实是它的核心特征，也是它被称为“智能指针”的原因。 （从实现角度看，逻辑并不复杂。）</p>
 <h1 id="智能指针的指针指向重写对象的关系"><a href="#智能指针的指针指向重写对象的关系" class="headerlink" title="智能指针的指针指向重写对象的关系"></a>智能指针的指针指向重写对象的关系</h1><p>智能指针对象的指针成员 p 指向的是<strong>重写对象</strong>（即 CoCreateInstance 创建的那个 COM 对象）。</p>
 <p><strong>这个重写对象中：</strong></p>
-<p>重写了 API 接口类中的纯虚函数 AddRef 和 Release。 而且这两个纯虚函数是<strong>从 <strong>IUnknown</strong> 继承而来的声明</strong>。</p>
+<p>重写了 API 接口类中的纯虚函数 AddRef 和 Release。 而且这两个纯虚函数是<strong>从 </strong>IUnknown<strong> 继承而来的声明</strong>。</p>
 <p>那为什么 API 接口类不自己写 AddRef 和 Release 的纯虚函数？</p>
 <p>因为所有 API 接口类都需要 AddRef &#x2F; Release <strong>的声明</strong>（才能被智能指针调用）， 但没必要每个接口都重复写一遍“纯虚函数声明”,不然太麻烦。</p>
 <p><strong>实际做法是：</strong></p>
 <p><strong>声明来源</strong>：IUnknown 已经定义了 AddRef &#x2F; Release 为纯虚函数 → API 接口类（如 ISpVoice）只需继承 IUnknown，就自动拥有了这两个纯虚函数的声明,然后实现重写。</p>
 <p>因此，我们可以通过智能指针对象写出 p-&gt;Release()的重载<br>T* operator-&gt;() { return p; }在外部以智能指针对象名-&gt;Release()的形式来调用重写对象内部的 Release 方法（同样适用于 AddRef）。</p>
-<h1 id="AddRef-Release-如何避免双重释放？"><a href="#AddRef-Release-如何避免双重释放？" class="headerlink" title="AddRef &#x2F; Release 如何避免双重释放？"></a>AddRef &#x2F; Release 如何避免双重释放？</h1><p>API 接口类在继承 AddRef &#x2F; Release 的同时，也继承了一个 ULONG** 类型的引用计数变量**（通常叫 m_cRef 或 m_dwRef）。</p>
+<h1 id="AddRef-Release-如何避免双重释放？"><a href="#AddRef-Release-如何避免双重释放？" class="headerlink" title="AddRef &#x2F; Release 如何避免双重释放？"></a>AddRef &#x2F; Release 如何避免双重释放？</h1><p>API 接口类在继承 AddRef &#x2F; Release 的同时，也继承了一个 ULONG<strong> 类型的引用计数变量</strong>（通常叫 m_cRef 或 m_dwRef）。</p>
 <p>每次 AddRef 被调用（例如智能指针拷贝时），引用计数 <strong>+1</strong></p>
 <p>每次 Release 被调用（例如智能指针析构时），引用计数 <strong>−1</strong></p>
 <p>如果 Release 发现引用计数 <strong>减1后等于 0</strong>，它就会执行 delete this，销毁重写对象</p>
@@ -319,7 +319,7 @@
 <p>结论：<strong>COM 把复杂性压在了 C++ 这一侧</strong>，对其他语言几乎是透明的。</p>
 <h2 id="2、WinRT-对-C-的改进"><a href="#2、WinRT-对-C-的改进" class="headerlink" title="2、WinRT 对 C++ 的改进"></a>2、WinRT 对 C++ 的改进</h2><p>WinRT 在 COM 基础上引入了<strong>元数据（.winmd）和代码生成器</strong>。</p>
 <p><strong>传统 COM 下 C++ 的处境</strong>： 头文件里全是抽象类声明，开发者必须手动完成虚表调用、引用计数、HRESULT 检查。</p>
-<p><strong>WinRT 的改进方式</strong>： 对于 C++，生成器（如 cppwinrt.exe）会生成一个<strong>投影层 <strong>.h</strong> 文件</strong>。 这个 .h 把底层的 COM 抽象类包装成<strong>更自然的 C++ 类型和调用方式</strong>（如异常代替 HRESULT、RAII 管理生命周期）。</p>
+<p><strong>WinRT 的改进方式</strong>： 对于 C++，生成器（如 cppwinrt.exe）会生成一个<strong>投影层 </strong>.h<strong> 文件</strong>。 这个 .h 把底层的 COM 抽象类包装成<strong>更自然的 C++ 类型和调用方式</strong>（如异常代替 HRESULT、RAII 管理生命周期）。</p>
 <p><strong>结果</strong>： C++ 开发者使用新的 .h 后，调用体验从“复杂”变为“简单”。 但生成器的存在感<strong>仍然明显</strong>——需要显式配置和调用。</p>
 <p>结论：<strong>WinRT 专为 C++ 解决了 COM 的历史痛点，但 C++ 开发者仍能感知到生成器的存在。</strong></p>
 <h2 id="3、WinRT-对其他语言（C-等）的影响"><a href="#3、WinRT-对其他语言（C-等）的影响" class="headerlink" title="3、WinRT 对其他语言（C# 等）的影响"></a>3、WinRT 对其他语言（C# 等）的影响</h2><p>对其他语言而言，<strong>WinRT 和 COM 在用法上几乎没有区别</strong>：</p>
@@ -344,7 +344,7 @@
 <p>这一点类似于 Java 里的包调用：</p>
 <p><img src="/hexo-blog/media2/img-755f5f01b2dfdbe8.png"></p>
 <p>两者本质一样，都是<strong>分层命名空间</strong>，只是分隔符不同：WinRT 用 ::，Java 用 .</p>
-<p>那么，<strong>什么是公寓？什么是同步方法和异步方法？</strong>.get()** 又是什么？**</p>
+<p>那么，<strong>什么是公寓？什么是同步方法和异步方法？</strong>.get()<strong> 又是什么？</strong></p>
 <p>公寓我们先不展开，这里先简单交代其中的同步方法和异步方法。</p>
 <p><strong>同步方法</strong>是调用后要等它执行完才能返回的方法。你调用它，线程会停在那里，等它执行完，拿到结果，再继续往下走。</p>
 <p><strong>异步方法</strong>是调用后立即返回一个“代表未来结果的对象”的方法。你调用它，它不会让你等，而是马上给你一个对象，代表“这个操作以后会完成”。WinRT 里异步方法的名字一般以 Async 结尾，比如 SynthesizeSsmlToStreamAsync、ReadAsync。</p>
